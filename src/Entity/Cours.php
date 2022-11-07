@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Cours
+ *
+ */
+#[ORM\Entity(repositoryClass: CoursRepository::class)]
+#[ORM\Table(name: 'cours')]
+class Cours
+{
+    #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
+
+    #[ORM\Column(name: 'titre', type: 'string', length: 100, nullable: false)]
+    private string $titre;
+
+    #[ORM\Column(name: 'matiere', type: 'string', length: 100, nullable: false)]
+    private string $matiere;
+
+    #[ORM\Column(name: 'domaine', type: 'string', length: 200, nullable: false)]
+    private string $domaine;
+
+    #[ORM\Column(name: 'categorie', type: 'string', length: 30, nullable: false)]
+    private string $categorie;
+
+    #[ORM\Column(name: 'chemin', type: 'string', length: 200, nullable: false)]
+    private string $chemin;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getMatiere(): ?string
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(string $matiere): self
+    {
+        $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getDomaine(): ?string
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(string $domaine): self
+    {
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?string
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(string $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getChemin(): ?string
+    {
+        return $this->chemin;
+    }
+
+    public function setChemin(string $chemin): self
+    {
+        $this->chemin = $chemin;
+
+        return $this;
+    }
+
+
+}
