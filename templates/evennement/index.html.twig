@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evennement index{% endblock %}
+
+{% block body %}
+    <h1>Evennement index</h1>
+
+    <div class="table-responsive">
+    <table class="table table-hover" id="tableac">
+        <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
+        <div>
+            <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                <input type="text" class="form-control" placeholder="Chercher un evennement" id="search"> </form>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datedebut</th>
+                <th>Datefin</th>
+                <th>Libelle</th>
+                <th>Heuredebut</th>
+                <th>Heurefin</th>
+                <th>Nbplaces</th>
+                <th>Prix</th>
+                <th>Flyer</th>
+                <th>Video</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for evennement in evennements %}
+                <tr>
+                    <td>{{ evennement.id }}</td>
+                    <td>{{ evennement.datedebut }}</td>
+                    <td>{{ evennement.datefin }}</td>
+                    <td>{{ evennement.libelle }}</td>
+                    <td>{{ evennement.heuredebut }}</td>
+                    <td>{{ evennement.heurefin }}</td>
+                    <td>{{ evennement.nbplaces }}</td>
+                    <td>{{ evennement.prix }}</td>
+                    <td>{{ evennement.flyer }}</td>
+                    <td>{{ evennement.video }}</td>
+                    <td>
+                        <a href="{{ path('app_evennement_show', {'id': evennement.id}) }}">show</a>
+                        <a href="{{ path('app_evennement_edit', {'id': evennement.id}) }}">edit</a>
+                    </td>
+                </tr>
+                <script>
+                    $(document).ready(function(){
+                        $('#search').keyup(function(){
+                            search_table($(this).val());
+                        });
+                        function search_table(value){
+                            $('#tableac tbody tr').each(function(){
+                                var found = 'false';
+                                $(this).each(function(){
+                                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                    {
+                                        found = 'true';
+                                    }
+                                });
+                                if(found == 'true')
+                                {
+                                    $(this).show();
+                                }
+                                else
+                                {
+                                    $(this).hide();
+                                }
+                            });
+                        }
+                    });
+                </script>
+                {% else %}
+                <tr>
+                    <td colspan="11">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </div>
+    </table>
+
+    <a href="{{ path('app_evennement_new') }}">Create new</a>
+{% endblock %}

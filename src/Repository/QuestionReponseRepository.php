@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Repository;
 
 use App\Entity\QuestionReponse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

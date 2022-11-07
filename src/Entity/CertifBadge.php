@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
+use App\Repository\CertifBadgeRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Attribute;
 
 /**
  * CertifBadge

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Repository;
 
 use App\Entity\Certification;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
