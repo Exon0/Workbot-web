@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CandidatureRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+//candidatures
 /**
  * Candidature
  *
