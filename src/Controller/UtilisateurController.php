@@ -20,6 +20,12 @@ class UtilisateurController extends AbstractController
             'utilisateurs' => $utilisateurRepository->findAll(),
         ]);
     }
+    #[Route('/mouh', name: 'app_utilisateur_indexxx', methods: ['GET'])]
+    public function indexx(UtilisateurRepository $utilisateurRepository): Response
+    {
+        return $this->render('utilisateur/test.html.twig'
+        );
+    }
 
     #[Route('/new', name: 'app_utilisateur_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UtilisateurRepository $utilisateurRepository): Response
