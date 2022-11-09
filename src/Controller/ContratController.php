@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Contrat;
-use App\Entity\ContratRepository;
+use App\Repository\ContratRepository;
 use App\Form\ContratType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

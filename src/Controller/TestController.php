@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Test;
-use App\Entity\TestRepository;
+use App\Repository\TestRepository;
 use App\Form\TestType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

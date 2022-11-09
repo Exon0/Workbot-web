@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participation;
-use App\Entity\ParticipationRepository;
+use App\Repository\ParticipationRepository;
 use App\Form\ParticipationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

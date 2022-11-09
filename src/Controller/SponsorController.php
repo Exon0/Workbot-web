@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sponsor;
-use App\Entity\SponsorRepository;
+use App\Repository\SponsorRepository;
 use App\Form\SponsorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Certification;
-use App\Entity\CertificationRepository;
+use App\Repository\CertificationRepository;
 use App\Form\CertificationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

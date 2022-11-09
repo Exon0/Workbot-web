@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Candidature;
-use App\Entity\CandidatureRepository;
+use App\Repository\CandidatureRepository;
 use App\Form\CandidatureType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
