@@ -39,6 +39,14 @@ class QuizRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function Quiz_ques($id){
+        return $this->createQueryBuilder('q')
+            ->where('q.id LIKE :id')
+            ->setParameters(['id'=>$id])
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Quiz[] Returns an array of Quiz objects
 //     */

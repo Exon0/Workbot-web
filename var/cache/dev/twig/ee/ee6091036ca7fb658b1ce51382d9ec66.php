@@ -84,6 +84,6 @@ class __TwigTemplate_0b8e1f3683d25fd0073f371a9dd3adf9 extends Template
     {{ form_widget(form) }}
     <button class=\"btn\">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-", "cours/_form.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\templates\\cours\\_form.html.twig");
+", "cours/_form.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\templates\\cours\\_form.html.twig");
     }
 }

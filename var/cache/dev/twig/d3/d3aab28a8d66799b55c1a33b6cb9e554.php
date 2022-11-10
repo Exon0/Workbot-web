@@ -149,6 +149,6 @@ class __TwigTemplate_8b5b9ddc3986fdf360feb2d49b7bdba3 extends Template
 
     {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: profiler_url }) }}
 {% endblock %}
-", "@WebProfiler/Profiler/cancel.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\cancel.html.twig");
+", "@WebProfiler/Profiler/cancel.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\cancel.html.twig");
     }
 }

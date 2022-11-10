@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\QuestionReponse;
+use App\Entity\Quiz;
 use App\Repository\QuestionReponseRepository;
 use App\Form\QuestionReponseType;
+use App\Repository\QuizRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,16 +23,18 @@ class QuestionReponseController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_question_reponse_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, QuestionReponseRepository $questionReponseRepository): Response
+    #[Route('/{id}/new', name: 'app_question_reponse_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, QuestionReponseRepository $questionReponseRepository,QuizRepository $qr,$id): Response
     {
         $questionReponse = new QuestionReponse();
         $form = $this->createForm(QuestionReponseType::class, $questionReponse);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+            {#$quiz=$qr->Quiz_ques($id);#}
+            $quiz=$qr->findOneBy(array(['id'=>$id]));
+            $questionReponse->setIdQuiz($quiz);
             $questionReponseRepository->save($questionReponse, true);
-
             return $this->redirectToRoute('app_question_reponse_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -47,6 +51,8 @@ class QuestionReponseController extends AbstractController
             'question_reponse' => $questionReponse,
         ]);
     }
+
+
 
     #[Route('/{id}/edit', name: 'app_question_reponse_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, QuestionReponse $questionReponse, QuestionReponseRepository $questionReponseRepository): Response

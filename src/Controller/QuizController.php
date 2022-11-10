@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\QuestionReponse;
 use App\Entity\Quiz;
 use App\Repository\QuizRepository;
 use App\Form\QuizType;
@@ -47,6 +48,7 @@ class QuizController extends AbstractController
             'quiz' => $quiz,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'app_quiz_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Quiz $quiz, QuizRepository $quizRepository): Response

@@ -300,6 +300,6 @@ class __TwigTemplate_9a5f3574ff19a3c275e1422cf3d1189c extends Template
         <a href=\"{{ path('app_cours_new') }}\">Create new</a>
     </div>
 {% endblock %}
-", "cours/index.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\templates\\cours\\index.html.twig");
+", "cours/index.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\templates\\cours\\index.html.twig");
     }
 }

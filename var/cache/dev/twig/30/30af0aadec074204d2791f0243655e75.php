@@ -133,6 +133,6 @@ class __TwigTemplate_2b618cf77fb8a706d8ae138aa8b7c64f extends Template
 
     <a href=\"{{ path('app_cours_index') }}\">back to list</a>
 {% endblock %}
-", "cours/new.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\templates\\cours\\new.html.twig");
+", "cours/new.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\templates\\cours\\new.html.twig");
     }
 }

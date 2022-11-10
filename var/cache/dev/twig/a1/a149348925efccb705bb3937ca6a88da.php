@@ -192,6 +192,6 @@ class __TwigTemplate_2e28938bc97b201051005636635acfba extends Template
 <body>
 {% block body %}{% endblock %}
 </body>
-</html>", "base.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\templates\\base.html.twig");
+</html>", "base.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\templates\\base.html.twig");
     }
 }

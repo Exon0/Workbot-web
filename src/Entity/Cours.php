@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'cours')]
 class Cours
 {
-    #[Assert\NotBlank]
+
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -37,7 +37,7 @@ class Cours
     #[ORM\Column(name: 'categorie', type: 'string', length: 30, nullable: false)]
     private string $categorie;
 
-    #[Assert\Url(message:"donner un url valide  ")]
+    #[Assert\Url]
     #[ORM\Column(name: 'chemin', type: 'string', length: 200, nullable: false)]
     private string $chemin;
 

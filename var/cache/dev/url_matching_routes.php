@@ -21,10 +21,12 @@ return [
         '/certif/badge' => [[['_route' => 'app_certif_badge_index', '_controller' => 'App\\Controller\\CertifBadgeController::index'], null, ['GET' => 0], null, true, false, null]],
         '/certif/badge/new' => [[['_route' => 'app_certif_badge_new', '_controller' => 'App\\Controller\\CertifBadgeController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/certification' => [[['_route' => 'app_certification_index', '_controller' => 'App\\Controller\\CertificationController::index'], null, ['GET' => 0], null, true, false, null]],
+        '/certification/u' => [[['_route' => 'app_certification_indexu', '_controller' => 'App\\Controller\\CertificationController::indexu'], null, ['GET' => 0], null, false, false, null]],
         '/certification/new' => [[['_route' => 'app_certification_new', '_controller' => 'App\\Controller\\CertificationController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/contrat' => [[['_route' => 'app_contrat_index', '_controller' => 'App\\Controller\\ContratController::index'], null, ['GET' => 0], null, true, false, null]],
         '/contrat/new' => [[['_route' => 'app_contrat_new', '_controller' => 'App\\Controller\\ContratController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/cours' => [[['_route' => 'app_cours_index', '_controller' => 'App\\Controller\\CoursController::index'], null, ['GET' => 0], null, true, false, null]],
+        '/cours/u' => [[['_route' => 'app_cours_indexU', '_controller' => 'App\\Controller\\CoursController::indexU'], null, ['GET' => 0], null, false, false, null]],
         '/cours/new' => [[['_route' => 'app_cours_new', '_controller' => 'App\\Controller\\CoursController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/entretien' => [[['_route' => 'app_entretien_index', '_controller' => 'App\\Controller\\EntretienController::index'], null, ['GET' => 0], null, true, false, null]],
         '/entretien/new' => [[['_route' => 'app_entretien_new', '_controller' => 'App\\Controller\\EntretienController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
@@ -35,7 +37,6 @@ return [
         '/participation' => [[['_route' => 'app_participation_index', '_controller' => 'App\\Controller\\ParticipationController::index'], null, ['GET' => 0], null, true, false, null]],
         '/participation/new' => [[['_route' => 'app_participation_new', '_controller' => 'App\\Controller\\ParticipationController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/question/reponse' => [[['_route' => 'app_question_reponse_index', '_controller' => 'App\\Controller\\QuestionReponseController::index'], null, ['GET' => 0], null, true, false, null]],
-        '/question/reponse/new' => [[['_route' => 'app_question_reponse_new', '_controller' => 'App\\Controller\\QuestionReponseController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/quiz' => [[['_route' => 'app_quiz_index', '_controller' => 'App\\Controller\\QuizController::index'], null, ['GET' => 0], null, true, false, null]],
         '/quiz/new' => [[['_route' => 'app_quiz_new', '_controller' => 'App\\Controller\\QuizController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/reclamation/avis' => [[['_route' => 'app_reclamation_avis_index', '_controller' => 'App\\Controller\\ReclamationAvisController::index'], null, ['GET' => 0], null, true, false, null]],
@@ -132,49 +133,51 @@ return [
                 .')'
                 .'|/qu(?'
                     .'|estion/reponse/([^/]++)(?'
-                        .'|(*:699)'
-                        .'|/edit(*:712)'
-                        .'|(*:720)'
+                        .'|/(?'
+                            .'|new(*:706)'
+                            .'|edit(*:718)'
+                        .')'
+                        .'|(*:727)'
                     .')'
                     .'|iz/([^/]++)(?'
-                        .'|(*:743)'
-                        .'|/edit(*:756)'
-                        .'|(*:764)'
+                        .'|(*:750)'
+                        .'|/edit(*:763)'
+                        .'|(*:771)'
                     .')'
                 .')'
                 .'|/reclamation/avis/([^/]++)(?'
-                    .'|(*:803)'
-                    .'|/edit(*:816)'
-                    .'|(*:824)'
+                    .'|(*:810)'
+                    .'|/edit(*:823)'
+                    .'|(*:831)'
                 .')'
                 .'|/sponsor/([^/]++)(?'
-                    .'|(*:853)'
-                    .'|/edit(*:866)'
-                    .'|(*:874)'
+                    .'|(*:860)'
+                    .'|/edit(*:873)'
+                    .'|(*:881)'
                 .')'
                 .'|/test/([^/]++)(?'
-                    .'|(*:900)'
-                    .'|/edit(*:913)'
-                    .'|(*:921)'
+                    .'|(*:907)'
+                    .'|/edit(*:920)'
+                    .'|(*:928)'
                 .')'
                 .'|/utilisateur/([^/]++)(?'
-                    .'|(*:954)'
-                    .'|/edit(*:967)'
-                    .'|(*:975)'
+                    .'|(*:961)'
+                    .'|/edit(*:974)'
+                    .'|(*:982)'
                 .')'
                 .'|/_(?'
-                    .'|error/(\\d+)(?:\\.([^/]++))?(*:1015)'
-                    .'|wdt/([^/]++)(*:1036)'
+                    .'|error/(\\d+)(?:\\.([^/]++))?(*:1022)'
+                    .'|wdt/([^/]++)(*:1043)'
                     .'|profiler/([^/]++)(?'
                         .'|/(?'
-                            .'|search/results(*:1083)'
-                            .'|router(*:1098)'
+                            .'|search/results(*:1090)'
+                            .'|router(*:1105)'
                             .'|exception(?'
-                                .'|(*:1119)'
-                                .'|\\.css(*:1133)'
+                                .'|(*:1126)'
+                                .'|\\.css(*:1140)'
                             .')'
                         .')'
-                        .'|(*:1144)'
+                        .'|(*:1151)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -219,31 +222,34 @@ return [
         637 => [[['_route' => 'app_participation_show', '_controller' => 'App\\Controller\\ParticipationController::show'], ['id'], ['GET' => 0], null, false, true, null]],
         650 => [[['_route' => 'app_participation_edit', '_controller' => 'App\\Controller\\ParticipationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
         658 => [[['_route' => 'app_participation_delete', '_controller' => 'App\\Controller\\ParticipationController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        699 => [[['_route' => 'app_question_reponse_show', '_controller' => 'App\\Controller\\QuestionReponseController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        712 => [[['_route' => 'app_question_reponse_edit', '_controller' => 'App\\Controller\\QuestionReponseController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        720 => [[['_route' => 'app_question_reponse_delete', '_controller' => 'App\\Controller\\QuestionReponseController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        743 => [[['_route' => 'app_quiz_show', '_controller' => 'App\\Controller\\QuizController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        756 => [[['_route' => 'app_quiz_edit', '_controller' => 'App\\Controller\\QuizController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        764 => [[['_route' => 'app_quiz_delete', '_controller' => 'App\\Controller\\QuizController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        803 => [[['_route' => 'app_reclamation_avis_show', '_controller' => 'App\\Controller\\ReclamationAvisController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        816 => [[['_route' => 'app_reclamation_avis_edit', '_controller' => 'App\\Controller\\ReclamationAvisController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        824 => [[['_route' => 'app_reclamation_avis_delete', '_controller' => 'App\\Controller\\ReclamationAvisController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        853 => [[['_route' => 'app_sponsor_show', '_controller' => 'App\\Controller\\SponsorController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        866 => [[['_route' => 'app_sponsor_edit', '_controller' => 'App\\Controller\\SponsorController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        874 => [[['_route' => 'app_sponsor_delete', '_controller' => 'App\\Controller\\SponsorController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        900 => [[['_route' => 'app_test_show', '_controller' => 'App\\Controller\\TestController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        913 => [[['_route' => 'app_test_edit', '_controller' => 'App\\Controller\\TestController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        921 => [[['_route' => 'app_test_delete', '_controller' => 'App\\Controller\\TestController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        954 => [[['_route' => 'app_utilisateur_show', '_controller' => 'App\\Controller\\UtilisateurController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        967 => [[['_route' => 'app_utilisateur_edit', '_controller' => 'App\\Controller\\UtilisateurController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        975 => [[['_route' => 'app_utilisateur_delete', '_controller' => 'App\\Controller\\UtilisateurController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1015 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
-        1036 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
-        1083 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
-        1098 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
-        1119 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
-        1133 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        1144 => [
+        706 => [[['_route' => 'app_question_reponse_new', '_controller' => 'App\\Controller\\QuestionReponseController::new'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        718 => [[['_route' => 'app_question_reponse_edit', '_controller' => 'App\\Controller\\QuestionReponseController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        727 => [
+            [['_route' => 'app_question_reponse_show', '_controller' => 'App\\Controller\\QuestionReponseController::show'], ['id'], ['GET' => 0], null, false, true, null],
+            [['_route' => 'app_question_reponse_delete', '_controller' => 'App\\Controller\\QuestionReponseController::delete'], ['id'], ['POST' => 0], null, false, true, null],
+        ],
+        750 => [[['_route' => 'app_quiz_show', '_controller' => 'App\\Controller\\QuizController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        763 => [[['_route' => 'app_quiz_edit', '_controller' => 'App\\Controller\\QuizController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        771 => [[['_route' => 'app_quiz_delete', '_controller' => 'App\\Controller\\QuizController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        810 => [[['_route' => 'app_reclamation_avis_show', '_controller' => 'App\\Controller\\ReclamationAvisController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        823 => [[['_route' => 'app_reclamation_avis_edit', '_controller' => 'App\\Controller\\ReclamationAvisController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        831 => [[['_route' => 'app_reclamation_avis_delete', '_controller' => 'App\\Controller\\ReclamationAvisController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        860 => [[['_route' => 'app_sponsor_show', '_controller' => 'App\\Controller\\SponsorController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        873 => [[['_route' => 'app_sponsor_edit', '_controller' => 'App\\Controller\\SponsorController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        881 => [[['_route' => 'app_sponsor_delete', '_controller' => 'App\\Controller\\SponsorController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        907 => [[['_route' => 'app_test_show', '_controller' => 'App\\Controller\\TestController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        920 => [[['_route' => 'app_test_edit', '_controller' => 'App\\Controller\\TestController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        928 => [[['_route' => 'app_test_delete', '_controller' => 'App\\Controller\\TestController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        961 => [[['_route' => 'app_utilisateur_show', '_controller' => 'App\\Controller\\UtilisateurController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        974 => [[['_route' => 'app_utilisateur_edit', '_controller' => 'App\\Controller\\UtilisateurController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        982 => [[['_route' => 'app_utilisateur_delete', '_controller' => 'App\\Controller\\UtilisateurController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        1022 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
+        1043 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
+        1090 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
+        1105 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
+        1126 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
+        1140 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
+        1151 => [
             [['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
