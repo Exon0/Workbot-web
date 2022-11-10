@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Repository\OffreRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,24 +21,30 @@ class Offre
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
+    #[Assert\NotBlank]
+    #[Assert\Type('string')]
     #[ORM\Column(name: 'titre', type: 'string', length: 300, nullable: true)]
     private ?string $titre = null;
 
     #[ORM\Column(name: 'salaire', type: 'string', length: 255, nullable: true)]
     private ?string $salaire = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'description', type: 'string', length: 250, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(name: 'domaine', type: 'string', length: 200, nullable: true)]
     private ?string $domaine = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Date]
     #[ORM\Column(name: 'dateExpiration', type: 'string', length: 200, nullable: true)]
     private ?string $dateexpiration = null;
 
     #[ORM\Column(name: 'dureeStage', type: 'string', length: 200, nullable: true)]
     private ?string $dureestage = null;
 
+    #[Assert\Choice(['PFE', "Stage d'été", 'Alternance'])]
     #[ORM\Column(name: 'typeStage', type: 'string', length: 20, nullable: true)]
     private ?string $typestage = null;
 
@@ -50,6 +57,8 @@ class Offre
     #[ORM\Column(name: 'anneeExperience', type: 'string', length: 30, nullable: true)]
     private ?string $anneeexperience = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Choice(['Présentiel', 'Hybrid', 'Teletravail'])]
     #[ORM\Column(name: 'modeTravail', type: 'string', length: 25, nullable: true)]
     private ?string $modetravail = null;
 
@@ -67,6 +76,40 @@ class Offre
 
     #[ORM\JoinColumn(name: 'id_test', referencedColumnName: 'id')]
     private \App\Entity\Test $idTest;
+
+
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIdSoc(): Utilisateur
+    {
+        return $this->idSoc;
+    }
+
+    /**
+     * @param Utilisateur $idSoc
+     */
+    public function setIdSoc(Utilisateur $idSoc): void
+    {
+        $this->idSoc = $idSoc;
+    }
+
+    /**
+     * @return Test
+     */
+    public function getIdTest(): Test
+    {
+        return $this->idTest;
+    }
+
+    /**
+     * @param Test $idTest
+     */
+    public function setIdTest(Test $idTest): void
+    {
+        $this->idTest = $idTest;
+    }
 
     public function getId(): ?int
     {

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Repository\TestRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,6 +20,7 @@ class Test
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'titre', type: 'string', length: 300, nullable: false)]
     private string $titre;
 
@@ -28,6 +30,12 @@ class Test
     #[ORM\Column(name: 'description', type: 'string', length: 350, nullable: true)]
     private ?string $description = null;
 
+    #[Assert\NotBlank]
+    #[Assert\File(
+        maxSize: '1024k',
+        mimeTypes: ['application/pdf', 'application/x-pdf'],
+        mimeTypesMessage: 'Please upload a valid PDF',
+    )]
     #[ORM\Column(name: 'lien', type: 'string', length: 350, nullable: false)]
     private string $lien;
 
