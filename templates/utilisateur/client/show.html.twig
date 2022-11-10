@@ -1,0 +1,29 @@
+<table>
+    <tr>
+        <th>Role</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Email</th>
+        <th>Telephone</th>
+        <th>Adresse</th>
+        <th>Domaine</th>
+        <th>actions</th>
+    </tr>
+    {% for f in utilisateurs %}
+        <tr>
+            <td>{{f.role}}</td>
+            <td>{{f.nom}}</td>
+            <td>{{f.prenom}}</td>
+            <td>{{f.email}}</td>
+            <td>{{f.tel}}</td>
+            <td>{{f.adresse}}</td>
+            <td>{{f.domaine}}</td>
+            <td>
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+</table>

@@ -38,7 +38,29 @@ class UtilisateurRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /*
+     * Requette pour les administrateurs
+     */
+public function findadmin(){
+    return $this->createQueryBuilder('u')
+    ->where('u.role= :val')
+    ->setParameter('val','Admin')
+    ->getQuery()
+    ->getResult();
 
+}
+    /*
+         * Requette pour les administrateurs
+         */
+    public function findclient(){
+        return $this->createQueryBuilder('u')
+            ->where('u.role= :val or u.role= :val1')
+            ->setParameter('val','sociéte')
+            ->setParameter('val1','candidat')
+            ->getQuery()
+            ->getResult();
+
+    }
 //    /**
 //     * @return Utilisateur[] Returns an array of Utilisateur objects
 //     */

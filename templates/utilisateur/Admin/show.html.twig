@@ -1,0 +1,46 @@
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
+
+{% block body %}
+<div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 150px;">
+    <div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Liste des administrateurs</h5>
+
+            <!-- Default Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>Mot passe</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for f in utilisateurs %}
+                    <tr>
+                        <td>{{f.nom}}</td>
+                        <td>{{f.prenom}}</td>
+                        <td>{{f.email}}</td>
+                        <td>{{f.mdp}}</td>
+                        <td>
+                            <a href="{{ path('app_utilisateur_edit_admin', {'id': f.id}) }}">edit</a>
+                            <a href="{{ path('app_utilisateur_delete_admin', {'id': f.id}) }}">show</a>
+
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ path('app_utilisateur_new_Admin') }}">Create new</a>
+            <!-- End Default Table Example -->
+        </div>
+    </div>
+    </div>
+
+</div>
+{% endblock %}
+
