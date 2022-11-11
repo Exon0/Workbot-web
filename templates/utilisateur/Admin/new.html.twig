@@ -1,0 +1,10 @@
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
+
+
+{% block body %}
+    <h1>Create new Admin</h1>
+
+    {{ include('utilisateur/Admin/_form.html.twig') }}
+
+    <a href="{{ path('app_utilisateur_new_Admin') }}">back to list</a>
+{% endblock %}
