@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\EntretienRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,14 +19,25 @@ class Entretien
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
+    #[Assert\NotBlank]
+    #[Assert\Date]
     #[ORM\Column(name: 'date', type: 'string', length: 55, nullable: false)]
     private string $date;
 
+    #[Assert\NotBlank]
+    #[Assert\Url]
     #[ORM\Column(name: 'lienMeet', type: 'string', length: 350, nullable: false)]
     private string $lienmeet;
 
+    #[Assert\NotBlank]
+    #[Assert\Time]
+    #[Assert\Range(
+        notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
+        min: 8,
+        max: 18,
+    )]
     #[ORM\Column(name: 'heure', type: 'integer', nullable: false)]
-    private int $heure;
+    private String $heure;
 
     #[ORM\JoinColumn(name: 'id_candidature', referencedColumnName: 'id')]
     private \App\Entity\Candidature $idCandidature;
@@ -60,12 +71,12 @@ class Entretien
         return $this;
     }
 
-    public function getHeure(): ?int
+    public function getHeure(): ?String
     {
         return $this->heure;
     }
 
-    public function setHeure(int $heure): self
+    public function setHeure(String $heure): self
     {
         $this->heure = $heure;
 
