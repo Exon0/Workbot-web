@@ -1,0 +1,3 @@
+<?php //App%255CController%255CBadgeController
+
+return [PHP_INT_MAX, []];

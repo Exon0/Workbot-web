@@ -22,6 +22,7 @@ class UtilisateurController extends AbstractController
             'utilisateurs' => $utilisateurRepository->findAll(),
         ]);
     }
+
     #[Route('/mouh', name: 'app_utilisateur_indexxxx', methods: ['GET'])]
     public function test(UtilisateurRepository $utilisateurRepository): Response
     {
