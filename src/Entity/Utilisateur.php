@@ -3,15 +3,21 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Utilisateur
  *
+ * @method string getUserIdentifier()
  */
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\Table(name: 'utilisateur')]
-class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+ class Utilisateur implements UserInterface,PasswordAuthenticatedUserInterface
 {
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     #[ORM\Id]
@@ -19,20 +25,28 @@ class Utilisateur
     private int $id;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: true)]
+    #[Assert\NotNull]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(name: 'prenom', type: 'string', length: 25, nullable: true)]
+    #[Assert\NotNull]
     private ?string $prenom = null;
+
 
     #[ORM\Column(name: 'tel', type: 'string', length: 30, nullable: true)]
     private ?string $tel = null;
 
     #[ORM\Column(name: 'email', type: 'string', length: 200, nullable: true)]
     private ?string $email = null;
-
+    #[Assert\NotNull]
     #[ORM\Column(name: 'mdp', type: 'string', length: 355, nullable: true)]
     private ?string $mdp = null;
-
     #[ORM\Column(name: 'adresse', type: 'string', length: 30, nullable: true)]
     private ?string $adresse = null;
 
@@ -414,4 +428,33 @@ class Utilisateur
     }
 
 
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function getPassword(): string
+    {
+
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
 }
