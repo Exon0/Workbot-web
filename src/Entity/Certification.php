@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CertificationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Certification
@@ -19,15 +21,19 @@ class Certification
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'titreCours', type: 'string', length: 100, nullable: false)]
     private string $titrecours;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'titreTest', type: 'string', length: 100, nullable: false)]
     private string $titretest;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'dateAjout', type: 'string', length: 50, nullable: false)]
     private string $dateajout;
 
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'lien', type: 'string', length: 200, nullable: false)]
     private string $lien;
 
