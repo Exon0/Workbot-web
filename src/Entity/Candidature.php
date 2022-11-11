@@ -60,6 +60,7 @@ class Candidature
     private string $domaine;
 
     #[ORM\JoinColumn(name: 'id_offre', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Offre')]
     private \App\Entity\Offre $idOffre;
 
     #[ORM\JoinColumn(name: 'idcondidat', referencedColumnName: 'id')]

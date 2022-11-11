@@ -24,7 +24,7 @@ class QuestionReponseController extends AbstractController
     }
 
     #[Route('/{id}/new', name: 'app_question_reponse_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, QuestionReponseRepository $questionReponseRepository,QuizRepository $qr,$id): Response
+    public function new(Request $request, QuestionReponseRepository $questionReponseRepository,QuizRepository $qr): Response
     {
         $questionReponse = new QuestionReponse();
         $form = $this->createForm(QuestionReponseType::class, $questionReponse);
@@ -32,7 +32,7 @@ class QuestionReponseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
             {#$quiz=$qr->Quiz_ques($id);#}
-            $quiz=$qr->findOneBy(array(['id'=>$id]));
+            $quiz=$qr->find(1);
             $questionReponse->setIdQuiz($quiz);
             $questionReponseRepository->save($questionReponse, true);
             return $this->redirectToRoute('app_question_reponse_index', [], Response::HTTP_SEE_OTHER);

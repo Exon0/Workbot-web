@@ -33,6 +33,7 @@ class QuestionReponse
     private string $reponseV;
 
     #[ORM\JoinColumn(name: 'id_quiz', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Quiz')]
     private Quiz $idQuiz;
 
     public function getId(): ?int
@@ -88,15 +89,22 @@ class QuestionReponse
         return $this;
     }
 
-    public function getIdQuiz(): ?Quiz
+    /**
+     * @return \App\Entity\Quiz
+     */
+    public function getIdQuiz(): \App\Entity\Quiz
     {
-        return $this->iddQuiz;
+        return $this->idQuiz;
     }
 
-    public function setIdQuiz(Quiz $idQuiz): self
+    /**
+     * @param \App\Entity\Quiz $idQuiz
+     */
+    public function setIdQuiz(\App\Entity\Quiz $idQuiz): void
     {
         $this->idQuiz = $idQuiz;
-        return $this;
     }
+
+
 
 }
