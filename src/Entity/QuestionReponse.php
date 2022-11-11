@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Quiz;
 use App\Repository\QuestionReponseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,7 +33,7 @@ class QuestionReponse
     private string $reponseV;
 
     #[ORM\JoinColumn(name: 'id_quiz', referencedColumnName: 'id')]
-    private \App\Entity\Quiz $idQuiz;
+    private Quiz $idQuiz;
 
     public function getId(): ?int
     {
@@ -87,5 +88,15 @@ class QuestionReponse
         return $this;
     }
 
+    public function getIdQuiz(): ?Quiz
+    {
+        return $this->iddQuiz;
+    }
+
+    public function setIdQuiz(Quiz $idQuiz): self
+    {
+        $this->idQuiz = $idQuiz;
+        return $this;
+    }
 
 }

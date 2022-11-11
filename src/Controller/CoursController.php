@@ -10,6 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+
+
+
+
+
 #[Route('/cours')]
 class CoursController extends AbstractController
 {
@@ -20,6 +26,18 @@ class CoursController extends AbstractController
             'cours' => $coursRepository->findAll(),
         ]);
     }
+
+    #[Route('/u', name: 'app_cours_indexU', methods: ['GET'])]
+    public function indexU(CoursRepository $coursRepository): Response
+    {
+        return $this->render('cours/indexU.html.twig', [
+            'cours' => $coursRepository->findAll(),
+        ]);
+    }
+
+
+
+
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CoursRepository $coursRepository): Response

@@ -79,6 +79,6 @@ class __TwigTemplate_90516f8369d68504488083779669ba3e extends Template
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ cour.id) }}\">
     <button class=\"btn\">Delete</button>
 </form>
-", "cours/_delete_form.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\templates\\cours\\_delete_form.html.twig");
+", "cours/_delete_form.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\templates\\cours\\_delete_form.html.twig");
     }
 }

@@ -140,6 +140,6 @@ class __TwigTemplate_8d57da451e04a2e646cdfb88c5136e56 extends Template
 
     {{ include('cours/_delete_form.html.twig') }}
 {% endblock %}
-", "cours/edit.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\WEB\\Workbot-web\\templates\\cours\\edit.html.twig");
+", "cours/edit.html.twig", "C:\\Users\\ADMIN\\OneDrive\\Bureau\\Nouveau dossier\\Workbot-web\\templates\\cours\\edit.html.twig");
     }
 }

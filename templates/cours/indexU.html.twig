@@ -1,0 +1,71 @@
+
+{% block title %}Cours index{% endblock %}
+
+{% block body %}
+    <h1>Cours index</h1>
+
+    <div class="table-responsive">
+        <table class="table table-hover" id="tableac">
+            <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
+            <div>
+                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                    <input type="text" class="form-control" placeholder="Chercher un cours" id="search"> </form>
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Matiere</th>
+                    <th>Domaine</th>
+                    <th>Categorie</th>
+                    <th>Chemin</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cour in cours %}
+                    <tr>
+                        <td>{{ cour.titre }}</td>
+                        <td>{{ cour.matiere }}</td>
+                        <td>{{ cour.domaine }}</td>
+                        <td>{{ cour.categorie }}</td>
+                        <td>{{ cour.chemin }}</td>
+                        <td>
+                            <a href="{{ path('app_cours_show', {'id': cour.id}) }}">show</a>
+                        </td>
+                    </tr>
+                    <script>
+                        $(document).ready(function(){
+                            $('#search').keyup(function(){
+                                search_table($(this).val());
+                            });
+                            function search_table(value){
+                                $('#tableac tbody tr').each(function(){
+                                    var found = 'false';
+                                    $(this).each(function(){
+                                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                        {
+                                            found = 'true';
+                                        }
+                                    });
+                                    if(found == 'true')
+                                    {
+                                        $(this).show();
+                                    }
+                                    else
+                                    {
+                                        $(this).hide();
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+                    {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </div>
+        </table>
+
+    </div>
+{% endblock %}

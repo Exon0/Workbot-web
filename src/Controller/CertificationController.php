@@ -21,6 +21,15 @@ class CertificationController extends AbstractController
         ]);
     }
 
+
+    #[Route('/u', name: 'app_certification_indexu', methods: ['GET'])]
+    public function indexu(CertificationRepository $certificationRepository): Response
+    {
+        return $this->render('certification/indexU.html.twig', [
+            'certifications' => $certificationRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_certification_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CertificationRepository $certificationRepository): Response
     {
