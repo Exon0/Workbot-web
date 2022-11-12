@@ -43,6 +43,7 @@ class Test
     private ?string $categorie = null;
 
     #[ORM\JoinColumn(name: 'id_soc', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idSoc;
 
 

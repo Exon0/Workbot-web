@@ -40,6 +40,7 @@ class Entretien
     private String $heure;
 
     #[ORM\JoinColumn(name: 'id_candidature', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Candidature')]
     private \App\Entity\Candidature $idCandidature;
 
     public function getId(): ?int

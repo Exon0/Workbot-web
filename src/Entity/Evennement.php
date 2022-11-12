@@ -47,6 +47,7 @@ class Evennement
     private ?string $video = null;
 
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idUser;
 
     public function getId(): ?int

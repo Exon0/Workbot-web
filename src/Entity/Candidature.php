@@ -64,6 +64,7 @@ class Candidature
     private \App\Entity\Offre $idOffre;
 
     #[ORM\JoinColumn(name: 'idcondidat', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idcondidat;
 
     public function getId(): ?int

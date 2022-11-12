@@ -33,7 +33,7 @@ class OffreController extends AbstractController
     }
 
     #[Route('/new', name: 'app_offre_new', methods: ['GET', 'POST'])]
-    public function new(InputInterface $input, OutputInterface $output,Request $request, OffreRepository $offreRepository,UtilisateurRepository $repository): Response
+    public function new(Request $request, OffreRepository $offreRepository,UtilisateurRepository $repository): Response
     {
 
 
