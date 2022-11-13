@@ -12,8 +12,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Utilisateur
  *
- * @method string getUserIdentifier()
+ *
  */
+
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\Table(name: 'utilisateur')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -25,7 +26,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     private int $id;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: true)]
-    #[Assert\NotNull]
+    #[Assert\NotBlank(message: "veuillez renseigner ce champ")]
     #[Assert\Length(
         min: 2,
         max: 50,
@@ -38,12 +39,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[Assert\NotNull]
     private ?string $prenom = null;
 
-
+    #[Assert\Length(
+        min: 8,
+        max: 15,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(name: 'tel', type: 'string', length: 30, nullable: true)]
     private ?string $tel = null;
 
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
+    #[Assert\NotNull]
     #[ORM\Column(name: 'email', type: 'string', length: 200, nullable: true)]
     private ?string $email = null;
+    #[Assert\Length(
+        min: 6,
+        max: 50,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
     #[Assert\NotNull]
     #[ORM\Column(name: 'mdp', type: 'string', length: 355, nullable: true)]
     private ?string $mdp = null;
@@ -110,6 +126,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[ORM\Column(name: 'role', type: 'string', length: 25, nullable: false)]
     private string $role;
 
+    #[ORM\Column(name: 'roles', type: 'json', length: 25, nullable: true)]
+    private  $roles= [];
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,7 +139,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
     {
         return $this->nom;
     }
-
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
     public function setNom(?string $nom): self
     {
         $this->nom = $nom;
@@ -415,6 +438,30 @@ use Symfony\Component\Security\Core\User\UserInterface;
         return $this;
     }
 
+
+
+
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
+
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
     public function getRole(): ?string
     {
         return $this->role;
@@ -427,34 +474,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
         return $this;
     }
 
-
-    public function __call(string $name, array $arguments)
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        // TODO: Implement @method string getUserIdentifier()
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function getRoles()
+    public function setRoles(array $roles): self
     {
-        // TODO: Implement getRoles() method.
-    }
+        $this->roles = $roles;
 
-    public function getPassword(): string
-    {
-
-    }
-
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-    }
-
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
-
-    public function getUsername()
-    {
-        // TODO: Implement getUsername() method.
+        return $this;
     }
 }

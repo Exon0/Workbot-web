@@ -1,49 +1,82 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
-{% block title %}Ads index{% endblock %}
+{% block title %}Ads{% endblock %}
 
 {% block body %}
-    <h1>Ads index</h1>
+<div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 100px;">
+    <div class="col-6">
+        <div class="card recent-sales overflow-auto">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Nom</th>
-                <th>Photo</th>
-                <th>Video</th>
-                <th>DateDebut</th>
-                <th>DateFin</th>
-                <th>NombreAds</th>
-                <th>Mail</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ad in ads %}
-            <tr>
-                <td>{{ ad.id }}</td>
-                <td>{{ ad.type }}</td>
-                <td>{{ ad.nom }}</td>
-                <td>{{ ad.photo }}</td>
-                <td>{{ ad.video }}</td>
-                <td>{{ ad.dateDebut }}</td>
-                <td>{{ ad.dateFin }}</td>
-                <td>{{ ad.nombreAds }}</td>
-                <td>{{ ad.mail }}</td>
-                <td>
-                    <a href="{{ path('app_ads_show', {'id': ad.id}) }}">show</a>
-                    <a href="{{ path('app_ads_edit', {'id': ad.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                        <h6>Filter</h6>
+                    </li>
 
-    <a href="{{ path('app_ads_new') }}">Create new</a>
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Recent ADset <span>| Today</span></h5>
+
+                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                    <div class="dataTable-top">
+                        <div class="dataTable-dropdown">
+                            <label><select class="dataTable-selector">
+                                    <option value="5">5</option>
+                                    <option value="10" selected="">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                </select> entries per page</label>
+                        </div>
+                        <div class="dataTable-search">
+                            <input class="dataTable-input" placeholder="Search..." type="text">
+                        </div>
+                    </div>
+                    <div class="dataTable-container"><table class="table table-borderless datatable dataTable-table">
+                            <thead>
+                            <tr>
+                                <th scope="col" data-sortable="" style="width: 42.069%;">
+                                    <a href="#" class="dataTable-sorter">N-Ads</a>
+
+
+
+                                </th>
+                                <th scope="col" data-sortable="" style="width: 60.6897%;">
+                                    <a href="#" class="dataTable-sorter">Name</a></th>
+                                <th scope="col" data-sortable="" style="width: 37.931%;">
+
+                                    <a href="#" class="dataTable-sorter">Type</a></th>
+                                <th scope="col" data-sortable="" style="width: 60.0345%;">
+
+                                    <a href="#" class="dataTable-sorter">Mail</a></th>
+                                <th scope="col" data-sortable="" style="width: 57.931%;">
+                                    <a href="#" class="dataTable-sorter">Date </a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for f in ads %}
+                            <tr>
+                                <th scope="row"><a href="#">{{ f.nombreAds }}</a></th>
+                                <td>{{ f.nom }}</td>
+                                <td><a href="#" class="text-primary">{{ f.type }}</a></td>
+                                <td>{{ f.dateFin }}</td>
+                                <td><span class="badge bg-success">{{ f.mail }}</span></td>
+                            </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table></div><div class="dataTable-bottom"><div class="dataTable-info">Showing 1 to 5 of 5 entries</div><nav class="dataTable-pagination"><ul class="dataTable-pagination-list"></ul></nav></div></div>
+
+            </div>
+        </div>
+        </div>
+    </div>
+
 {% endblock %}
+

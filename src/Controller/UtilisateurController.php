@@ -7,6 +7,7 @@ use App\Form\AdminType;
 use App\Form\ClientType;
 use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,14 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
 {
-    #[Route('/', name: 'app_utilisateur_index', methods: ['GET'])]
+    //////////////////////////////client Affichage
+    #[Route('/client', name: 'app_utilisateur_index', methods: ['GET'])]
     public function index(UtilisateurRepository $utilisateurRepository): Response
     {
-        return $this->render('utilisateur/index.html.twig', [
-            'utilisateurs' => $utilisateurRepository->findAll(),
-        ]);
+        $proj = $utilisateurRepository->findclient();
+        return $this->render('utilisateur/client/show.html.twig', [
+            'ffff' => $proj,]);
     }
-
+    /////////delete client
+    #[Route('/client/{id}', name: 'deleteclient')]
+    public function deleteeclient(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository,ManagerRegistry $doctrine): Response
+    {
+        $em = $doctrine->getManager();
+        $em->remove($utilisateur);
+        $em->flush();
+        return $this->redirectToRoute('app_utilisateur_index');
+    }
+//////////test template
     #[Route('/mouh', name: 'app_utilisateur_indexxxx', methods: ['GET'])]
     public function test(UtilisateurRepository $utilisateurRepository): Response
     {
@@ -38,14 +49,19 @@ class UtilisateurController extends AbstractController
             'utilisateurs' => $utilisateurRepository->findadmin(),
         ]);
     }
+    /////////ajout admin
     #[Route('/newAdmin', name: 'app_utilisateur_new_Admin', methods: ['GET', 'POST'])]
     public function newAdmin(Request $request, UtilisateurRepository $utilisateurRepository): Response
     {
         $utilisateur = new Utilisateur();
+        $u=array('ROLE_Admin');
+        $us=('ROLE_Admin');
         $form = $this->createForm(AdminType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateur->setRoles( $u);
+            $utilisateur->setRole( $us);
             $utilisateurRepository->save($utilisateur, true);
 
             return $this->redirectToRoute('app_utilisateur_appadmin', [], Response::HTTP_SEE_OTHER);
@@ -56,6 +72,13 @@ class UtilisateurController extends AbstractController
             'form' => $form,
         ]);
     }
+    ////////////////////Edit proflie coté adminn
+    #[Route('/test', name: 'profileEditAdmin', methods: ['GET'])]
+    public function fer(UtilisateurRepository $utilisateurRepository): Response
+    {
+        return $this->render('utilisateur/Admin/profile.html.twig');
+    }
+
 
 
 /////////////edit admin
@@ -78,35 +101,14 @@ class UtilisateurController extends AbstractController
     }
 
 /////////delete admin
-    #[Route('/{id}', name: 'app_utilisateur_delete_admin', methods: ['POST'])]
-    public function deletee(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
+    #[Route('/{id}', name: 'delete')]
+    public function deletee(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository,ManagerRegistry $doctrine): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$utilisateur->getId(), $request->request->get('_token'))) {
-            $utilisateurRepository->remove($utilisateur, true);
-        }
-
-        return $this->redirectToRoute('app_utilisateur_appadmin', [], Response::HTTP_SEE_OTHER);
+        $em = $doctrine->getManager();
+        $em->remove($utilisateur);
+        $em->flush();
+        return $this->redirectToRoute('app_utilisateur_appadmin');
     }
-
-
-
-
-
-    //////////////////////////////
-    /*
-     *client Affichage
-     */
-    #[Route('/client', name: 'app_utilisateur_appclient', methods: ['GET'])]
-    public function ClientAf(UtilisateurRepository $utilisateurRepository): Response
-    {
-        return $this->render('utilisateur/client/show.html.twig', [
-            'utilisateurs' => $utilisateurRepository->findclient(),
-        ]);
-    }
-
-
-
-
 
     //////////////////////
 
@@ -164,6 +166,5 @@ class UtilisateurController extends AbstractController
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
-    ////////////////////Registration
 
 }

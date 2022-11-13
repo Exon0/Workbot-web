@@ -1,29 +1,50 @@
-<table>
-    <tr>
-        <th>Role</th>
-        <th>Nom</th>
-        <th>Prenom</th>
-        <th>Email</th>
-        <th>Telephone</th>
-        <th>Adresse</th>
-        <th>Domaine</th>
-        <th>actions</th>
-    </tr>
-    {% for f in utilisateurs %}
-        <tr>
-            <td>{{f.role}}</td>
-            <td>{{f.nom}}</td>
-            <td>{{f.prenom}}</td>
-            <td>{{f.email}}</td>
-            <td>{{f.tel}}</td>
-            <td>{{f.adresse}}</td>
-            <td>{{f.domaine}}</td>
-            <td>
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
-            </td>
+{% block body %}
+    <div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 100px;">
+        <div class="col-lg-7">
+            <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Liste des clients</h5>
 
-        </tr>
+                    <!-- Default Table -->
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Email</th>
+                            <th>Telephone</th>
+                            <th>Adresse</th>
+                            <th>Domaine</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for f in ffff %}
+                            <tr>
+                                <td>{{f.role}}</td>
+                                <td>{{f.nom}}</td>
+                                <td>{{f.prenom}}</td>
+                                <td>{{f.email}}</td>
+                                <td>{{f.tel}}</td>
+                                <td>{{f.adresse}}</td>
+                                <td>{{f.domaine}}</td>
+                                <td>
+                                    <a href="{{path('deleteclient', {'id': f.id}) }}"method="post" >delete</a>
 
-    {% endfor %}
 
-</table>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

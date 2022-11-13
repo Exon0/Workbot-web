@@ -5,22 +5,27 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
         app_user_provider:
             entity:
-                class: App\Entity\Utilisateur
+                class: 'App\Entity\Utilisateur'
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
+      #  app:
+        #    form_login:
+        #      enable_csrf: true
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
             custom_authenticator: App\Security\LoginSecurityAuthenticator
+
             logout:
                 path: app_logout
-                target: /
+                target: /login
                 # where to redirect after logout
                 # target: app_any_route
 
@@ -33,9 +38,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-
+     - { path: ^/utilisateur, roles: ROLE_Admin }
+     - { path: ^/offre, roles: ROLE_s }
+     - { path: ^/candidature, roles: ROLE_c }
 when@test:
     security:
         password_hashers:

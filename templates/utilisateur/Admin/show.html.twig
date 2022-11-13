@@ -27,7 +27,7 @@
                         <td>{{f.mdp}}</td>
                         <td>
                             <a href="{{ path('app_utilisateur_edit_admin', {'id': f.id}) }}">edit</a>
-                            <a href="{{ path('app_utilisateur_delete_admin', {'id': f.id}) }}">show</a>
+                            <a href="{{path('delete', {'id': f.id}) }}"method="post" >delete</a>
 
 
                         </td>
