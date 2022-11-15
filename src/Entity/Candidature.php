@@ -67,6 +67,38 @@ class Candidature
     #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idcondidat;
 
+    /**
+     * @return Offre
+     */
+    public function getIdOffre(): Offre
+    {
+        return $this->idOffre;
+    }
+
+    /**
+     * @param Offre $idOffre
+     */
+    public function setIdOffre(Offre $idOffre): void
+    {
+        $this->idOffre = $idOffre;
+    }
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIdcondidat(): Utilisateur
+    {
+        return $this->idcondidat;
+    }
+
+    /**
+     * @param Utilisateur $idcondidat
+     */
+    public function setIdcondidat(Utilisateur $idcondidat): void
+    {
+        $this->idcondidat = $idcondidat;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

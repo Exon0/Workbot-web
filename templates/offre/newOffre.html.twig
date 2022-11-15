@@ -1,0 +1,11 @@
+
+{%  set type ="" %}
+<h2>Choisisez le type d'offre a ajouter</h2>
+{% for s in types %}
+
+    <form action="{{ path('app_offre_new',{'type':s}) }}">
+        <button>{{ s }}</button>
+    </form>
+{% endfor %}
+
+

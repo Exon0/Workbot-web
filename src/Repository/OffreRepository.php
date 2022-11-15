@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Candidature;
 use App\Entity\Offre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,19 +43,58 @@ class OffreRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Offre[] Returns an array of Offre objects
-//     */
-//    public function findByExampleField($value): array
+
+
+    public function findByIdAndCountCand($id)
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(c) from App\Entity\Candidature c join c.idOffre o where o.id=:id'
+        )->setParameter('id',$id)->getSingleScalarResult();
+    }
+    public function findAllCandidates($id)
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT c from App\Entity\Candidature c join c.idOffre o join c.idcondidat u where c.idOffre=:id'
+        )
+            ->setParameter('id',$id)
+           ->getArrayResult();
+    }
+
+    public function findAllCandidates3($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+           SELECT u.tel,o.id,o.salaire salaire,u.id,c.id,u.email email, u.nom nom ,
+                  c.dateAjout dateajout,c.noteTest notetest,o.dateexpiration dateexpiration,o.titre titre,c.domaine domaine,c.lettreMotivation,c.cv cv,c.diplome diplome,c.statut statut,o.titre "
+                    + "from `candidature` c join `offre` o on c.id_offre=o.id 
+                        JOIN `utilisateur` u ON u.id=c.idcondidat where o.id= :id
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
+
+
+//    public function findAllCandidates2($id)
 //    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
+//        return $this->getEntityManager()->createQueryBuilder()
+//            ->from(Candidature::class,'candidature')
+//            ->select('candidature.dateajout,
+//                            offre.titre,
+//                            offre.id,
+//                            user.nom,
+//                            user.email')
+//            ->join('offre','WITH','candidature.idOffre=offre.id')
+//            ->join('user','WITH','candidature.idcondidat=user.id')
+//            ->where("offre.id =:id")
+//            ->setParameter('id',$id)
 //            ->getQuery()
-//            ->getResult()
-//        ;
+//            ->getResult();
+//
 //    }
 
 //    public function findOneBySomeField($value): ?Offre

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidature index{% endblock %}
+
+{% block body %}
+    <h1>Candidature index</h1>
+
+    <table border="2" class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Statut</th>
+            <th>Notetest</th>
+            <th>Dateajout</th>
+            <th>Cv</th>
+            <th>Diplome</th>
+            <th>Dateexpiration</th>
+            <th>Titre</th>
+            <th>Domaine</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for candidature in candidatures %}
+            <tr>
+                <td>{{ candidature.nom }}</td>
+                <td>{{ candidature.email }}</td>
+                <td>{{ candidature.statut }}</td>
+                <td>{{ candidature.notetest }}</td>
+                <td>{{ candidature.dateajout }}</td>
+                <td>{{ candidature.cv }}</td>
+                <td>{{ candidature.diplome }}</td>
+                <td>{{ candidature.dateexpiration }}</td>
+                <td>{{ candidature.titre }}</td>
+                <td>{{ candidature.domaine }}</td>
+                <td>
+                    <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>
+
+                    <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">Entretien</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

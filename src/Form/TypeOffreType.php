@@ -2,27 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\Test;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TestType extends AbstractType
+class TypeOffreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add("Typeoffre",ChoiceType::class,
+                ['choices'=>[
+                    'Stage'=>'Stage',
+                    'Emploi'=>'Emploi',
+                    'Freelancer'=>'Freelancer'
+                ]
 
-
-            ->add('lien')
-
+                ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Test::class,
+            // Configure your form options here
         ]);
     }
 }

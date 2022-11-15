@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Offre
  *
+ * @ORM\Entity
+ * @ORM\Table(name="offre")
  */
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
 #[ORM\Table(name: 'offre')]
@@ -29,8 +31,8 @@ class Offre
     #[ORM\Column(name: 'salaire', type: 'string', length: 255, nullable: true)]
     private ?string $salaire = null;
 
-    #[Assert\NotBlank]
     #[ORM\Column(name: 'description', type: 'string', length: 250, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $description = null;
 
     #[ORM\Column(name: 'domaine', type: 'string', length: 200, nullable: true)]
@@ -77,7 +79,25 @@ class Offre
 
     #[ORM\JoinColumn(name: 'id_test', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'Test')]
-    private \App\Entity\Test $idTest;
+    private ?Test $Test= null;
+
+    private int $nbCandidature;
+
+    /**
+     * @return int
+     */
+    public function getNbCandidature(): int
+    {
+        return $this->nbCandidature;
+    }
+
+    /**
+     * @param int $nbCandidature
+     */
+    public function setNbCandidature(int $nbCandidature): void
+    {
+        $this->nbCandidature = $nbCandidature;
+    }
 
 
 
@@ -97,21 +117,21 @@ class Offre
         $this->idSoc = $idSoc;
     }
 
-    /**
-     * @return Test
-     */
-    public function getIdTest(): Test
+
+    public function getTest()
     {
-        return $this->idTest;
+        return $this->Test;
     }
 
     /**
-     * @param Test $idTest
+     * @param Test $Test
      */
-    public function setIdTest(Test $idTest): void
+    public function setTest(Test $Test): void
     {
-        $this->idTest = $idTest;
+        $this->Test = $Test;
     }
+
+
 
     public function getId(): ?int
     {

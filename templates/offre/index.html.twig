@@ -16,13 +16,12 @@
                 <th>Dateexpiration</th>
                 <th>Dureestage</th>
                 <th>Typestage</th>
-                <th>Dureecontrat</th>
                 <th>Typecontrat</th>
-                <th>Anneeexperience</th>
                 <th>Modetravail</th>
                 <th>Lieu</th>
                 <th>Typeoffre</th>
                 <th>Dateajout</th>
+                <th>NB cand</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -37,16 +36,17 @@
                 <td>{{ offre.dateexpiration }}</td>
                 <td>{{ offre.dureestage }}</td>
                 <td>{{ offre.typestage }}</td>
-                <td>{{ offre.dureecontrat }}</td>
                 <td>{{ offre.typecontrat }}</td>
-                <td>{{ offre.anneeexperience }}</td>
                 <td>{{ offre.modetravail }}</td>
                 <td>{{ offre.lieu }}</td>
                 <td>{{ offre.typeoffre }}</td>
                 <td>{{ offre.dateajout }}</td>
+                <td>{{ offre.nbCandidature }}</td>
                 <td>
                     <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
                     <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
+                    <a href="{{ path('app_offre_cand', {'id': offre.id}) }}">Candidatures</a>
+
                 </td>
             </tr>
         {% else %}
@@ -57,5 +57,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_offre_new') }}">Create new</a>
+    <a href="{{ path('app_offre_show_typeOffre') }}">Create new</a>
+
 {% endblock %}

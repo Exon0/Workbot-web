@@ -1,4 +1,105 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{% block body %}
+    {{ form_start(form) }}
+    {% if  type  == "Stage" %}
+
+    {{ form_row(form.titre) }}
+    {{ form_row(form.dureestage) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.dateexpiration) }}
+    {{ form_row(form.typestage) }}
+    {{ form_row(form.modetravail) }}
+    {{ form_row(form.lieu) }}
+
+{% endif %}
+
+    {% if  type  == "Emploi" %}
+
+        {{ form_row(form.titre) }}
+        {{ form_row(form.salaire) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.dateexpiration) }}
+        {{ form_row(form.typecontrat) }}
+        {{ form_row(form.modetravail) }}
+        {{ form_row(form.lieu) }}
+
+    {% endif %}
+
+
+    {% if  type  == "Freelancer" %}
+
+        {{ form_row(form.titre) }}
+        {{ form_row(form.dureestage) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.dateexpiration) }}
+        {{ form_row(form.salaire) }}
+        {{ form_row(form.modetravail) }}
+        {{ form_row(form.lieu) }}
+
+    {% endif %}
+<div1 id="test" data-prototype="{{ form_row(form.test.vars.prototype) | e('html_attr')}}">
+
+    {{ form_row(form.test) }}
+
+    <span>
+    </span>
+</div1>
+
+<br>
+
+<button class="btn">{{ button_label|default('Ajouter') }}</button>
+
 {{ form_end(form) }}
+
+{% endblock %}
+{%block javascriptTest %}
+<script>
+    let collection,btnAjout,span;
+    window.onload=()=>{
+        collection = document.querySelector("#test");
+        span= collection.querySelector("span");
+        btnAjout =document.createElement("button");
+        btnAjout.className="ajout-test";
+        btnAjout.innerText="Ajouter un test";
+
+        let nouvBtn=span.append(btnAjout);
+
+        collection.dataset.index=collection.querySelectorAll("input").length;
+
+        btnAjout.addEventListener("click",function (){
+            addButton(collection,nouvBtn);
+        });
+
+    }
+
+    function addButton(collection,nouvBtn){
+        let prototype=collection.dataset.prototype;
+
+        let index=collection.dataset.index;
+
+        prototype=prototype.replace(/__name__/g,index);
+
+        let content=document.createElement("html");
+        content.innerHTML=prototype;
+        let newform=content.querySelector("div");
+
+        let btnSupp=document.createElement("button");
+        btnSupp.type="button";
+        btnSupp.className="btn red";
+        btnSupp.id="delete_test-"+index;
+        btnSupp.innerText="Supprimer le test";
+        newform.append(btnSupp);
+
+        collection.dataset.index++;
+
+        let btnAjout=collection.querySelector(".ajout-test");
+        span.insertBefore(newform,btnAjout);
+
+        btnSupp.addEventListener("click",function (){
+            this.previousElementSibling.parentElement.remove()
+        })
+
+    }
+</script>
+{% endblock %}
+
