@@ -29,19 +29,52 @@ class Entretien
     #[ORM\Column(name: 'lienMeet', type: 'string', length: 350, nullable: false)]
     private string $lienmeet;
 
-    #[Assert\NotBlank]
+
     #[Assert\Time]
-    #[Assert\Range(
-        notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
-        min: 8,
-        max: 18,
-    )]
-    #[ORM\Column(name: 'heure', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'heure', nullable: false)]
     private String $heure;
 
     #[ORM\JoinColumn(name: 'id_candidature', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'Candidature')]
     private \App\Entity\Candidature $idCandidature;
+
+
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+    private \App\Entity\Utilisateur $iduser;
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIduser(): Utilisateur
+    {
+        return $this->iduser;
+    }
+
+    /**
+     * @param Utilisateur $iduser
+     */
+    public function setIduser(Utilisateur $iduser): void
+    {
+        $this->iduser = $iduser;
+    }
+
+
+    /**
+     * @return Candidature
+     */
+    public function getIdCandidature(): Candidature
+    {
+        return $this->idCandidature;
+    }
+
+    /**
+     * @param Candidature $idCandidature
+     */
+    public function setIdCandidature(Candidature $idCandidature): void
+    {
+        $this->idCandidature = $idCandidature;
+    }
 
     public function getId(): ?int
     {

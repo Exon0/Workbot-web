@@ -36,9 +36,11 @@
                 <td>{{ candidature.domaine }}</td>
                 <td>
                     <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>
-
-                    <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">Entretien</a>
                 </td>
+                <td>
+                    <a href="{{ path('app_entretien_new', {'id': candidature.id}) }}">Entretien</a>
+                </td>
+
             </tr>
         {% else %}
             <tr>

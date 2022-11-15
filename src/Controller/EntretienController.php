@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidature;
 use App\Entity\Entretien;
+use App\Entity\Utilisateur;
+use App\Repository\CandidatureRepository;
 use App\Repository\EntretienRepository;
 use App\Form\EntretienType;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,18 +21,20 @@ class EntretienController extends AbstractController
     public function index(EntretienRepository $entretienRepository): Response
     {
         return $this->render('entretien/index.html.twig', [
-            'entretiens' => $entretienRepository->findAll(),
+            'entretiens' => $entretienRepository->findBy(['iduser'=>8]),
         ]);
     }
 
-    #[Route('/new', name: 'app_entretien_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntretienRepository $entretienRepository): Response
+    #[Route('/new/{id}', name: 'app_entretien_new', methods: ['GET', 'POST'])]
+    public function new(UtilisateurRepository $utilisateurRepository,Candidature $idCandidature,Request $request, EntretienRepository $entretienRepository): Response
     {
         $entretien = new Entretien();
         $form = $this->createForm(EntretienType::class, $entretien);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entretien->setIdCandidature($idCandidature);
+            $entretien->setIduser($utilisateurRepository->find(8));
             $entretienRepository->save($entretien, true);
 
             return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);

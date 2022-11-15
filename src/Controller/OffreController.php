@@ -38,11 +38,7 @@ class OffreController extends AbstractController
     public function showCand(Offre $offre,OffreRepository $offreRepository,UtilisateurRepository $utilisateurRepository): Response
     {
         $candidatures=$offreRepository->findAllCandidates3($offre->getId());
-        var_dump($candidatures[1]);
-//        foreach ($candidatures as $can)
-//        {
 //
-//        }
         return $this->render('societe_candidature/index.html.twig', [
             'candidatures' => $candidatures,
         ]);

@@ -8,7 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+            
                 <th>Date</th>
                 <th>Lienmeet</th>
                 <th>Heure</th>
@@ -18,7 +18,7 @@
         <tbody>
         {% for entretien in entretiens %}
             <tr>
-                <td>{{ entretien.id }}</td>
+
                 <td>{{ entretien.date }}</td>
                 <td>{{ entretien.lienmeet }}</td>
                 <td>{{ entretien.heure }}</td>
@@ -35,5 +35,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_entretien_new') }}">Create new</a>
 {% endblock %}
