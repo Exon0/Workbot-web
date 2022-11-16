@@ -10,50 +10,54 @@ use App\Form\OffreStageType;
 use App\Repository\OffreRepository;
 use App\Repository\TestRepository;
 use App\Repository\UtilisateurRepository;
-use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/offre')]
 class OffreController extends AbstractController
 {
     public static string $type = '';
-    private string $resultat = "";
 
 
     #[Route('/', name: 'app_offre_index', methods: ['GET'])]
     public function index(OffreRepository $offreRepository): Response
-    {   $offres=$offreRepository->findBy(['idSoc'=>'8']);
-        foreach ($offres as $o){
+    {
+        $offres = $offreRepository->findBy(['idSoc' => '8']);
+        foreach ($offres as $o) {
             $o->setNbCandidature($offreRepository->findByIdAndCountCand($o->getId()));
         }
         return $this->render('offre/index.html.twig', [
             'offres' => $offres,
         ]);
     }
+
     #[Route('/{id}', name: 'app_offre_cand', methods: ['GET'])]
-    public function showCand(Offre $offre,OffreRepository $offreRepository,UtilisateurRepository $utilisateurRepository): Response
+    public function showCand(Offre $offre, OffreRepository $offreRepository, UtilisateurRepository $utilisateurRepository): Response
     {
-        $candidatures=$offreRepository->findAllCandidates3($offre->getId());
+        $candidatures = $offreRepository->findAllCandidates3($offre->getId());
 //
         return $this->render('societe_candidature/index.html.twig', [
             'candidatures' => $candidatures,
         ]);
     }
 
-    #[Route('/type', name: 'app_offre_show_typeOffre', methods: ['GET'])]
+    #[Route('/choix/type', name: 'app_offre_show_typeOffre', methods: ['GET'])]
     public function index1(): Response
     {
-        return $this->render('offre/newOffre.html.twig', ['types' => ['Stage', 'Emploi', 'Freelancer']]);
+        echo 'lol';
+        return $this->render('offre/newOffre.html.twig',
+            ['types' => ['Stage', 'Emploi', 'Freelancer']]);
     }
 
 
     #[Route('/new/{type}', name: 'app_offre_new', methods: ['GET', 'POST'])]
     public function new($type, Request $request, OffreRepository $offreRepository,
-                        UtilisateurRepository $repository, TestRepository $repositorytest): Response
+                        UtilisateurRepository $repository, TestRepository $repositorytest, SluggerInterface $slugger): Response
     {
         if ($type === 'Stage') {
             $offre = new Offre();
@@ -62,26 +66,33 @@ class OffreController extends AbstractController
             $form1->handleRequest($request);
 
             if ($form1->isSubmitted() && $form1->isValid()) {
+
+
                 //get user
                 $soc = $repository->find(8);
                 $offre->setIdSoc($soc);
 
                 //get request values
                 $requete1 = $request->request->all();
-
-                //create test
-                $test = new Test();
-                $test->setIdSoc($soc);
-                $test->setLien($requete1['offre_stage']['test'][0]['lien']);
-                $test->setTitre($offre->getTitre());
-                $repositorytest->save($test, true);
-
+                if ($requete1['offre_stage']['test'][0]['lien'] ?? null) {
+                    //create test
+                    $test = new Test();
+                    $test->setIdSoc($soc);
+                    $test->setLien($requete1['offre_stage']['test'][0]['lien']);
+                    $test->setTitre($offre->getTitre());
+                    $repositorytest->save($test, true);
+                    $offre->setTest($test);
+                }
+                if ($requete1['offre_stage']['dateexpiration']['year'] < date('y')) die();
                 //create offer
                 $offre->setDomaine('Info');
                 $offre->setTypeoffre('Stage');
                 $offre->setDateajout(date('Y-m-d'));
                 $offreRepository->save($offre, true);
-                $this->resultat = "";
+
+                $this->addFlash('success', 'Offre crée avec succées');
+
+
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -95,31 +106,61 @@ class OffreController extends AbstractController
         }
 
         if ($type === 'Emploi') {
-            echo $type;
             $offre = new Offre();
             $form1 = $this->createForm(OffreEmploiType::class, $offre);
             $form1->handleRequest($request);
-
             if ($form1->isSubmitted() && $form1->isValid()) {
+                $requete1 = $request->request->all();
+/*
+                $brochureFile = $requete1['offre_emploi']['test'][0]['lien'];
+
+
+                // this condition is needed because the 'brochure' field is not required
+                // so the PDF file must be processed only when a file is uploaded
+                if ($brochureFile) {
+                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid('', true) . '.' . $brochureFile->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $brochureFile->move(
+                            $this->getParameter('Upload_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+
+                }
+
+*/
                 //get user
                 $soc = $repository->find(8);
                 $offre->setIdSoc($soc);
 
                 //get request values
-                $requete1 = $request->request->all();
+                if ($requete1['offre_emploi']['test'][0]['lien'] ?? null) {
+                    //create test
+                    $test = new Test();
+                    $test->setIdSoc($soc);
+                    $test->setLien($requete1['offre_emploi']['test'][0]['lien']);
+                    $test->setTitre($offre->getTitre());
 
-                //create test
-                $test = new Test();
-                $test->setIdSoc($soc);
-                $test->setLien($requete1['offre_emploi']['test'][0]['lien']);
-                $test->setTitre($offre->getTitre());
-                $repositorytest->save($test, true);
-
+                    $repositorytest->save($test, true);
+                    $offre->setTest($test);
+                }
                 //create offer
                 $offre->setDomaine('Info');
                 $offre->setTypeoffre('Emploi');
                 $offre->setDateajout(date('Y-m-d'));
+
                 $offreRepository->save($offre, true);
+                $this->addFlash('success', 'Offre crée avec succées');
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -135,7 +176,6 @@ class OffreController extends AbstractController
         }
 
         if ($type === 'Freelancer') {
-            echo $type;
             $offre = new Offre();
             $form1 = $this->createForm(OffreFreelancerType::class, $offre);
             $form1->handleRequest($request);
@@ -149,18 +189,24 @@ class OffreController extends AbstractController
                 //get request values
                 $requete1 = $request->request->all();
 
-                //create test
-                $test = new Test();
-                $test->setIdSoc($soc);
-                $test->setLien($requete1['offre_freelancer']['test'][0]['lien']);
-                $test->setTitre($offre->getTitre());
-                $repositorytest->save($test, true);
+                if ($requete1['offre_freelancer']['test'][0]['lien'] ?? null) {
+                    //create test
+                    $test = new Test();
+                    $test->setIdSoc($soc);
+                    $test->setLien($requete1['offre_freelancer']['test'][0]['lien']);
+                    $test->setTitre($offre->getTitre());
+                    $repositorytest->save($test, true);
+                    $offre->setTest($test);
+
+                }
 
                 //create offer
                 $offre->setDomaine('Info');
                 $offre->setTypeoffre('Freelancer');
                 $offre->setDateajout(date('Y-m-d'));
+
                 $offreRepository->save($offre, true);
+                $this->addFlash('success', 'Offre crée avec succées');
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -174,108 +220,111 @@ class OffreController extends AbstractController
             ]);
 
         }
-        echo '1';
         return new Response();
     }
 
 
-    #[Route('/{id}', name: 'app_offre_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'app_offre_show', methods: ['GET'])]
     public function show(Offre $offre): Response
     {
-        if($offre->getTest()){
-            $testOrnull=$offre->getTest()->getLien();
-        }
-        else {
+        if ($offre->getTest()) {
+            $testOrnull = $offre->getTest()->getLien();
+        } else {
             $testOrnull = "pas de test";
         }
         echo $testOrnull;
         return $this->render('offre/show.html.twig', [
             'offre' => $offre,
-            'test' =>$testOrnull
+            'test' => $testOrnull
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_offre_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Offre $offre,TestRepository $testRepository, OffreRepository $offreRepository): Response
+    public function edit(Request $request, Offre $offre, TestRepository $testRepository, OffreRepository $offreRepository): Response
     {
-    if($offre->getTypeoffre() === "Freelancer"){
-        $form = $this->createForm(OffreFreelancerType::class, $offre);
-        $form->handleRequest($request);
+        if ($offre->getTypeoffre() === "Freelancer") {
+            $form = $this->createForm(OffreFreelancerType::class, $offre);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $requete1 = $request->request->all();
-            if($requete1['offre_freelancer']['test'][0]['lien']){
-            //create test
-            $test = new Test();
-            $test->setIdSoc($offre->getIdSoc());
-            $test->setLien($requete1['offre_freelancer']['test'][0]['lien']);
-            $test->setTitre($offre->getTitre());
-            $testRepository->save($test, true);
-                $offre->setTest($test);}
+            if ($form->isSubmitted() && $form->isValid()) {
+                $requete1 = $request->request->all();
+                if ($requete1['offre_freelancer']['test'][0]['lien']) {
+                    //create test
+                    $test = new Test();
+                    $test->setIdSoc($offre->getIdSoc());
+                    $test->setLien($requete1['offre_freelancer']['test'][0]['lien']);
+                    $test->setTitre($offre->getTitre());
+                    $testRepository->save($test, true);
+                    $offre->setTest($test);
+                }
 
 
-            $offreRepository->save($offre, true);
+                $offreRepository->save($offre, true);
 
-            return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
-        }}
+                return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
 
-        if($offre->getTypeoffre() === "Stage"){
+        if ($offre->getTypeoffre() === "Stage") {
             $form = $this->createForm(OffreStageType::class, $offre);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $requete1 = $request->request->all();
-                if($requete1['offre_stage']['test'][0]['lien']){
+                if ($requete1['offre_stage']['test'][0]['lien']) {
                     //create test
                     $test = new Test();
                     $test->setIdSoc($offre->getIdSoc());
                     $test->setLien($requete1['offre_stage']['test'][0]['lien']);
                     $test->setTitre($offre->getTitre());
                     $testRepository->save($test, true);
-                    $offre->setTest($test);}
+                    $offre->setTest($test);
+                }
 
                 $offreRepository->save($offre, true);
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
-            }}
+            }
+        }
 
-        if($offre->getTypeoffre() === "Emploi"){
+        if ($offre->getTypeoffre() === "Emploi") {
             $form = $this->createForm(OffreEmploiType::class, $offre);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $requete1 = $request->request->all();
-                if($requete1['offre_emlpoi']['test'][0]['lien']){
+                if ($requete1['offre_emploi']['test'][0]['lien']) {
                     //create test
                     $test = new Test();
                     $test->setIdSoc($offre->getIdSoc());
-                    $test->setLien($requete1['offre_emlpoi']['test'][0]['lien']);
+                    $test->setLien($requete1['offre_emploi']['test'][0]['lien']);
                     $test->setTitre($offre->getTitre());
                     $testRepository->save($test, true);
-                    $offre->setTest($test);}
+                    $offre->setTest($test);
+                }
 
                 $offreRepository->save($offre, true);
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
-            }}
-            if($offre->getTest()){
-                $testOrnull=$offre->getTest()->getId();
             }
-            else {
-                $testOrnull = -1;
-            }
-            echo $testOrnull;
+        }
+        if ($offre->getTest()) {
+            $testOrnull = $offre->getTest()->getId();
+        } else {
+            $testOrnull = -1;
+        }
+        echo $testOrnull;
         return $this->renderForm('offre/edit.html.twig', [
             'offre' => $offre,
             'form' => $form,
-            'type'=>$offre->getTypeoffre(),
-            'test'=>$testOrnull
+            'type' => $offre->getTypeoffre(),
+            'test' => $testOrnull
         ]);
     }
 
-    #[Route('/{id}', name: 'app_offre_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_offre_delete', methods: ['POST'])]
     public function delete(Request $request, Offre $offre, OffreRepository $offreRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $offre->getId(), $request->request->get('_token'))) {

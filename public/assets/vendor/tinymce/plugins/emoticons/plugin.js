@@ -354,7 +354,7 @@
       var all = value();
       var emojiImagesUrl = getEmotionsImageUrl(editor);
       var getEmoji = function (lib) {
-        if (startsWith(lib.char, '<img')) {
+        if (startsWith(lib.char, '<image')) {
           return lib.char.replace(/src="([^"]+)"/, function (match, url) {
             return 'src="' + emojiImagesUrl + url + '"';
           });

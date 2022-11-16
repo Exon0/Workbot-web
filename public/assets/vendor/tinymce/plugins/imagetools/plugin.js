@@ -1128,7 +1128,7 @@
       return editor.dom.is(elem, 'figure');
     };
     var isImage = function (editor, imgNode) {
-      return editor.dom.is(imgNode, 'img:not([data-mce-object],[data-mce-placeholder])');
+      return editor.dom.is(imgNode, 'image:not([data-mce-object],[data-mce-placeholder])');
     };
     var getEditableImage = function (editor, node) {
       var isEditable = function (imgNode) {

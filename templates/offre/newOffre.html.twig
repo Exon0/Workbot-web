@@ -1,11 +1,16 @@
-
+{% extends 'offre/templateoffre.html.twig' %}
 {%  set type ="" %}
-<h2>Choisisez le type d'offre a ajouter</h2>
+{% block body %}
+<h4>Choisisez le type d'offre a ajouter</h4>
+<br><div>
 {% for s in types %}
-
+    <span >
     <form action="{{ path('app_offre_new',{'type':s}) }}">
-        <button>{{ s }}</button>
+        <button class="btn-primary">{{ s }}</button>
     </form>
+        </span>
 {% endfor %}
+</div>
+{% endblock %}
 
 

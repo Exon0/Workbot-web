@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,10 +21,14 @@ class OffreStageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titre')
-            ->add('dureestage',NULL,['label'=>'Durée'])
-            ->add('description')
-            ->add('dateexpiration')
+            ->add('titre',null,
+                [   'required'=>false]
+            )
+            ->add('dureestage',NULL,['label'=>'Durée', 'required'=>false,'attr'=>['novalidate']])
+            ->add('description',TextareaType::class,
+                [   'required'=>false,
+                    'attr'=>['rows'=>5]])
+            ->add('dateexpiration',NULL,['label'=>"Date d'expiration"])
             ->add('typestage',
                 ChoiceType::class,
                 ['choices'=>[
@@ -38,7 +44,8 @@ class OffreStageType extends AbstractType
                 ]
 
             ])
-            ->add('lieu')
+            ->add('lieu',Null,
+                [   'required'=>false])
             ->add('test',CollectionType::class,[
                 'entry_type'=>TestType::class,
                 'label'=>'test',

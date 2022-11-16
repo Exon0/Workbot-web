@@ -1,105 +1,269 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+{% if  type  == "Stage" %}
 
-{% block body %}
-    {{ form_start(form) }}
-    {% if  type  == "Stage" %}
 
-    {{ form_row(form.titre) }}
-    {{ form_row(form.dureestage) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.dateexpiration) }}
-    {{ form_row(form.typestage) }}
-    {{ form_row(form.modetravail) }}
-    {{ form_row(form.lieu) }}
+
+    <div class="row">
+        <div class="col-lg-24">
+            <div>
+
+                <label>{{ form_label(form.titre) }}</label>
+                {{ form_widget(form.titre,{'attr':{'class':'form-control'}}) }}
+                <span style="color:red">    {{ form_errors(form.titre) }}</span>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div >
+
+                <label>{{ form_label(form.typestage) }}</label>
+                {{ form_widget(form.typestage,{'attr':{'class':'form-control'}}) }}
+                {{ form_errors(form.typestage) }}
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div >
+                <label>{{ form_label(form.modetravail) }}</label>
+                {{ form_widget(form.modetravail,{'attr':{'class':'form-control'}}) }}
+
+                {{ form_errors(form.modetravail) }}
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div>
+                <label>  {{ form_label(form.dateexpiration) }}</label>
+                {{ form_widget(form.dateexpiration,{'attr':{'class':'form-control'}}) }}
+
+                {{ form_errors(form.dateexpiration) }}
+
+                </div>
+            </div>
+        <div class="col-lg-6 col-md-6">
+            <div >
+                <label> {{ form_label(form.dureestage) }}</label>
+
+                {{ form_widget(form.dureestage,{'attr':{'class':'form-control'}}) }}
+                <span style="color:red">     {{ form_errors(form.dureestage) }}</span>
+
+
+            </div>
+        </div>
+
+        </div>
+    <div class="col-lg-12">
+        <div >
+            <label>{{ form_label(form.lieu) }}</label>
+            {{ form_widget(form.lieu,{'attr':{'class':'form-control'}}) }}
+             {{ form_errors(form.lieu) }}
+
+        </div>
+    </div>
+        <div class="col-lg-12">
+            <div >
+                <label>    {{ form_label(form.description) }}
+
+                </label>
+                {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+
+               <span style="color:red"> {{ form_errors(form.description) }}
+            </div>
+        </div>
+
+
+
+
+
 
 {% endif %}
 
     {% if  type  == "Emploi" %}
 
-        {{ form_row(form.titre) }}
-        {{ form_row(form.salaire) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.dateexpiration) }}
-        {{ form_row(form.typecontrat) }}
-        {{ form_row(form.modetravail) }}
-        {{ form_row(form.lieu) }}
+
+
+        <div class="row">
+            <div class="col-lg-24">
+                <div>
+
+                    <label>{{ form_label(form.titre) }}</label>
+                    {{ form_widget(form.titre,{'attr':{'class':'form-control'}}) }}
+                    <span style="color:red">    {{ form_errors(form.titre) }}</span>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div >
+
+                    <label>{{ form_label(form.typecontrat) }}</label>
+                    {{ form_widget(form.typecontrat,{'attr':{'class':'form-control'}}) }}
+                    {{ form_errors(form.typecontrat) }}
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div >
+                    <label>{{ form_label(form.modetravail) }}</label>
+                    {{ form_widget(form.modetravail,{'attr':{'class':'form-control'}}) }}
+
+                    {{ form_errors(form.modetravail) }}
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div>
+                    <label>  {{ form_label(form.dateexpiration) }}</label>
+                    {{ form_widget(form.dateexpiration,{'attr':{'class':'form-control'}}) }}
+
+                    {{ form_errors(form.dateexpiration) }}
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div >
+                    <label> {{ form_label(form.salaire) }}</label>
+
+                    {{ form_widget(form.salaire,{'attr':{'class':'form-control','placeholder': 'Exp:Entre 1500 et 2500'}}) }}
+                    <span style="color:red">     {{ form_errors(form.salaire) }}</span>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-12">
+            <div >
+                <label>{{ form_label(form.lieu) }}</label>
+                {{ form_widget(form.lieu,{'attr':{'class':'form-control'}}) }}
+                {{ form_errors(form.lieu) }}
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div >
+                <label>    {{ form_label(form.description) }}
+
+                </label>
+                {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+
+                <span style="color:red"> {{ form_errors(form.description) }}
+            </div>
+        </div>
+
 
     {% endif %}
 
 
     {% if  type  == "Freelancer" %}
 
-        {{ form_row(form.titre) }}
-        {{ form_row(form.dureestage) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.dateexpiration) }}
-        {{ form_row(form.salaire) }}
-        {{ form_row(form.modetravail) }}
-        {{ form_row(form.lieu) }}
+
+
+        <div class="row">
+            <div class="col-lg-24">
+                <div>
+
+                    <label>{{ form_label(form.titre) }}</label>
+                    {{ form_widget(form.titre,{'attr':{'class':'form-control'}}) }}
+                    <span style="color:red">    {{ form_errors(form.titre) }}</span>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div >
+
+                    <label>{{ form_label(form.salaire) }}</label>
+                    {{ form_widget(form.salaire,{'attr':{'class':'form-control'}}) }}
+                    <span style="color:red">    {{ form_errors(form.salaire) }}</span>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div >
+                    <label>{{ form_label(form.dureestage) }}</label>
+                    {{ form_widget(form.dureestage,{'attr':{'class':'form-control'}}) }}
+
+                    <span style="color:red">  {{ form_errors(form.dureestage) }}</span>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div>
+                    <label>  {{ form_label(form.dateexpiration) }}</label>
+                    {{ form_widget(form.dateexpiration,{'attr':{'class':'form-control'}}) }}
+
+                    {{ form_errors(form.dateexpiration) }}
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div >
+                    <label> {{ form_label(form.modetravail) }}</label>
+
+                    {{ form_widget(form.modetravail,{'attr':{'class':'form-control','placeholder': 'Exp:Entre 1500 et 2500'}}) }}
+                    <span style="color:red">     {{ form_errors(form.modetravail) }}</span>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-12">
+            <div >
+                <label>{{ form_label(form.lieu) }}</label>
+                {{ form_widget(form.lieu,{'attr':{'class':'form-control'}}) }}
+                {{ form_errors(form.lieu) }}
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div >
+                <label>    {{ form_label(form.description) }}
+
+                </label>
+                {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+
+                <span style="color:red"> {{ form_errors(form.description) }}</span>
+            </div>
+        </div>
+
+
+
+
+        {#
+
+        {{ form_label(form.titre) }}
+        {{ form_widget(form.titre) }}
+        {{ form_errors(form.titre) }}
+
+        <div>
+    <span style="width: 50%">
+        {{ form_label(form.salaire) }}
+        {{ form_widget(form.salaire) }}
+        {{ form_errors(form.salaire) }}
+    </span>
+            <span style="width: 49%">
+        {{ form_label(form.dureestage) }}
+                {{ form_widget(form.dureestage) }}
+                {{ form_errors(form.dureestage) }}
+    </span>
+        </div>
+
+        <div>
+    <span style="width: 50%">
+         {{ form_label(form.modetravail) }}
+        {{ form_widget(form.modetravail) }}
+        {{ form_errors(form.modetravail) }}
+
+</span>
+
+            <span style="width: 49%">
+         {{ form_label(form.dateexpiration) }}
+                {{ form_widget(form.dateexpiration) }}
+                {{ form_errors(form.dateexpiration) }}
+          </span>
+        </div>
+        {{ form_label(form.lieu) }}
+        {{ form_widget(form.lieu) }}
+        {{ form_errors(form.lieu) }}
+
+
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+
+#}
 
     {% endif %}
-<div1 id="test" data-prototype="{{ form_row(form.test.vars.prototype) | e('html_attr')}}">
 
-    {{ form_row(form.test) }}
-
-    <span>
-    </span>
-</div1>
-
-<br>
-
-<button class="btn">{{ button_label|default('Ajouter') }}</button>
-
-{{ form_end(form) }}
-
-{% endblock %}
-{%block javascriptTest %}
-<script>
-    let collection,btnAjout,span;
-    window.onload=()=>{
-        collection = document.querySelector("#test");
-        span= collection.querySelector("span");
-        btnAjout =document.createElement("button");
-        btnAjout.className="ajout-test";
-        btnAjout.innerText="Ajouter un test";
-
-        let nouvBtn=span.append(btnAjout);
-
-        collection.dataset.index=collection.querySelectorAll("input").length;
-
-        btnAjout.addEventListener("click",function (){
-            addButton(collection,nouvBtn);
-        });
-
-    }
-
-    function addButton(collection,nouvBtn){
-        let prototype=collection.dataset.prototype;
-
-        let index=collection.dataset.index;
-
-        prototype=prototype.replace(/__name__/g,index);
-
-        let content=document.createElement("html");
-        content.innerHTML=prototype;
-        let newform=content.querySelector("div");
-
-        let btnSupp=document.createElement("button");
-        btnSupp.type="button";
-        btnSupp.className="btn red";
-        btnSupp.id="delete_test-"+index;
-        btnSupp.innerText="Supprimer le test";
-        newform.append(btnSupp);
-
-        collection.dataset.index++;
-
-        let btnAjout=collection.querySelector(".ajout-test");
-        span.insertBefore(newform,btnAjout);
-
-        btnSupp.addEventListener("click",function (){
-            this.previousElementSibling.parentElement.remove()
-        })
-
-    }
-</script>
-{% endblock %}
 

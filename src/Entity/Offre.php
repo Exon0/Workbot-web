@@ -24,10 +24,21 @@ class Offre
     private int $id;
 
     #[Assert\NotBlank]
-    #[Assert\Type('string')]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'le titre doit contenir au moins 2 caractere',
+        maxMessage: 'le titre doit contenir au maximum 50 caractere'
+    )]
     #[ORM\Column(name: 'titre', type: 'string', length: 300, nullable: true)]
     private ?string $titre = null;
 
+    #[Assert\Length(
+        min: 8,
+        max: 50,
+        minMessage: 'ce champs doit contenir au moins 8 caractere',
+        maxMessage: 'le titre doit contenir au maximum 50 caractere'
+    )]
     #[ORM\Column(name: 'salaire', type: 'string', length: 255, nullable: true)]
     private ?string $salaire = null;
 
@@ -43,6 +54,12 @@ class Offre
     #[ORM\Column(name: 'dateExpiration', type: 'string', length: 200, nullable: true)]
     private ?string $dateexpiration = null;
 
+    #[Assert\Length(
+        min: 1,
+        max: 50,
+        minMessage: 'la durée doit etre valide',
+        maxMessage: 'la durée doit etre valide'
+    )]
     #[ORM\Column(name: 'dureeStage', type: 'string', length: 200, nullable: true)]
     private ?string $dureestage = null;
 
@@ -305,6 +322,7 @@ class Offre
 
         return $this;
     }
+
 
 
 }

@@ -932,7 +932,7 @@
       editor.undoManager.extra(function () {
         pasteHtmlFn(editor, url);
       }, function () {
-        editor.insertContent('<img src="' + url + '">');
+        editor.insertContent('<image src="' + url + '">');
       });
       return true;
     };
@@ -1097,9 +1097,9 @@
         } else {
           blobInfo = existingBlobInfo;
         }
-        pasteHtml(editor, '<img src="' + blobInfo.blobUri() + '">', false);
+        pasteHtml(editor, '<image src="' + blobInfo.blobUri() + '">', false);
       } else {
-        pasteHtml(editor, '<img src="' + imageItem.uri + '">', false);
+        pasteHtml(editor, '<image src="' + imageItem.uri + '">', false);
       }
     };
     var isClipboardEvent = function (event) {

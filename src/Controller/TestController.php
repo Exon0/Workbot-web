@@ -69,9 +69,9 @@ class TestController extends AbstractController
     #[Route('/{id}', name: 'app_test_delete', methods: ['POST'])]
     public function delete(Request $request, Test $test, TestRepository $testRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$test->getId(), $request->request->get('_token'))) {
+                print_r($test);
             $testRepository->remove($test, true);
-        }
+
 
         return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
     }

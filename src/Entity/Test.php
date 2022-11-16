@@ -30,7 +30,6 @@ class Test
     #[ORM\Column(name: 'description', type: 'string', length: 350, nullable: true)]
     private ?string $description = null;
 
-    #[Assert\NotBlank]
     #[Assert\Url]
     #[ORM\Column(name: 'lien', type: 'string', length: 350, nullable: false)]
     private string $lien;
@@ -41,6 +40,8 @@ class Test
     #[ORM\JoinColumn(name: 'id_soc', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idSoc;
+
+
 
     public function __toString(): string
     {

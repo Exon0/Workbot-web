@@ -1,9 +1,24 @@
-{% extends 'base.html.twig' %}
+{% extends 'offre/templateoffre.html.twig' %}
 
-{% block title %}Offre index{% endblock %}
+{% block title %}
 
-{% block body %}
-    <h1>Offre index</h1>
+{% endblock %}
+{% block container %}hh{% endblock %}
+{% block tableau %}
+<br>
+    <br>
+    <br>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    {% for message in app.flashes('success')%}
+        <div class="alert alert-success">
+            {{ message | upper}}
+        </div>
+
+    {% endfor %}
 
     <table class="table">
         <thead>
@@ -44,7 +59,9 @@
                 <td>{{ offre.nbCandidature }}</td>
                 <td>
                     <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
+
                     <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
+
                     <a href="{{ path('app_offre_cand', {'id': offre.id}) }}">Candidatures</a>
 
                 </td>

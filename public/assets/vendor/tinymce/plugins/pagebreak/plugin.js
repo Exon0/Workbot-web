@@ -22,7 +22,7 @@
 
     var pageBreakClass = 'mce-pagebreak';
     var getPlaceholderHtml = function (shouldSplitBlock) {
-      var html = '<img src="' + global.transparentSrc + '" class="' + pageBreakClass + '" data-mce-resize="false" data-mce-placeholder />';
+      var html = '<image src="' + global.transparentSrc + '" class="' + pageBreakClass + '" data-mce-resize="false" data-mce-placeholder />';
       return shouldSplitBlock ? '<p>' + html + '</p>' : html;
     };
     var setup$1 = function (editor) {

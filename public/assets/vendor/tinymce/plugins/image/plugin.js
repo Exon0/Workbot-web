@@ -1638,7 +1638,7 @@
         onAction: Dialog(editor).open,
         onSetup: function (buttonApi) {
           buttonApi.setActive(isNonNullable(getSelectedImage(editor)));
-          return editor.selection.selectorChangedWithUnbind('img:not([data-mce-object],[data-mce-placeholder]),figure.image', buttonApi.setActive).unbind;
+          return editor.selection.selectorChangedWithUnbind('image:not([data-mce-object],[data-mce-placeholder]),figure.image', buttonApi.setActive).unbind;
         }
       });
       editor.ui.registry.addMenuItem('image', {

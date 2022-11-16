@@ -3593,7 +3593,7 @@
       }
       globalAttributes = 'id accesskey class dir lang style tabindex title role';
       blockContent = 'address blockquote div dl fieldset form h1 h2 h3 h4 h5 h6 hr menu ol p pre table ul';
-      phrasingContent = 'a abbr b bdo br button cite code del dfn em embed i iframe img input ins kbd ' + 'label map noscript object q s samp script select small span strong sub sup ' + 'textarea u var #text #comment';
+      phrasingContent = 'a abbr b bdo br button cite code del dfn em embed i iframe image input ins kbd ' + 'label map noscript object q s samp script select small span strong sub sup ' + 'textarea u var #text #comment';
       if (type !== 'html4') {
         globalAttributes += ' contenteditable contextmenu draggable dropzone ' + 'hidden spellcheck translate';
         blockContent += ' article aside details dialog figure main header footer hgroup section nav';
@@ -3699,7 +3699,7 @@
           flowContent,
           'track source'
         ].join(' '));
-        add('picture', '', 'img source');
+        add('picture', '', 'image source');
         add('source', 'src srcset type media sizes');
         add('track', 'kind src srclang label default');
         add('datalist', '', [
@@ -3763,7 +3763,7 @@
         addAttrs('input button select textarea', 'autofocus');
         addAttrs('input textarea', 'placeholder');
         addAttrs('a', 'download');
-        addAttrs('link script img', 'crossorigin');
+        addAttrs('link script image', 'crossorigin');
         addAttrs('img', 'loading');
         addAttrs('iframe', 'sandbox seamless allowfullscreen loading');
       }
@@ -3819,7 +3819,7 @@
       var validClasses = compileElementMap(settings.valid_classes, 'map');
       var whiteSpaceElementsMap = createLookupTable('whitespace_elements', 'pre script noscript style textarea video audio iframe object code');
       var selfClosingElementsMap = createLookupTable('self_closing_elements', 'colgroup dd dt li option p td tfoot th thead tr');
-      var shortEndedElementsMap = createLookupTable('short_ended_elements', 'area base basefont br col frame hr img input isindex link ' + 'meta param embed source wbr track');
+      var shortEndedElementsMap = createLookupTable('short_ended_elements', 'area base basefont br col frame hr image input isindex link ' + 'meta param embed source wbr track');
       var boolAttrMap = createLookupTable('boolean_attributes', 'checked compact declare defer disabled ismap multiple nohref noresize ' + 'noshade nowrap readonly selected autoplay loop controls');
       var nonEmptyOrMoveCaretBeforeOnEnter = 'td th iframe video audio object script code';
       var nonEmptyElementsMap = createLookupTable('non_empty_elements', nonEmptyOrMoveCaretBeforeOnEnter + ' pre', shortEndedElementsMap);
@@ -9120,7 +9120,7 @@
       if (selector === false || Env.iOS) {
         return false;
       } else {
-        return isString$1(selector) ? selector : 'table,img,figure.image,div,video,iframe';
+        return isString$1(selector) ? selector : 'table,image,figure.image,div,video,iframe';
       }
     };
     var getResizeImgProportional = function (editor) {
@@ -11100,7 +11100,7 @@
       };
       var getResizeTargets = function (elm) {
         if (dom.is(elm, 'figure.image')) {
-          return [elm.querySelector('img')];
+          return [elm.querySelector('image')];
         } else if (dom.hasClass(elm, 'mce-preview-object') && isNonNullable(elm.firstElementChild)) {
           return [
             elm,
@@ -11352,11 +11352,11 @@
         if (resizeStarted || editor.removed) {
           return;
         }
-        each(dom.select('img[data-mce-selected],hr[data-mce-selected]'), function (img) {
+        each(dom.select('image[data-mce-selected],hr[data-mce-selected]'), function (img) {
           img.removeAttribute(elementSelectionAttr);
         });
         controlElm = e.type === 'mousedown' ? e.target : selection.getNode();
-        controlElm = dom.$(controlElm).closest('table,img,figure.image,hr,video,span.mce-preview-object')[0];
+        controlElm = dom.$(controlElm).closest('table,image,figure.image,hr,video,span.mce-preview-object')[0];
         if (isChildOrEqual(controlElm, rootElement)) {
           disableGeckoResize();
           startElm = selection.getStart(true);
@@ -13212,7 +13212,7 @@
       return URI;
     }();
 
-    var filteredClobberElements = Tools.makeMap('button,fieldset,form,iframe,img,image,input,object,output,select,textarea');
+    var filteredClobberElements = Tools.makeMap('button,fieldset,form,iframe,image,image,input,object,output,select,textarea');
     var isValidPrefixAttrName = function (name) {
       return name.indexOf('data-') === 0 || name.indexOf('aria-') === 0;
     };
@@ -20938,7 +20938,7 @@
             defaultBlock: 'div'
           },
           {
-            selector: 'img,table,audio,video',
+            selector: 'image,table,audio,video',
             collapsed: false,
             styles: { float: 'left' },
             preview: 'font-family font-size'
@@ -20960,7 +20960,7 @@
             preview: 'font-family font-size'
           },
           {
-            selector: 'img,audio,video',
+            selector: 'image,audio,video',
             collapsed: false,
             styles: {
               display: 'block',
@@ -20995,7 +20995,7 @@
             defaultBlock: 'div'
           },
           {
-            selector: 'img,table,audio,video',
+            selector: 'image,table,audio,video',
             collapsed: false,
             styles: { float: 'right' },
             preview: 'font-family font-size'
@@ -26342,7 +26342,7 @@
         }, true);
       };
       var showBrokenImageIcon = function () {
-        editor.contentStyles.push('img:-moz-broken {' + '-moz-force-broken-image-icon:1;' + 'min-width:24px;' + 'min-height:24px' + '}');
+        editor.contentStyles.push('image:-moz-broken {' + '-moz-force-broken-image-icon:1;' + 'min-width:24px;' + 'min-height:24px' + '}');
       };
       var restoreFocusOnKeyDown = function () {
         if (!editor.inline) {
@@ -29072,7 +29072,7 @@
       init: function (settings) {
         var self = this;
         var result;
-        var invalidInlineTargets = Tools.makeMap('area base basefont br col frame hr img input isindex link meta param embed source wbr track ' + 'colgroup option table tbody tfoot thead tr th td script noscript style textarea video audio iframe object menu', ' ');
+        var invalidInlineTargets = Tools.makeMap('area base basefont br col frame hr image input isindex link meta param embed source wbr track ' + 'colgroup option table tbody tfoot thead tr th td script noscript style textarea video audio iframe object menu', ' ');
         var isInvalidInlineTarget = function (settings, elm) {
           return settings.inline && elm.tagName.toLowerCase() in invalidInlineTargets;
         };

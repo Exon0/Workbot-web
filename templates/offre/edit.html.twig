@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'offre/templateoffre.html.twig' %}
 
 {% block title %}Edit Offre{% endblock %}
 
@@ -19,13 +19,48 @@
             {{ form_row(form.lieu) }}
 
             <form method="post" action="{{ path('app_test_delete', {'id': offre.test.id}) }}" onsubmit="return confirm('Are you sure you want to delete this test?');">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ offre.test.id) }}">
                 <button class="btn">Supprimer le test</button>
             </form>
 
             <button class="btn">{{ button_label|default('Modifier') }}</button>
 
+            {% if  type  == "Freelancer" %}
 
+                {{ form_row(form.titre) }}
+                {{ form_row(form.dureestage) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.dateexpiration) }}
+                {{ form_row(form.salaire) }}
+                {{ form_row(form.modetravail) }}
+                {{ form_row(form.lieu) }}
+
+                <form method="post" action="{{ path('app_test_delete', {'id': offre.test.id}) }}" onsubmit="return confirm('Are you sure you want to delete this test?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ offre.test.id) }}">
+                    <button class="btn">Supprimer le test</button>
+                </form>
+
+                <button class="btn">{{ button_label|default('Modifier') }}</button>
+
+            {% endif %}
+
+            {% if  type  == "Emploi" %}
+
+                {{ form_row(form.titre) }}
+                {{ form_row(form.salaire) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.dateexpiration) }}
+                {{ form_row(form.typecontrat) }}
+                {{ form_row(form.modetravail) }}
+                {{ form_row(form.lieu) }}
+
+                <form method="post" action="{{ path('app_test_delete', {'id': offre.test.id}) }}" onsubmit="return confirm('Are you sure you want to delete this test?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ offre.test.id) }}">
+                    <button class="btn">Supprimer le test</button>
+                </form>
+
+                <button class="btn">{{ button_label|default('Modifier') }}</button>
+
+            {% endif %}
         {% endif %}
         {% else %}
             {{ include('offre/_form.html.twig', {'button_label': 'Modifier'}) }}
