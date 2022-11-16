@@ -1,10 +1,11 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
 
 {% block body %}
-<div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 150px;">
-    <div class="col-lg-6">
-    <div class="card">
-        <div class="card-body">
+<div class="row" style="display: flex;align-items: center; justify-content: end;margin-top: 120px;">
+    <div class="col-lg-9">
+        <div class="col-11">
+           <div class="card">
+                 <div class="card-body">
             <h5 class="card-title">Liste des administrateurs</h5>
 
             <!-- Default Table -->
@@ -14,8 +15,9 @@
                     <th>Nom</th>
                     <th>Prenom</th>
                     <th>Email</th>
-                    <th>Mot passe</th>
-                    <th>actions</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Img</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,23 +26,27 @@
                         <td>{{f.nom}}</td>
                         <td>{{f.prenom}}</td>
                         <td>{{f.email}}</td>
-                        <td>{{f.mdp}}</td>
+
                         <td>
-                            <a href="{{ path('app_utilisateur_edit_admin', {'id': f.id}) }}">edit</a>
-                            <a href="{{path('delete', {'id': f.id}) }}"method="post" >delete</a>
-
-
+                    <button class="bg-primary-light"><a href="{{ path('app_utilisateur_edit_admin', {'id': f.id}) }}">edit</a></button>
                         </td>
+                        <td>
+                    <button class="bg-danger-light"><a href="{{path('delete', {'id': f.id}) }}"method="post" >delete</a></button>
+                        </td>
+                        <td><img src ="{{ asset('upload/ads/' ~ f.photo) }}"
+                                 alt="" style="width: 40px;height: 30px" class="rounded-circle justify-content-center"></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
             <a href="{{ path('app_utilisateur_new_Admin') }}">Create new</a>
             <!-- End Default Table Example -->
+
+           </div>
         </div>
     </div>
-    </div>
-
 </div>
+
+
 {% endblock %}
 

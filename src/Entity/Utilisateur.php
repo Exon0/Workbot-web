@@ -51,6 +51,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     #[Assert\NotNull]
     #[ORM\Column(name: 'email', type: 'string', length: 200, nullable: true)]
     private ?string $email = null;
@@ -128,6 +131,43 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
     #[ORM\Column(name: 'roles', type: 'json', length: 25, nullable: true)]
     private  $roles= [];
+
+    #[ORM\Column(name: 'resetToken', type: 'string', length: 300, nullable: true)]
+    private ?string $resetToken = null;
+    #[ORM\Column(name: 'googleId', type: 'integer', length: 255, nullable: true)]
+    private ?string $googleId = null;
+
+    /**
+     * @return string|null
+     */
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * @param string|null $googleId
+     */
+    public function setGoogleId(?string $googleId): void
+    {
+        $this->googleId = $googleId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param string|null $resetToken
+     */
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
 
 
     public function getId(): ?int

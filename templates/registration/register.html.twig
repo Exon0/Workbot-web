@@ -19,11 +19,11 @@
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
+                    <img src="assets/img/job.tn.png" height="20 px"  width="20" alt="">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
                         <div class="d-flex justify-content-center py-4">
                             <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                <img src="assets/img/job.tn.png" height="200 px"  alt="">
                                 <span class="d-none d-lg-block">JobTN</span>
                             </a>
                         </div><!-- End Logo -->
@@ -45,7 +45,7 @@
 
                                     <div class="invalid-feedback"> entre votre Nom!</div>
                                     {{ form_widget(form.nom,{'attr':{'class':'form-control'}}) }}
-
+                                    <p class="text-danger">{{ form_errors(form.nom,{'attr':{'class':'form-control'}}) }}</p>
 
 
 
@@ -56,13 +56,13 @@
 
                                     <div class="invalid-feedback">entre votre Prenom!</div>
                                     {{ form_widget(form.prenom,{'attr':{'class':'form-control'}}) }}
-
+                                    {{ form_errors(form.prenom,{'attr':{'class':'form-control'}}) }}
                                 </div>
 
                                 <div class="col-12">
                                     <label for="yourEmail" class="form-label">Votre Email</label>
                                     {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
-
+                                    {{ form_errors(form.email,{'attr':{'class':'form-control'}}) }}
                                     <div class="invalid-feedback">entre votre  Email adddress!</div>
 
                                 </div>
@@ -72,9 +72,11 @@
                                 <div class="col-12">
                                     <label for="yourPassword" class="form-label">Mot passe</label>
                                     {{ form_widget(form.mdp,{'attr':{'class':'form-control'}}) }}
-
+                                    {{ form_errors(form.mdp,{'attr':{'class':'form-control'}}) }}
                                     <div class="invalid-feedback">entre votre  Email Mot passe!</div>
                                 </div>
+
+
 
                                 <div class="col-12">
                                     <label for="yourName" class="form-label">Question de sécurite</label>
@@ -90,6 +92,7 @@
 
                                     <div class="invalid-feedback">entre votre  Reponse de sécurite</div>
                                     {{ form_widget(form.reponseSecu,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(form.reponseSecu,{'attr':{'class':'form-control'}}) }}
 
                                 </div>
 
@@ -98,14 +101,15 @@
 
                                     <div class="invalid-feedback">entre votre Domaine</div>
                                     {{ form_widget(form.domaine,{'attr':{'class':'form-control'}}) }}
-
+                                    {{ form_errors(form.domaine,{'attr':{'class':'form-control'}}) }}
                                 </div>
 
 
                                     <label>role</label>
-                                <div class="dropdown show">
-                                    <div class="invalid-feedback">entre role</div>
+                                <div class="dropdown show ">
+                                    <div class="invalid-feedback justify-content-center form-check form-check-inline">entre role</div>
                                     {{ form_widget(form.roles,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(form.roles,{'attr':{'class':'form-control'}}) }}
                                 </div>
 
 
@@ -114,6 +118,7 @@
 
                                     <div class="invalid-feedback">entre votre  Adresse</div>
                                     {{ form_widget(form.adresse,{'attr':{'class':'form-control'}}) }}
+                                    {{ form_errors(form.adresse,{'attr':{'class':'form-control'}}) }}
 
                                 </div>
 
@@ -122,6 +127,7 @@
 
                                     <div class="invalid-feedback">entre votre  numéro</div>
                                     {{ form_widget(form.tel,{'attr':{'class':'form-control'}}) }}
+                                    <p class="text-danger">       {{ form_errors(form.tel,{'attr':{'class':'form-control'}}) }}</p>
 
                                 </div>
 
@@ -150,7 +156,7 @@
                             <!-- You can delete the links only if you purchased the pro version. -->
                             <!-- Licensing information: https://bootstrapmade.com/license/ -->
                             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                            ©2022<a href="https://bootstrapmade.com/"> WorkBot Team</a>
                         </div>
 
                     </div>

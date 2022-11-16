@@ -39,6 +39,24 @@ class AdsRepository extends ServiceEntityRepository
         }
     }
 
+    public function findonlyValid()
+    {
+        $em=$this->getEntityManager();
+
+        $query = $em->createQuery('SELECT a FROM App\Entity\Ads a WHERE a.dateFin > CURRENT_DATE() and a.status=1');
+        return $query->getResult();
+    }
+    public function findonlyValidd()
+    {
+        $em=$this->getEntityManager();
+
+        $query = $em->createQuery('SELECT a FROM App\Entity\Ads a WHERE a.dateFin < CURRENT_DATE() or a.status=0');
+        return $query->getResult();
+    }
+
+
+
+
 //    /**
 //     * @return Ads[] Returns an array of Ads objects
 //     */

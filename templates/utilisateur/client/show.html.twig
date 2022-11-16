@@ -1,9 +1,10 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
 
 {% block body %}
-    <div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 100px;">
-        <div class="col-lg-7">
+    <div class="row" style="display: flex;align-items: center;justify-content: end ;margin-top: 100px;">
+        <div class="col-lg-9">
             <div class="col-12">
+                <div class="col-11,5">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Liste des clients</h5>
@@ -33,7 +34,7 @@
                                 <td>{{f.adresse}}</td>
                                 <td>{{f.domaine}}</td>
                                 <td>
-                                    <a href="{{path('deleteclient', {'id': f.id}) }}"method="post" >delete</a>
+                               <button class="bg-danger-light"> <a href="{{path('deleteclient', {'id': f.id}) }}"method="post" >delete</a></button>
 
 
                                 </td>
@@ -43,6 +44,7 @@
                     </table>
                 </div>
                 </div>
+            </div>
             </div>
         </div>
 

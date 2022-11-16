@@ -9,9 +9,12 @@ use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
@@ -51,17 +54,48 @@ class UtilisateurController extends AbstractController
     }
     /////////ajout admin
     #[Route('/newAdmin', name: 'app_utilisateur_new_Admin', methods: ['GET', 'POST'])]
-    public function newAdmin(Request $request, UtilisateurRepository $utilisateurRepository): Response
+    public function newAdmin(Request $request,SluggerInterface $slugger ,UtilisateurRepository $utilisateurRepository,UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $utilisateur = new Utilisateur();
         $u=array('ROLE_Admin');
-        $us=('ROLE_Admin');
+        $us=('Admin');
         $form = $this->createForm(AdminType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $admphot = $form->get('photo')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+
+            if ($admphot ) {
+                $originalFilename = pathinfo($admphot ->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$admphot  ->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $admphot ->move(
+                        $this->getParameter('Admin_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $utilisateur->setPhoto($newFilename);
+            }
             $utilisateur->setRoles( $u);
             $utilisateur->setRole( $us);
+            $utilisateur->setMdp(
+                $userPasswordHasher->hashPassword(
+                    $utilisateur,
+                    $form->get('mdp')->getData()
+                )
+            );
             $utilisateurRepository->save($utilisateur, true);
 
             return $this->redirectToRoute('app_utilisateur_appadmin', [], Response::HTTP_SEE_OTHER);
@@ -73,7 +107,7 @@ class UtilisateurController extends AbstractController
         ]);
     }
     ////////////////////Edit proflie coté adminn
-    #[Route('/test', name: 'profileEditAdmin', methods: ['GET'])]
+    #[Route('/profile/admin', name: 'profileEditAdmin', methods: ['GET'])]
     public function fer(UtilisateurRepository $utilisateurRepository): Response
     {
         return $this->render('utilisateur/Admin/profile.html.twig');
@@ -139,13 +173,15 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
+    public function edit(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository,$id): Response
     {
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $utilisateurRepository->save($utilisateur, true);
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);

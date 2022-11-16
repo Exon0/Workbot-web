@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Ads;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -14,7 +16,13 @@ class AdsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('type')
+            ->add('type',ChoiceType::class,array(
+                'choices' => array(
+        'Gold' => 'Gold',
+        'Bronze' => 'Bronze',
+         'Gratuit' => 'Gratuit',
+    ),
+            ))
             ->add('nom')
             ->add('photo',FileType::class, [
             'label' => 'adset image (Des fichiers images uniquement)',
@@ -27,22 +35,22 @@ class AdsType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
         new File([
-            'maxSize' => '1024k',
+            'maxSize' => '10000k',
             'mimeTypes' => [
                 'image/gif',
                 'image/jpeg',
                 'image/png',
                 'image/jpg',
+                'video/mp4',
             ],
             'mimeTypesMessage' => 'Please upload a valid Image',
         ])
     ],
+
             ])
-            ->add('video')
-            ->add('dateDebut')
             ->add('dateFin')
-            ->add('nombreAds')
             ->add('mail')
+            ->add('ajouter',SubmitType::class)
         ;
     }
 

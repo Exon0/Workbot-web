@@ -9,6 +9,7 @@ security:
             entity:
                 class: 'App\Entity\Utilisateur'
                 property: email
+
         # used to reload user from session & other features (e.g. switch_user)
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
@@ -21,7 +22,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\LoginSecurityAuthenticator
+            entry_point: App\Security\LoginSecurityAuthenticator
+            custom_authenticator:
+              - App\Security\LoginSecurityAuthenticator
+              - App\Security\GoogleAuthenticator
+          #  custom_authenticators:
 
             logout:
                 path: app_logout

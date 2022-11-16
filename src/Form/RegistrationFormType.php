@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -40,16 +41,31 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Prénom'
             ])
+            ->add('roles', CollectionType::class, [
+                'entry_type'   => ChoiceType::class,
+                'entry_options'  => [
+                    'label' => false,
 
-            ->add('roles',ChoiceType::class,[
+                    'choices' => [
+                        'candidat' => 'ROLE_c',
+                        'sociéte' => 'ROLE_s',
+
+                    ],
+                    'expanded' => true,
+                    'multiple' => false,
+                ],
+
+
+            ])
+        /*    ->add('roles',ChoiceType::class,[
                 'choices' => [
                     'candidat' => array('ROLE_c'),
                     'sociéte' => array('ROLE_s'),
                 ],
-                'expanded' => false,
+                'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles'
-            ])
+            ])*/
             ->add('questionSecu', ChoiceType::class, array(
                 'choices' => array(
                     'Quel est votre animal préféré ?

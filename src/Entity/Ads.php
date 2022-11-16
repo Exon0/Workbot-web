@@ -18,27 +18,47 @@ class Ads
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
+    #[ORM\Column(name: 'status', type: 'integer', nullable: true)]
+
+    private int $status;
+
+
+
+    #[Assert\NotNull]
     #[ORM\Column(name: 'type', type: 'string', length: 255, nullable: false)]
     private string $type;
-
+    #[Assert\NotNull]
     #[ORM\Column(name: 'nom', type: 'string', length: 255, nullable: false)]
     private string $nom;
-
+    #[Assert\Image(
+        minWidth: 200,
+        maxWidth: 400,
+        minHeight: 200,
+        maxHeight: 400,
+    )]
+    #[Assert\NotNull]
     #[ORM\Column(name: 'photo', type: 'string', length: 250, nullable: true)]
     private ?string $photo = null;
 
     #[ORM\Column(name: 'video', type: 'string', length: 255, nullable: true)]
     private ?string $video = null;
 
-    #[ORM\Column(name: 'date_debut', type: 'string', length: 250, nullable: false)]
+    #[Assert\NotNull]
+    #[Assert\Length(
+        min: 7,
+        max: 9,
+    )]
+    #[ORM\Column(name: 'date_debut', type: 'string', length: 250, nullable: true)]
     private string $dateDebut;
 
+    #[Assert\NotNull]
     #[ORM\Column(name: 'date_fin', type: 'string', length: 255, nullable: false)]
-    private string $dateFin;
+    public string $dateFin;
 
     #[ORM\Column(name: 'nombre_ads', type: 'integer', nullable: false)]
     private int $nombreAds;
-
+    #[Assert\NotNull]
+    #[Assert\Email]
     #[ORM\Column(name: 'mail', type: 'string', length: 255, nullable: false)]
     private string $mail;
 
@@ -107,17 +127,23 @@ class Ads
         return $this;
     }
 
-    public function getDateFin(): ?string
+    /**
+     * @return string
+     */
+    public function getDateFin(): string
     {
         return $this->dateFin;
     }
 
-    public function setDateFin(string $dateFin): self
+    /**
+     * @param string $dateFin
+     */
+    public function setDateFin(string $dateFin): void
     {
         $this->dateFin = $dateFin;
-
-        return $this;
     }
+
+
 
     public function getNombreAds(): ?int
     {
@@ -142,6 +168,20 @@ class Ads
 
         return $this;
     }
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
 
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
 
 }
