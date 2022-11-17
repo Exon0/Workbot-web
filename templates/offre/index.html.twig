@@ -1,79 +1,158 @@
 {% extends 'offre/templateoffre.html.twig' %}
-
-{% block title %}
+{% block container %}
+    <br>
+Vos offres
 
 {% endblock %}
-{% block container %}hh{% endblock %}
-{% block tableau %}
-<br>
-    <br>
-    <br>
-
-    <br>
-    <br>
-    <br>
-    <br>
-    {% for message in app.flashes('success')%}
-        <div class="alert alert-success">
-            {{ message | upper}}
-        </div>
-
-    {% endfor %}
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Salaire</th>
-                <th>Description</th>
-                <th>Domaine</th>
-                <th>Dateexpiration</th>
-                <th>Dureestage</th>
-                <th>Typestage</th>
-                <th>Typecontrat</th>
-                <th>Modetravail</th>
-                <th>Lieu</th>
-                <th>Typeoffre</th>
-                <th>Dateajout</th>
-                <th>NB cand</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for offre in offres %}
-            <tr>
-                <td>{{ offre.id }}</td>
-                <td>{{ offre.titre }}</td>
-                <td>{{ offre.salaire }}</td>
-                <td>{{ offre.description }}</td>
-                <td>{{ offre.domaine }}</td>
-                <td>{{ offre.dateexpiration }}</td>
-                <td>{{ offre.dureestage }}</td>
-                <td>{{ offre.typestage }}</td>
-                <td>{{ offre.typecontrat }}</td>
-                <td>{{ offre.modetravail }}</td>
-                <td>{{ offre.lieu }}</td>
-                <td>{{ offre.typeoffre }}</td>
-                <td>{{ offre.dateajout }}</td>
-                <td>{{ offre.nbCandidature }}</td>
-                <td>
-                    <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
-
-                    <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
-
-                    <a href="{{ path('app_offre_cand', {'id': offre.id}) }}">Candidatures</a>
-
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="16">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+{% block postjob %}
     <a href="{{ path('app_offre_show_typeOffre') }}">Create new</a>
+
+{% endblock %}
+
+
+{% block tableau %}
+
+
+
+    {% for label, messages in app.flashes(['success', 'update' , "delete","deleteT","unique"]) %}
+        {% for message in messages %}
+            <div class="alert alert-success -{{ label }}">
+                {{ message | upper}}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% if offres is not empty %}
+
+    {% endif %}
+        <section class="find-job job-list section">
+            <div class="container">
+                <div class="single-head">
+                    <div class="row">
+
+                        {% for c in offres %}
+                        <div class="col-lg-6 col-12">
+
+                            <div class="single-job">
+                                <div class="job-image">
+                                   <img src="{{asset('assets/img/card.jpg')}}" height="70" width="70" alt="#">
+                                </div>
+                                <div class="job-content">
+                                    <form>
+                                        <h5><a style="font-size: 30px">{{ c.titre|capitalize }}</a></h5>
+                                    </form>
+                                    <p>Type d'offre : <u style="color: black">{{ c.typeoffre|capitalize }}</u></p><br>
+                                    <p>description : <u style="color: black">{{ c.description|capitalize }}</u></p>
+
+                                    <ul>
+
+                                        <li><i class="bx bx-yen"></i>{{ c.nbCandidature}}  </li>
+                                        <li> <a  href="{{ path('app_offre_cand', {'id': c.id}) }}">Candidatures</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="job-button">
+
+                                    <a class="btn btn-outline-primary" href="{{ path('app_offre_show', {'id': c.id}) }}">Afficher</a>
+                                    <a class="btn btn-outline-primary" href="{{ path('app_offre_edit', {'id': c.id}) }}">Modifier</a>
+
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                            {% else %}
+                        <div >
+                                <center>
+
+                                <h3 >Notre mission vous simplifier le travail ! Commencez par ajouter une offre </h3>
+                                <a class="btn-lg" href="{{ path('app_offre_show_typeOffre') }}">Créer une offre</a></center>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+            </div>
+            </div>
+            </div>
+        </section>
+
+
+    {#
+    <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titre</th>
+                    <th>Salaire</th>
+                    <th>Description</th>
+                    <th>Domaine</th>
+                    <th>Dateexpiration</th>
+                    <th>Dureestage</th>
+                    <th>Typestage</th>
+                    <th>Typecontrat</th>
+                    <th>Modetravail</th>
+                    <th>Lieu</th>
+                    <th>Typeoffre</th>
+                    <th>Dateajout</th>
+                    <th>NB cand</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for offre in offres %}
+                <tr>
+                    <td>{{ offre.id }}</td>
+                    <td>{{ offre.titre }}</td>
+                    <td>{{ offre.salaire }}</td>
+                    <td>{{ offre.description }}</td>
+                    <td>{{ offre.domaine }}</td>
+                    <td>{{ offre.dateexpiration }}</td>
+                    <td>{{ offre.dureestage }}</td>
+                    <td>{{ offre.typestage }}</td>
+                    <td>{{ offre.typecontrat }}</td>
+                    <td>{{ offre.modetravail }}</td>
+                    <td>{{ offre.lieu }}</td>
+                    <td>{{ offre.typeoffre }}</td>
+                    <td>{{ offre.dateajout }}</td>
+                    <td>{{ offre.nbCandidature }}</td>
+                    <td>
+                        <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
+
+                        <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
+
+                        <a href="{{ path('app_offre_cand', {'id': offre.id}) }}">Candidatures</a>
+
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="16">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_offre_show_typeOffre') }}">Create new</a>
+     #}
 
 {% endblock %}

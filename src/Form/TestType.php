@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Test;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class TestType extends AbstractType
 {
@@ -14,7 +16,9 @@ class TestType extends AbstractType
         $builder
 
 
-            ->add('lien')
+            ->add('lien',null,[
+                    'attr' => ['class' => 'form-control']]
+               )
 
         ;
     }

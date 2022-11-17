@@ -1063,7 +1063,7 @@
       iOS: deviceType.isiPad() || deviceType.isiPhone(),
       android: os.isAndroid(),
       contentEditable: true,
-      transparentSrc: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+      transparentSrc: 'data:img/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
       caretAfter: true,
       range: window.getSelection && 'Range' in window,
       documentMode: browser$4.isIE() ? document.documentMode || 7 : 10,
@@ -3450,7 +3450,7 @@
         return lookup;
       }
     };
-    var namedEntities = buildEntitiesLookup('50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,' + '5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,' + '5l,micro,5m,para,5n,middot,5o,cedil,5p,sup1,5q,ordm,5r,raquo,5s,frac14,5t,frac12,5u,frac34,' + '5v,iquest,60,Agrave,61,Aacute,62,Acirc,63,Atilde,64,Auml,65,Aring,66,AElig,67,Ccedil,' + '68,Egrave,69,Eacute,6a,Ecirc,6b,Euml,6c,Igrave,6d,Iacute,6e,Icirc,6f,Iuml,6g,ETH,6h,Ntilde,' + '6i,Ograve,6j,Oacute,6k,Ocirc,6l,Otilde,6m,Ouml,6n,times,6o,Oslash,6p,Ugrave,6q,Uacute,' + '6r,Ucirc,6s,Uuml,6t,Yacute,6u,THORN,6v,szlig,70,agrave,71,aacute,72,acirc,73,atilde,74,auml,' + '75,aring,76,aelig,77,ccedil,78,egrave,79,eacute,7a,ecirc,7b,euml,7c,igrave,7d,iacute,7e,icirc,' + '7f,iuml,7g,eth,7h,ntilde,7i,ograve,7j,oacute,7k,ocirc,7l,otilde,7m,ouml,7n,divide,7o,oslash,' + '7p,ugrave,7q,uacute,7r,ucirc,7s,uuml,7t,yacute,7u,thorn,7v,yuml,ci,fnof,sh,Alpha,si,Beta,' + 'sj,Gamma,sk,Delta,sl,Epsilon,sm,Zeta,sn,Eta,so,Theta,sp,Iota,sq,Kappa,sr,Lambda,ss,Mu,' + 'st,Nu,su,Xi,sv,Omicron,t0,Pi,t1,Rho,t3,Sigma,t4,Tau,t5,Upsilon,t6,Phi,t7,Chi,t8,Psi,' + 't9,Omega,th,alpha,ti,beta,tj,gamma,tk,delta,tl,epsilon,tm,zeta,tn,eta,to,theta,tp,iota,' + 'tq,kappa,tr,lambda,ts,mu,tt,nu,tu,xi,tv,omicron,u0,pi,u1,rho,u2,sigmaf,u3,sigma,u4,tau,' + 'u5,upsilon,u6,phi,u7,chi,u8,psi,u9,omega,uh,thetasym,ui,upsih,um,piv,812,bull,816,hellip,' + '81i,prime,81j,Prime,81u,oline,824,frasl,88o,weierp,88h,image,88s,real,892,trade,89l,alefsym,' + '8cg,larr,8ch,uarr,8ci,rarr,8cj,darr,8ck,harr,8dl,crarr,8eg,lArr,8eh,uArr,8ei,rArr,8ej,dArr,' + '8ek,hArr,8g0,forall,8g2,part,8g3,exist,8g5,empty,8g7,nabla,8g8,isin,8g9,notin,8gb,ni,8gf,prod,' + '8gh,sum,8gi,minus,8gn,lowast,8gq,radic,8gt,prop,8gu,infin,8h0,ang,8h7,and,8h8,or,8h9,cap,8ha,cup,' + '8hb,int,8hk,there4,8hs,sim,8i5,cong,8i8,asymp,8j0,ne,8j1,equiv,8j4,le,8j5,ge,8k2,sub,8k3,sup,8k4,' + 'nsub,8k6,sube,8k7,supe,8kl,oplus,8kn,otimes,8l5,perp,8m5,sdot,8o8,lceil,8o9,rceil,8oa,lfloor,8ob,' + 'rfloor,8p9,lang,8pa,rang,9ea,loz,9j0,spades,9j3,clubs,9j5,hearts,9j6,diams,ai,OElig,aj,oelig,b0,' + 'Scaron,b1,scaron,bo,Yuml,m6,circ,ms,tilde,802,ensp,803,emsp,809,thinsp,80c,zwnj,80d,zwj,80e,lrm,' + '80f,rlm,80j,ndash,80k,mdash,80o,lsquo,80p,rsquo,80q,sbquo,80s,ldquo,80t,rdquo,80u,bdquo,810,dagger,' + '811,Dagger,81g,permil,81p,lsaquo,81q,rsaquo,85c,euro', 32);
+    var namedEntities = buildEntitiesLookup('50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,' + '5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,' + '5l,micro,5m,para,5n,middot,5o,cedil,5p,sup1,5q,ordm,5r,raquo,5s,frac14,5t,frac12,5u,frac34,' + '5v,iquest,60,Agrave,61,Aacute,62,Acirc,63,Atilde,64,Auml,65,Aring,66,AElig,67,Ccedil,' + '68,Egrave,69,Eacute,6a,Ecirc,6b,Euml,6c,Igrave,6d,Iacute,6e,Icirc,6f,Iuml,6g,ETH,6h,Ntilde,' + '6i,Ograve,6j,Oacute,6k,Ocirc,6l,Otilde,6m,Ouml,6n,times,6o,Oslash,6p,Ugrave,6q,Uacute,' + '6r,Ucirc,6s,Uuml,6t,Yacute,6u,THORN,6v,szlig,70,agrave,71,aacute,72,acirc,73,atilde,74,auml,' + '75,aring,76,aelig,77,ccedil,78,egrave,79,eacute,7a,ecirc,7b,euml,7c,igrave,7d,iacute,7e,icirc,' + '7f,iuml,7g,eth,7h,ntilde,7i,ograve,7j,oacute,7k,ocirc,7l,otilde,7m,ouml,7n,divide,7o,oslash,' + '7p,ugrave,7q,uacute,7r,ucirc,7s,uuml,7t,yacute,7u,thorn,7v,yuml,ci,fnof,sh,Alpha,si,Beta,' + 'sj,Gamma,sk,Delta,sl,Epsilon,sm,Zeta,sn,Eta,so,Theta,sp,Iota,sq,Kappa,sr,Lambda,ss,Mu,' + 'st,Nu,su,Xi,sv,Omicron,t0,Pi,t1,Rho,t3,Sigma,t4,Tau,t5,Upsilon,t6,Phi,t7,Chi,t8,Psi,' + 't9,Omega,th,alpha,ti,beta,tj,gamma,tk,delta,tl,epsilon,tm,zeta,tn,eta,to,theta,tp,iota,' + 'tq,kappa,tr,lambda,ts,mu,tt,nu,tu,xi,tv,omicron,u0,pi,u1,rho,u2,sigmaf,u3,sigma,u4,tau,' + 'u5,upsilon,u6,phi,u7,chi,u8,psi,u9,omega,uh,thetasym,ui,upsih,um,piv,812,bull,816,hellip,' + '81i,prime,81j,Prime,81u,oline,824,frasl,88o,weierp,88h,img,88s,real,892,trade,89l,alefsym,' + '8cg,larr,8ch,uarr,8ci,rarr,8cj,darr,8ck,harr,8dl,crarr,8eg,lArr,8eh,uArr,8ei,rArr,8ej,dArr,' + '8ek,hArr,8g0,forall,8g2,part,8g3,exist,8g5,empty,8g7,nabla,8g8,isin,8g9,notin,8gb,ni,8gf,prod,' + '8gh,sum,8gi,minus,8gn,lowast,8gq,radic,8gt,prop,8gu,infin,8h0,ang,8h7,and,8h8,or,8h9,cap,8ha,cup,' + '8hb,int,8hk,there4,8hs,sim,8i5,cong,8i8,asymp,8j0,ne,8j1,equiv,8j4,le,8j5,ge,8k2,sub,8k3,sup,8k4,' + 'nsub,8k6,sube,8k7,supe,8kl,oplus,8kn,otimes,8l5,perp,8m5,sdot,8o8,lceil,8o9,rceil,8oa,lfloor,8ob,' + 'rfloor,8p9,lang,8pa,rang,9ea,loz,9j0,spades,9j3,clubs,9j5,hearts,9j6,diams,ai,OElig,aj,oelig,b0,' + 'Scaron,b1,scaron,bo,Yuml,m6,circ,ms,tilde,802,ensp,803,emsp,809,thinsp,80c,zwnj,80d,zwj,80e,lrm,' + '80f,rlm,80j,ndash,80k,mdash,80o,lsquo,80p,rsquo,80q,sbquo,80s,ldquo,80t,rdquo,80u,bdquo,810,dagger,' + '811,Dagger,81g,permil,81p,lsaquo,81q,rsaquo,85c,euro', 32);
     var encodeRaw = function (text, attr) {
       return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function (chr) {
         return baseEntities[chr] || chr;
@@ -3593,7 +3593,7 @@
       }
       globalAttributes = 'id accesskey class dir lang style tabindex title role';
       blockContent = 'address blockquote div dl fieldset form h1 h2 h3 h4 h5 h6 hr menu ol p pre table ul';
-      phrasingContent = 'a abbr b bdo br button cite code del dfn em embed i iframe image input ins kbd ' + 'label map noscript object q s samp script select small span strong sub sup ' + 'textarea u var #text #comment';
+      phrasingContent = 'a abbr b bdo br button cite code del dfn em embed i iframe img input ins kbd ' + 'label map noscript object q s samp script select small span strong sub sup ' + 'textarea u var #text #comment';
       if (type !== 'html4') {
         globalAttributes += ' contenteditable contextmenu draggable dropzone ' + 'hidden spellcheck translate';
         blockContent += ' article aside details dialog figure main header footer hgroup section nav';
@@ -3699,7 +3699,7 @@
           flowContent,
           'track source'
         ].join(' '));
-        add('picture', '', 'image source');
+        add('picture', '', 'img source');
         add('source', 'src srcset type media sizes');
         add('track', 'kind src srclang label default');
         add('datalist', '', [
@@ -3763,7 +3763,7 @@
         addAttrs('input button select textarea', 'autofocus');
         addAttrs('input textarea', 'placeholder');
         addAttrs('a', 'download');
-        addAttrs('link script image', 'crossorigin');
+        addAttrs('link script img', 'crossorigin');
         addAttrs('img', 'loading');
         addAttrs('iframe', 'sandbox seamless allowfullscreen loading');
       }
@@ -3819,7 +3819,7 @@
       var validClasses = compileElementMap(settings.valid_classes, 'map');
       var whiteSpaceElementsMap = createLookupTable('whitespace_elements', 'pre script noscript style textarea video audio iframe object code');
       var selfClosingElementsMap = createLookupTable('self_closing_elements', 'colgroup dd dt li option p td tfoot th thead tr');
-      var shortEndedElementsMap = createLookupTable('short_ended_elements', 'area base basefont br col frame hr image input isindex link ' + 'meta param embed source wbr track');
+      var shortEndedElementsMap = createLookupTable('short_ended_elements', 'area base basefont br col frame hr img input isindex link ' + 'meta param embed source wbr track');
       var boolAttrMap = createLookupTable('boolean_attributes', 'checked compact declare defer disabled ismap multiple nohref noresize ' + 'noshade nowrap readonly selected autoplay loop controls');
       var nonEmptyOrMoveCaretBeforeOnEnter = 'td th iframe video audio object script code';
       var nonEmptyElementsMap = createLookupTable('non_empty_elements', nonEmptyOrMoveCaretBeforeOnEnter + ' pre', shortEndedElementsMap);
@@ -4330,8 +4330,8 @@
             if (styles.border === 'medium none') {
               delete styles.border;
             }
-            if (styles['border-image'] === 'none') {
-              delete styles['border-image'];
+            if (styles['border-img'] === 'none') {
+              delete styles['border-img'];
             }
           }
           return styles;
@@ -9120,7 +9120,7 @@
       if (selector === false || Env.iOS) {
         return false;
       } else {
-        return isString$1(selector) ? selector : 'table,image,figure.image,div,video,iframe';
+        return isString$1(selector) ? selector : 'table,img,figure.img,div,video,iframe';
       }
     };
     var getResizeImgProportional = function (editor) {
@@ -11079,7 +11079,7 @@
         ]
       };
       var isImage = function (elm) {
-        return elm && (elm.nodeName === 'IMG' || editor.dom.is(elm, 'figure.image'));
+        return elm && (elm.nodeName === 'IMG' || editor.dom.is(elm, 'figure.img'));
       };
       var isMedia = function (elm) {
         return isMedia$2(elm) || dom.hasClass(elm, 'mce-preview-object');
@@ -11099,8 +11099,8 @@
         }
       };
       var getResizeTargets = function (elm) {
-        if (dom.is(elm, 'figure.image')) {
-          return [elm.querySelector('image')];
+        if (dom.is(elm, 'figure.img')) {
+          return [elm.querySelector('img')];
         } else if (dom.hasClass(elm, 'mce-preview-object') && isNonNullable(elm.firstElementChild)) {
           return [
             elm,
@@ -11352,11 +11352,11 @@
         if (resizeStarted || editor.removed) {
           return;
         }
-        each(dom.select('image[data-mce-selected],hr[data-mce-selected]'), function (img) {
+        each(dom.select('img[data-mce-selected],hr[data-mce-selected]'), function (img) {
           img.removeAttribute(elementSelectionAttr);
         });
         controlElm = e.type === 'mousedown' ? e.target : selection.getNode();
-        controlElm = dom.$(controlElm).closest('table,image,figure.image,hr,video,span.mce-preview-object')[0];
+        controlElm = dom.$(controlElm).closest('table,img,figure.img,hr,video,span.mce-preview-object')[0];
         if (isChildOrEqual(controlElm, rootElement)) {
           disableGeckoResize();
           startElm = selection.getStart(true);
@@ -13212,7 +13212,7 @@
       return URI;
     }();
 
-    var filteredClobberElements = Tools.makeMap('button,fieldset,form,iframe,image,image,input,object,output,select,textarea');
+    var filteredClobberElements = Tools.makeMap('button,fieldset,form,iframe,img,img,input,object,output,select,textarea');
     var isValidPrefixAttrName = function (name) {
       return name.indexOf('data-') === 0 || name.indexOf('aria-') === 0;
     };
@@ -13926,7 +13926,7 @@
         'background-attachment',
         'background-clip',
         'background-color',
-        'background-image',
+        'background-img',
         'background-origin',
         'background-position',
         'background-repeat',
@@ -20286,7 +20286,7 @@
     };
     var uploadError = function (editor, message) {
       displayError(editor, I18n.translate([
-        'Failed to upload image: {0}',
+        'Failed to upload img: {0}',
         message
       ]));
     };
@@ -20449,7 +20449,7 @@
       };
       var toBlobInfo = function (o) {
         if (!o.blob || !o.base64) {
-          throw new Error('blob and base64 representations of the image are required for BlobInfo to be created');
+          throw new Error('blob and base64 representations of the img are required for BlobInfo to be created');
         }
         var id = o.id || uuid('blobid');
         var name = o.name || id;
@@ -20924,7 +20924,7 @@
           }],
         alignleft: [
           {
-            selector: 'figure.image',
+            selector: 'figure.img',
             collapsed: false,
             classes: 'align-left',
             ceFalseOverride: true,
@@ -20938,7 +20938,7 @@
             defaultBlock: 'div'
           },
           {
-            selector: 'image,table,audio,video',
+            selector: 'img,table,audio,video',
             collapsed: false,
             styles: { float: 'left' },
             preview: 'font-family font-size'
@@ -20953,14 +20953,14 @@
             defaultBlock: 'div'
           },
           {
-            selector: 'figure.image',
+            selector: 'figure.img',
             collapsed: false,
             classes: 'align-center',
             ceFalseOverride: true,
             preview: 'font-family font-size'
           },
           {
-            selector: 'image,audio,video',
+            selector: 'img,audio,video',
             collapsed: false,
             styles: {
               display: 'block',
@@ -20981,7 +20981,7 @@
         ],
         alignright: [
           {
-            selector: 'figure.image',
+            selector: 'figure.img',
             collapsed: false,
             classes: 'align-right',
             ceFalseOverride: true,
@@ -20995,7 +20995,7 @@
             defaultBlock: 'div'
           },
           {
-            selector: 'image,table,audio,video',
+            selector: 'img,table,audio,video',
             collapsed: false,
             styles: { float: 'right' },
             preview: 'font-family font-size'
@@ -26342,7 +26342,7 @@
         }, true);
       };
       var showBrokenImageIcon = function () {
-        editor.contentStyles.push('image:-moz-broken {' + '-moz-force-broken-image-icon:1;' + 'min-width:24px;' + 'min-height:24px' + '}');
+        editor.contentStyles.push('img:-moz-broken {' + '-moz-force-broken-img-icon:1;' + 'min-width:24px;' + 'min-height:24px' + '}');
       };
       var restoreFocusOnKeyDown = function () {
         if (!editor.inline) {
@@ -29072,7 +29072,7 @@
       init: function (settings) {
         var self = this;
         var result;
-        var invalidInlineTargets = Tools.makeMap('area base basefont br col frame hr image input isindex link meta param embed source wbr track ' + 'colgroup option table tbody tfoot thead tr th td script noscript style textarea video audio iframe object menu', ' ');
+        var invalidInlineTargets = Tools.makeMap('area base basefont br col frame hr img input isindex link meta param embed source wbr track ' + 'colgroup option table tbody tfoot thead tr th td script noscript style textarea video audio iframe object menu', ' ');
         var isInvalidInlineTarget = function (settings, elm) {
           return settings.inline && elm.tagName.toLowerCase() in invalidInlineTargets;
         };

@@ -210,7 +210,7 @@
       }
       var elementName = selector[1];
       var classes = selector[2].substr(1).split('.').join(' ');
-      var inlineSelectorElements = global.makeMap('a,image');
+      var inlineSelectorElements = global.makeMap('a,img');
       if (selector[1]) {
         format = { title: selectorText };
         if (editor.schema.getTextBlockElements()[elementName]) {

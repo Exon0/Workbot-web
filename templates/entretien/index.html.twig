@@ -1,10 +1,89 @@
-{% extends 'base.html.twig' %}
+{% extends 'offre/templateoffre.html.twig' %}
 
-{% block title %}Entretien index{% endblock %}
+{% block container %}
+    <br>
+    Liste des entretiens
+{% endblock %}
+{% block section %}
+<section class="job-post section">
+    {% for label, messages in app.flashes(['success', 'update','warning']) %}
+        {% for message in messages %}
+            <div class="alert alert-success -{{ label }}">
+                {{ message | upper}}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% endblock %}
 
-{% block body %}
-    <h1>Entretien index</h1>
+    {% block entretien %}
 
+        <div class="manage-resumes section">
+            <div class="container">
+                <div class="resume-inner">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-12">
+                            <div class="dashbord-sidebar">
+                                <ul>
+                                    <li class="heading">Entretiens</li>
+                                    <li><a href="#"><i class="lni lni-clipboard"></i>Entretiens prévus<span class="notifi">22</span></a></li>
+                                    <li><a href="#"><i class="lni lni-bookmark"></i>Ce mois-ci<span class="notifi">12</span></a></li>
+                                    <li><a href="#"><i class="lni lni-alarm"></i>Cette semaine<span class="notifi">5</span></a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 col-12">
+                            <div class="inner-content">
+                                {% for ent in entretiens %}
+                                <div class="resume-item">
+
+                                    <img src="{{ asset(ent.qrcode) }}" alt="Candidate">
+                                    <div class="right">
+                                        <h3>
+                                            <a href="#">Arielle Terry</a>
+                                        </h3>
+                                        <span class="deg">Web Developer</span>
+                                        <ul class="experience">
+                                            <li>Date : <span>{{ ent.date }}</span></li>
+                                            <li>Heure : <span>{{ ent.heure }}</span></li>
+                                            <li>
+                                                <i class="lni lni-map-marker"></i>
+                                               Google meet
+                                            </li>
+                                        </ul>
+
+                                        <div class="update-date">
+                                            <p class="status">
+                                                <strong>Created on:</strong> Fab 22, 2023
+                                            </p>
+                                            <div class="action-btn">
+
+                                                <a href="{{path('app_entretien_delete',{id:ent.id})}}">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                    {% else %}
+                                    <center><h3>aucun entretien prévu</h3></center>
+                                {% endfor %}
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% block classJobinfo %}{% endblock %}">
+    {% block jobinformation %}{% endblock %}
+{#
     <table class="table">
         <thead>
             <tr>
@@ -34,5 +113,5 @@
         {% endfor %}
         </tbody>
     </table>
-
+#}
 {% endblock %}

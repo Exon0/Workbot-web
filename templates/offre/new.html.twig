@@ -1,7 +1,16 @@
 {% extends 'offre/templateoffre.html.twig' %}
-{% block retour %}
-    <a href="{{ path('app_offre_index') }}">back to list</a>
+{% block section %}
+<section class="job-post section">
+
+    {% endblock %}
+    {% block container %}       <br>
+
+        Créer une offre {% endblock %}
+
+    {% block retour %}
+    <a href="{{ path('app_offre_index') }}">Retour</a>
 {% endblock %}
+
 {% block body %}
 
     {{ include('offre/_form.html.twig') }}

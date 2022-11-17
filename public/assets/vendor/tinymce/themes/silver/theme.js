@@ -16739,7 +16739,7 @@
           tag: 'input',
           attributes: {
             type: 'file',
-            accept: 'image/*'
+            accept: 'img/*'
           },
           styles: { display: 'none' }
         },
@@ -16790,13 +16790,13 @@
                 {
                   dom: {
                     tag: 'p',
-                    innerHtml: providersBackstage.translate('Drop an image here')
+                    innerHtml: providersBackstage.translate('Drop an img here')
                   }
                 },
                 Button.sketch({
                   dom: {
                     tag: 'button',
-                    innerHtml: providersBackstage.translate('Browse for an image'),
+                    innerHtml: providersBackstage.translate('Browse for an img'),
                     styles: { position: 'relative' },
                     classes: [
                       'tox-button',
@@ -18571,8 +18571,8 @@
       var panelDom = {
         tag: 'div',
         classes: [
-          'tox-image-tools__toolbar',
-          'tox-image-tools-edit-panel'
+          'tox-img-tools__toolbar',
+          'tox-img-tools-edit-panel'
         ]
       };
       var noop$1 = noop;
@@ -18649,7 +18649,7 @@
         components: cropPanelComponents.map(function (mem) {
           return mem.asSpec();
         }),
-        containerBehaviours: derive$1([config('image-tools-crop-buttons-events', [
+        containerBehaviours: derive$1([config('img-tools-crop-buttons-events', [
             run$1(external.disable(), function (comp, _se) {
               disableAllComponents(cropPanelComponents, comp);
             }),
@@ -18689,7 +18689,7 @@
         components: resizePanelComponents.map(function (mem) {
           return mem.asSpec();
         }),
-        containerBehaviours: derive$1([config('image-tools-resize-buttons-events', [
+        containerBehaviours: derive$1([config('img-tools-resize-buttons-events', [
             run$1(external.disable(), function (comp, _se) {
               disableAllComponents(resizePanelComponents, comp);
             }),
@@ -18733,7 +18733,7 @@
         components: flipRotateComponents.map(function (mem) {
           return mem.asSpec();
         }),
-        containerBehaviours: derive$1([config('image-tools-fliprotate-buttons-events', [
+        containerBehaviours: derive$1([config('img-tools-fliprotate-buttons-events', [
             run$1(external.disable(), function (comp, _se) {
               disableAllComponents(flipRotateComponents, comp);
             }),
@@ -18806,7 +18806,7 @@
           components: filterPanelComponents.map(function (mem) {
             return mem.asSpec();
           }),
-          containerBehaviours: derive$1([config('image-tools-filter-panel-buttons-events', [
+          containerBehaviours: derive$1([config('img-tools-filter-panel-buttons-events', [
               run$1(external.disable(), function (comp, _se) {
                 disableAllComponents(filterPanelComponents, comp);
               }),
@@ -19351,7 +19351,7 @@
       var memBg = record({
         dom: {
           tag: 'div',
-          classes: ['tox-image-tools__image-bg'],
+          classes: ['tox-img-tools__image-bg'],
           attributes: { role: 'presentation' }
         }
       });
@@ -19477,7 +19477,7 @@
       var container = Container.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-image-tools__image']
+          classes: ['tox-img-tools__image']
         },
         components: [
           memBg.asSpec(),
@@ -19489,7 +19489,7 @@
           },
           {
             dom: { tag: 'div' },
-            behaviours: derive$1([config('image-panel-crop-events', [
+            behaviours: derive$1([config('img-panel-crop-events', [
                 runOnAttached(function (comp) {
                   memContainer.getOpt(comp).each(function (container) {
                     var el = container.element.dom;
@@ -19532,7 +19532,7 @@
         ],
         containerBehaviours: derive$1([
           Replacing.config({}),
-          config('image-panel-events', [runOnAttached(function (comp) {
+          config('img-panel-events', [runOnAttached(function (comp) {
               updateSrc(comp, initialUrl);
             })])
         ])
@@ -19592,8 +19592,8 @@
         dom: {
           tag: 'div',
           classes: [
-            'tox-image-tools__toolbar',
-            'tox-image-tools__sidebar'
+            'tox-img-tools__toolbar',
+            'tox-img-tools__sidebar'
           ]
         },
         components: [
@@ -19895,7 +19895,7 @@
               }
             }
           }),
-          config('image-tools-events', [
+          config('img-tools-events', [
             run$1(internal.undo(), undo),
             run$1(internal.redo(), redo),
             run$1(internal.zoom(), zoom),
@@ -24942,7 +24942,7 @@
       },
       insert: {
         title: 'Insert',
-        items: 'image link media addcomment pageembed template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime'
+        items: 'img link media addcomment pageembed template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime'
       },
       format: {
         title: 'Format',
@@ -28537,7 +28537,7 @@
       return editor.getParam('contextmenu') === false;
     };
     var getContextMenu = function (editor) {
-      return getMenuItems(editor, 'contextmenu', 'link linkchecker image imagetools table spellchecker configurepermanentpen');
+      return getMenuItems(editor, 'contextmenu', 'link linkchecker img imagetools table spellchecker configurepermanentpen');
     };
     var getAvoidOverlapSelector = function (editor) {
       return editor.getParam('contextmenu_avoid_overlap', '', 'string');

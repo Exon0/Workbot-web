@@ -353,7 +353,7 @@
           done(global$4.resolve(dimensions));
         };
         img.onerror = function () {
-          done(global$4.reject('Failed to get image dimensions for: ' + url));
+          done(global$4.reject('Failed to get img dimensions for: ' + url));
         };
         var style = img.style;
         style.visibility = 'hidden';
@@ -712,7 +712,7 @@
     };
     var getSelectedImage = function (editor) {
       var imgElm = editor.selection.getNode();
-      var figureElm = editor.dom.getParent(imgElm, 'figure.image');
+      var figureElm = editor.dom.getParent(imgElm, 'figure.img');
       if (figureElm) {
         return editor.dom.select('img', figureElm)[0];
       }
@@ -762,7 +762,7 @@
     };
     var deleteImage = function (editor, image) {
       if (image) {
-        var elm = editor.dom.is(image.parentNode, 'figure.image') ? image.parentNode : image;
+        var elm = editor.dom.is(image.parentNode, 'figure.img') ? image.parentNode : image;
         editor.dom.remove(elm);
         editor.focus();
         editor.nodeChanged();
@@ -1391,7 +1391,7 @@
     };
     var changeFileInput = function (helpers, info, state, api) {
       var data = api.getData();
-      api.block('Uploading image');
+      api.block('Uploading img');
       head(data.fileinput).fold(function () {
         api.unblock();
       }, function (file) {
@@ -1569,7 +1569,7 @@
       return function (blobInfo) {
         return global$1(editor).upload([blobInfo], false).then(function (results) {
           if (results.length === 0) {
-            return global$4.reject('Failed to upload image');
+            return global$4.reject('Failed to upload img');
           } else if (results[0].status === false) {
             return global$4.reject(results[0].error.message);
           } else {
@@ -1634,11 +1634,11 @@
     var register = function (editor) {
       editor.ui.registry.addToggleButton('image', {
         icon: 'image',
-        tooltip: 'Insert/edit image',
+        tooltip: 'Insert/edit img',
         onAction: Dialog(editor).open,
         onSetup: function (buttonApi) {
           buttonApi.setActive(isNonNullable(getSelectedImage(editor)));
-          return editor.selection.selectorChangedWithUnbind('image:not([data-mce-object],[data-mce-placeholder]),figure.image', buttonApi.setActive).unbind;
+          return editor.selection.selectorChangedWithUnbind('img:not([data-mce-object],[data-mce-placeholder]),figure.img', buttonApi.setActive).unbind;
         }
       });
       editor.ui.registry.addMenuItem('image', {

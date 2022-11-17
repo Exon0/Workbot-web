@@ -586,7 +586,7 @@
     var getFlashHtml = function (data) {
       var html = '<object data="' + data.source + '" width="' + data.width + '" height="' + data.height + '" type="application/x-shockwave-flash">';
       if (data.poster) {
-        html += '<image src="' + data.poster + '" width="' + data.width + '" height="' + data.height + '" />';
+        html += '<img src="' + data.poster + '" width="' + data.width + '" height="' + data.height + '" />';
       }
       html += '</object>';
       return html;
@@ -1333,7 +1333,7 @@
         onSetup: function (buttonApi) {
           var selection = editor.selection;
           buttonApi.setActive(isMediaElement(selection.getNode()));
-          return selection.selectorChangedWithUnbind('image[data-mce-object],span[data-mce-object],div[data-ephox-embed-iri]', buttonApi.setActive).unbind;
+          return selection.selectorChangedWithUnbind('img[data-mce-object],span[data-mce-object],div[data-ephox-embed-iri]', buttonApi.setActive).unbind;
         }
       });
       editor.ui.registry.addMenuItem('media', {

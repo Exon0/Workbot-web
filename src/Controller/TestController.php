@@ -66,13 +66,15 @@ class TestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_test_delete', methods: ['POST'])]
+    #[Route('/remove/{id}', name: 'app_test_delete')]
     public function delete(Request $request, Test $test, TestRepository $testRepository): Response
     {
-                print_r($test);
             $testRepository->remove($test, true);
+        $this->addFlash('deleteT', 'Test supprimé avec succées');
 
 
-        return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+
+
+        return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
     }
 }

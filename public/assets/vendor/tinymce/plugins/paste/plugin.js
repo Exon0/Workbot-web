@@ -556,7 +556,7 @@
         pjp: 'jpeg',
         svg: 'svg+xml'
       };
-      return global$6.hasOwn(mimeOverrides, lowerExt) ? 'image/' + mimeOverrides[lowerExt] : 'image/' + lowerExt;
+      return global$6.hasOwn(mimeOverrides, lowerExt) ? 'img/' + mimeOverrides[lowerExt] : 'img/' + lowerExt;
     };
 
     var isWordContent = function (content) {
@@ -932,7 +932,7 @@
       editor.undoManager.extra(function () {
         pasteHtmlFn(editor, url);
       }, function () {
-        editor.insertContent('<image src="' + url + '">');
+        editor.insertContent('<img src="' + url + '">');
       });
       return true;
     };
@@ -1097,9 +1097,9 @@
         } else {
           blobInfo = existingBlobInfo;
         }
-        pasteHtml(editor, '<image src="' + blobInfo.blobUri() + '">', false);
+        pasteHtml(editor, '<img src="' + blobInfo.blobUri() + '">', false);
       } else {
-        pasteHtml(editor, '<image src="' + imageItem.uri + '">', false);
+        pasteHtml(editor, '<img src="' + imageItem.uri + '">', false);
       }
     };
     var isClipboardEvent = function (event) {
@@ -1126,7 +1126,7 @@
     var isImage = function (editor) {
       var allowedExtensions = getAllowedImageFileTypes(editor);
       return function (file) {
-        return startsWith(file.type, 'image/') && exists(allowedExtensions, function (extension) {
+        return startsWith(file.type, 'img/') && exists(allowedExtensions, function (extension) {
           return getImageMimeType(extension) === file.type;
         });
       };

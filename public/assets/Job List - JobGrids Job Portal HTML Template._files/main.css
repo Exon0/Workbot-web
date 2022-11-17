@@ -889,7 +889,7 @@ ol {
   position: relative;
   padding: 70px 0;
   padding-top: 150px;
-  background-image: url("../image/breadcrumb-bg.jpg");
+  background-image: url("../img/breadcrumb-bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1245,7 +1245,7 @@ ol {
   top: 0;
   opacity: 1;
   z-index: 999999999;
-  background-image: url(../image/loading.svg);
+  background-image: url(../img/loading.svg);
   background-repeat: no-repeat;
   background-size: 50px;
   background-position: center;
@@ -1960,7 +1960,7 @@ ol {
 
 .hero-area.style4 {
   overflow: visible;
-  background-image: url("../image/home-page4.jpg");
+  background-image: url("../img/home-page4.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1985,7 +1985,7 @@ ol {
   top: 0;
   height: 100%;
   width: 100%;
-  background-image: url("../image/small-patern.png");
+  background-image: url("../img/small-patern.png");
   opacity: 0.2;
 }
 
@@ -2101,7 +2101,7 @@ ol {
   bottom: -90px;
   height: 300px;
   width: 300px;
-  background-image: url(../image/pattern.png);
+  background-image: url(../img/pattern.png);
   background-repeat: no-repeat;
   z-index: -1;
 }
@@ -2407,7 +2407,7 @@ ol {
   bottom: -36px;
   height: 200px;
   width: 200px;
-  background-image: url(../image/pattern.png);
+  background-image: url(../img/pattern.png);
   background-repeat: no-repeat;
   z-index: -1;
 }
@@ -4296,7 +4296,7 @@ blockquote .shape {
     Call Action CSS
 ========================================*/
 .call-action {
-  background-image: url("../image/cat-bg.jpg");
+  background-image: url("../img/cat-bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;

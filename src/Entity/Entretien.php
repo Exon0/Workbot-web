@@ -43,6 +43,26 @@ class Entretien
     #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $iduser;
 
+    #[ORM\Column(name: 'qrCode', type: 'string', length: 255, nullable: true)]
+    private string $qrCode;
+
+    /**
+     * @return string
+     */
+    public function getQrCode(): string
+    {
+        return $this->qrCode;
+    }
+
+    /**
+     * @param string $qrCode
+     */
+    public function setQrCode(string $qrCode): void
+    {
+        $this->qrCode = $qrCode;
+    }
+
+
     /**
      * @return Utilisateur
      */

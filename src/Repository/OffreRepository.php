@@ -65,9 +65,9 @@ class OffreRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-           SELECT o.id ,u.id,c.id,u.email email, u.nom nom ,
-                  c.dateAjout dateajout,c.noteTest notetest,o.dateexpiration dateexpiration,o.titre titre,c.domaine domaine,c.lettreMotivation,c.cv cv,c.diplome diplome,c.statut statut,o.titre "
-                    + "from `candidature` c join `offre` o on c.id_offre=o.id 
+           SELECT o.id ,u.id,c.id,u.email email, u.nom nom, u.adresse address,u.photo photo,
+                  c.dateAjout dateajout,c.Experience experience,c.noteTest notetest,c.NiveauAnglais anglais,c.NiveauFrancais francais,o.dateexpiration dateexpiration,o.titre titre,c.domaine domaine,c.lettreMotivation,c.Cv cv,c.diplome diplome,c.statut statut
+                     from `candidature` c join `offre` o on c.id_offre=o.id 
                         JOIN `utilisateur` u ON u.id=c.idcondidat where o.id= :id
             ';
         $stmt = $conn->prepare($sql);

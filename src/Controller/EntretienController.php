@@ -9,6 +9,7 @@ use App\Repository\CandidatureRepository;
 use App\Repository\EntretienRepository;
 use App\Form\EntretienType;
 use App\Repository\UtilisateurRepository;
+use ContainerNufdAdS\getConsole_ErrorListenerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,13 +29,34 @@ class EntretienController extends AbstractController
     #[Route('/new/{id}', name: 'app_entretien_new', methods: ['GET', 'POST'])]
     public function new(UtilisateurRepository $utilisateurRepository,Candidature $idCandidature,Request $request, EntretienRepository $entretienRepository): Response
     {
+
         $entretien = new Entretien();
         $form = $this->createForm(EntretienType::class, $entretien);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($entretienRepository->findAll() as $ent)
+            {
+                if($ent->getIdCandidature()->getId() === $idCandidature->getId())
+                {$this->addFlash('warning', 'Vous avez deja prévu un entretien avec ce candidat le'.$ent->getDate() .' a '. $ent->getHeure());
+                    return $this->redirectToRoute('app_entretien_index');}
+                if ($ent->getDate() === $entretien->getDate() and $ent->getHeure() === $entretien->getHeure())
+                {$this->addFlash('warning', 'Vous avez deja prévu un entretien avec un autre candidat a cette date et heure le');
+                    return $this->redirectToRoute('app_entretien_index');}
+
+            }
+
+            if($entretien->getDate()<=date('Y-m-d'))
+            {$this->addFlash('warning', 'date invlide');
+                return $this->redirectToRoute('app_entretien_index');}
+            if($entretien->getHeure()<'07:00:00' || $entretien->getHeure()>'18:00:00')
+            {$this->addFlash('warning', 'Veuillez respecter les horraires de travail ');
+                return $this->redirectToRoute('app_entretien_index');}
             $entretien->setIdCandidature($idCandidature);
             $entretien->setIduser($utilisateurRepository->find(8));
+            $entretien->setQrCode('uploads/qrcode/qr-code1.png');
             $entretienRepository->save($entretien, true);
 
             return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);
@@ -44,7 +66,9 @@ class EntretienController extends AbstractController
             'entretien' => $entretien,
             'form' => $form,
         ]);
-    }
+            }
+
+
 
     #[Route('/{id}', name: 'app_entretien_show', methods: ['GET'])]
     public function show(Entretien $entretien): Response
@@ -72,12 +96,12 @@ class EntretienController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_entretien_delete', methods: ['POST'])]
+    #[Route('/remove/{id}', name: 'app_entretien_delete')]
     public function delete(Request $request, Entretien $entretien, EntretienRepository $entretienRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$entretien->getId(), $request->request->get('_token'))) {
+
             $entretienRepository->remove($entretien, true);
-        }
+
 
         return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);
     }
