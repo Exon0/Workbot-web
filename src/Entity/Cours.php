@@ -21,7 +21,7 @@ class Cours
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
-    #[Assert\NotBlank]
+    #[Assert\Length(min:3,max: 20,minMessage:'ecrire un titre valide !',maxMessage: 'le titre est de longeure >20 !!')]
     #[ORM\Column(name: 'titre', type: 'string', length: 100, nullable: false)]
     private string $titre;
 
@@ -37,7 +37,7 @@ class Cours
     #[ORM\Column(name: 'categorie', type: 'string', length: 30, nullable: false)]
     private string $categorie;
 
-    #[Assert\Url]
+    #[Assert\File]
     #[ORM\Column(name: 'chemin', type: 'string', length: 200, nullable: false)]
     private string $chemin;
 

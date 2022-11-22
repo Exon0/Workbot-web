@@ -2,12 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Certification;
 use App\Entity\Cours;
+use App\Repository\CertificationRepository;
 use App\Repository\CoursRepository;
 use App\Form\CoursType;
+use App\Repository\QuizRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -20,12 +26,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class CoursController extends AbstractController
 {
     #[Route('/', name: 'app_cours_index', methods: ['GET'])]
-    public function index(CoursRepository $coursRepository): Response
+    public function index(CoursRepository $coursRepository,CertificationRepository $cer,QuizRepository $qu): Response
     {
+        $cours=count($coursRepository->findAll());
+        $certif=count($cer->findAll());
+        $quiz=count($qu->findAll());
+
+        $stat=$coursRepository->stat_count_cours();
         return $this->render('cours/index.html.twig', [
             'cours' => $coursRepository->findAll(),
+            'stat'=>$stat,
+            'q'=>$quiz,
+            'co'=>$cours,
+            'ce'=>$certif,
         ]);
     }
+
 
     #[Route('/u', name: 'app_cours_indexU', methods: ['GET'])]
     public function indexU(CoursRepository $coursRepository): Response
@@ -37,21 +53,25 @@ class CoursController extends AbstractController
 
 
 
-
-
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CoursRepository $coursRepository): Response
     {
         $cour = new Cours();
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            $brochureFile = $form->get('chemin')->getData();
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $path ="C:/htmlcours/" . $originalFilename . '.html';
+                $cour->setChemin($path);
+            }
+            var_dump($cour);
             $coursRepository->save($cour, true);
-
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('cours/new.html.twig', [
             'cour' => $cour,
             'form' => $form,
@@ -73,6 +93,13 @@ class CoursController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form->get('chemin')->getData();
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $path ="C:/htmlcours/" . $originalFilename . '.html';
+                $cour->setChemin($path);
+            }
             $coursRepository->save($cour, true);
 
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);

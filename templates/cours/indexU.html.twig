@@ -1,5 +1,103 @@
+{% extends 'utilisateur/client/base.html.twig' %}
 
 {% block title %}Cours index{% endblock %}
+
+
+{% block info %}
+    <section class="apply-process section" style="margin-top: 100px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12" style="border-color: #1a2e3b;border-width: 5px">
+                    <div class="process-item">
+                        <img width="70" height="70" src="{{asset('assets/img/cours.png')}}">
+                        <h4>Consulter Les Cours</h4>
+                        <p>Consulter nos Cours pour acquérir des nouvelles compétences.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="process-item">
+                        <img width="70" height="70" src="{{asset('assets/img/certificate1.png')}}">
+                        <h4>Passer Un Test De Certification</h4>
+                        <p>Passer un test de certifications en ligne qui vont booster votre CV.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="process-item">
+                        <img width="70" height="70" src="{{asset('assets/img/badge.png')}}">
+                        <h4>Avoir Un Badge</h4>
+                        <p>Obtenir un badge « Compétence vérifiée » pour démontrer la maîtrise de certaines compétences affichées sur votre profil.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block body %}
+<section class="find-job job-list section">
+    <div class="container">
+        <div class="single-head">
+            <div class="row">
+                <div class="col-lg-6 col-12">
+
+                     {% set i=cours|length/2 %}
+                     {% set k=0 %}
+                    {% for c in cours %}
+
+                        {% if k>=i  and k<cours|length %}
+                        {% set k=cours|length %}
+                        </div>
+                        <div class="col-lg-6 col-12">
+                        {% endif %}
+
+
+                    <div class="single-job">
+                        <div class="job-image">
+                            <img src="{{asset('assets/img/cours/htmlcours/'~c.titre~'.png')}}" height="70" width="70" alt="#">
+                        </div>
+                        <div class="job-content">
+                            <form>
+                            <h4><a style="font-size: 30px">{{ c.titre|upper }}</a></h4>
+                            </form>
+                            <p>Cours de <u style="color: black">{{ c.titre|upper }}</u>  specialise pour le domaine <u style="color: black">{{ c.domaine|upper }}</u> . </p> <p>C'est un cours <u style="color: black">{{ c.categorie|upper }}</u> . </p>
+                            <ul>
+                                <li><i class="bx lni-website"></i><a>Job.TN.com</a></li>
+                                <li><i class="bx bx-yen"></i> Free </li>
+                                <li><i class="lni lni-map-marker"></i>Developper par le team WorkBot</li>
+                            </ul>
+                        </div>
+                        <div class="job-button">
+                            <object type="application/html" width="100%" height="100%">
+                                <a class="btn btn-outline-primary" target="_blank" href="{{ asset('assets/img/cours/htmlcours/'~c.chemin|replace({'C:/htmlcours/':''}))}}" >Afficher</a>
+                            </object>
+
+
+                        </div>
+                    </div>
+                        {% set k=k+1 %}
+                    {% endfor %}
+
+
+
+
+
+                    </div>
+
+                </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock%}
+
+
+
+
+{#
 
 {% block body %}
     <h1>Cours index</h1>
@@ -69,3 +167,4 @@
 
     </div>
 {% endblock %}
+#}

@@ -1,11 +1,7 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}New Cours{% endblock %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
 {% block body %}
-    <h1>Create new Cours</h1>
-
-    {{ include('cours/_form.html.twig') }}
-
-    <a href="{{ path('app_cours_index') }}">back to list</a>
+{{ include('cours/_form.html.twig') }}
+<a href="{{ path('app_cours_index') }}">back to list</a>
 {% endblock %}

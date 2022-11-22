@@ -47,7 +47,21 @@ class QuizRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function quizcert_all(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT *,(SELECT count(*) from question_reponse qr where q.id=qr.id_quiz ) nb FROM `quiz` q;';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+
 //    /**
+
+
 //     * @return Quiz[] Returns an array of Quiz objects
 //     */
 //    public function findByExampleField($value): array

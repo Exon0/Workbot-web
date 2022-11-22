@@ -39,6 +39,16 @@ class CoursRepository extends ServiceEntityRepository
         }
     }
 
+    public function stat_count_cours(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select count(*) nb,domaine from cours c group by c.domaine';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return Cours[] Returns an array of Cours objects
 //     */

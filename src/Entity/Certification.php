@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Quiz;
 use App\Repository\CertificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,7 +39,8 @@ class Certification
     private string $lien;
 
     #[ORM\JoinColumn(name: 'id_quiz', referencedColumnName: 'id')]
-    private \App\Entity\Quiz $idQuiz;
+    #[ORM\ManyToOne(targetEntity: 'Quiz')]
+    private Quiz $idQuiz;
 
     public function getId(): ?int
     {
@@ -91,6 +93,22 @@ class Certification
         $this->lien = $lien;
 
         return $this;
+    }
+
+    /**
+     * @return \App\Entity\Quiz
+     */
+    public function getIdQuiz(): \App\Entity\Quiz
+    {
+        return $this->idQuiz;
+    }
+
+    /**
+     * @param \App\Entity\Quiz $idQuiz
+     */
+    public function setIdQuiz(\App\Entity\Quiz $idQuiz): void
+    {
+        $this->idQuiz = $idQuiz;
     }
 
 

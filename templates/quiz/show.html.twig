@@ -25,6 +25,8 @@
     <a href="{{ path('app_quiz_index') }}">back to list</a>
 
     <a href="{{ path('app_quiz_edit', {'id': quiz.id}) }}">edit</a>
-
+    <br>
     {{ include('quiz/_delete_form.html.twig') }}
+    <button onClick="window.history.back();">Go back</button>
+
 {% endblock %}
