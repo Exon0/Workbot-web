@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +21,16 @@ class OffreEmploiType extends AbstractType
             ->add('titre')
             ->add('salaire')
             ->add('description')
-            ->add('dateexpiration')
+
+             ->add('dateexpiration',null, [
+                'placeholder' => [
+                    'year' => 'Année',
+                    'month' => 'Mois',
+                    'day' => 'Jour',
+                ],
+                 'label'=>"Date d'expiration"
+
+             ])
             ->add('typecontrat',
                 ChoiceType::class,
                 ['choices'=>[

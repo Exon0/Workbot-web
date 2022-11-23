@@ -6,6 +6,7 @@ use App\Entity\Offre;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,8 +19,15 @@ class OffreFreelancerType extends AbstractType
             ->add('dureestage',null,['label'=>'Durée'])
             ->add('description')
             ->add('salaire',null,['label'=>'Rénumeration'])
-            ->add('dateexpiration')
-            ->add('modetravail',ChoiceType::class,
+            ->add('dateexpiration',null, [
+                'placeholder' => [
+                    'year' => 'Année',
+                    'month' => 'Mois',
+                    'day' => 'Jour',
+                ],
+                'label'=>"Date d'expiration"
+
+            ])            ->add('modetravail',ChoiceType::class,
                 ['choices'=>[
                     'Présentiel'=>'Présentiel',
                     'Hybrid'=>'Hybrid',

@@ -10,11 +10,12 @@ use App\Form\OffreStageType;
 use App\Repository\OffreRepository;
 use App\Repository\TestRepository;
 use App\Repository\UtilisateurRepository;
+use App\Service\mailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/offre')]
@@ -39,7 +40,7 @@ class OffreController extends AbstractController
     public function showCand(Offre $offre, OffreRepository $offreRepository, UtilisateurRepository $utilisateurRepository): Response
     {
         $candidatures = $offreRepository->findAllCandidates3($offre->getId());
-        $tite=$offre->getTitre();
+        $tite = $offre->getTitre();
         return $this->render('societe_candidature/index.html.twig', [
             'candidatures' => $candidatures,
             'offre' => $tite
@@ -56,9 +57,12 @@ class OffreController extends AbstractController
 
     #[Route('/new/{type}', name: 'app_offre_new', methods: ['GET', 'POST'])]
     public function new($type, Request $request, OffreRepository $offreRepository,
-                        UtilisateurRepository $repository, TestRepository $repositorytest, SluggerInterface $slugger): Response
+                        UtilisateurRepository $repository, TestRepository $repositorytest,
+                        mailerService $mailer): Response
     {
         if ($type === 'Stage') {
+
+
             $offre = new Offre();
             $form1 = $this->createForm(OffreStageType::class, $offre);
 
@@ -87,24 +91,40 @@ class OffreController extends AbstractController
                 $offre->setTypeoffre('Stage');
                 $offre->setDateajout(date('Y-m-d'));
                 foreach ($offreRepository->findBy(['idSoc' => '8']) as $unique) {
-                    echo "lol";
                     if ($unique->getTitre() === $offre->getTitre() &&
                         $unique->getTypeoffre() === $offre->getTypeoffre() &&
-                        $unique->getDateexpiration()=== $offre->getDateexpiration()) {
+                        $unique->getDateexpiration() === $offre->getDateexpiration()) {
                         if ($test ?? null) {
                             $repositorytest->remove($test);
                         }
-                        $this->addFlash('unique', 'Vous avez deja crée une offre similaire');
-                        return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
 
+                        $this->addFlash('unique', 'Vous avez deja crée une offre similaire');
+                        return $this->renderForm('offre/new.html.twig', [
+                            'offre' => $offre,
+                            'form' => $form1,
+                            'type' => $type
+                        ]);
                     }
                 }
+                if ($offre->getDateexpiration() <= date('Y-m-d')) {
+                    $this->addFlash('warning', 'date invalide');
+                    return $this->renderForm('offre/new.html.twig', [
+                        'offre' => $offre,
+                        'form' => $form1,
+                        'type' => $type
+                    ]);
+                }
+
                 $offreRepository->save($offre, true);
+                try {
+                    $mailer->sendEmail($soc->getEmail(), 'Offre de stage crée avec succées', 'Confirmation');
+                } catch (TransportExceptionInterface $e) {
+                }
+
 
                 $this->addFlash('success', 'Offre crée avec succées');
-
-
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
+
             }
 
             return $this->renderForm('offre/new.html.twig', [
@@ -169,16 +189,31 @@ class OffreController extends AbstractController
                 $offre->setTypeoffre('Emploi');
                 $offre->setDateajout(date('Y-m-d'));
                 foreach ($offreRepository->findBy(['idSoc' => '8']) as $unique) {
-                    if ($unique->getTitre() === $offre->getTitre() && $unique->getTypeoffre() === $offre->getTypeoffre() && $unique->getDateexpiration()=== $offre->getDateexpiration()) {
+                    if ($unique->getTitre() === $offre->getTitre() && $unique->getTypeoffre() === $offre->getTypeoffre() && $unique->getDateexpiration() === $offre->getDateexpiration()) {
                         if ($test ?? null) {
                             $repositorytest->remove($test);
                         }
                         $this->addFlash('unique', 'Vous avez deja crée une offre similaire');
-                        return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
-
+                        return $this->renderForm('offre/new.html.twig', [
+                            'offre' => $offre,
+                            'form' => $form1,
+                            'type' => $type
+                        ]);
                     }
                 }
+                if ($offre->getDateexpiration() <= date('Y-m-d')) {
+                    $this->addFlash('warning', 'date invalide');
+                    return $this->renderForm('offre/new.html.twig', [
+                        'offre' => $offre,
+                        'form' => $form1,
+                        'type' => $type
+                    ]);
+                }
                 $offreRepository->save($offre, true);
+                try {
+                    $mailer->sendEmail($soc->getEmail(), "Offre d'emploi crée avec succées", 'Confirmation');
+                } catch (TransportExceptionInterface $e) {
+                }
                 $this->addFlash('success', 'Offre crée avec succées');
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
@@ -224,16 +259,31 @@ class OffreController extends AbstractController
                 $offre->setTypeoffre('Freelancer');
                 $offre->setDateajout(date('Y-m-d'));
                 foreach ($offreRepository->findBy(['idSoc' => '8']) as $unique) {
-                    if ($unique->getTitre() === $offre->getTitre() && $unique->getTypeoffre() === $offre->getTypeoffre() && $unique->getDateexpiration()=== $offre->getDateexpiration()) {
+                    if ($unique->getTitre() === $offre->getTitre() && $unique->getTypeoffre() === $offre->getTypeoffre() && $unique->getDateexpiration() === $offre->getDateexpiration()) {
                         if ($test ?? null) {
                             $repositorytest->remove($test);
                         }
                         $this->addFlash('unique', 'Vous avez deja crée une offre similaire');
-                        return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
-
+                        return $this->renderForm('offre/new.html.twig', [
+                            'offre' => $offre,
+                            'form' => $form1,
+                            'type' => $type
+                        ]);
                     }
                 }
+                if ($offre->getDateexpiration() <= date('Y-m-d')) {
+                    $this->addFlash('warning', 'date invalide');
+                    return $this->renderForm('offre/new.html.twig', [
+                        'offre' => $offre,
+                        'form' => $form1,
+                        'type' => $type
+                    ]);
+                }
                 $offreRepository->save($offre, true);
+                try {
+                    $mailer->sendEmail($soc->getEmail(), 'Offre Freelancer crée avec succées', 'Confirmation');
+                } catch (TransportExceptionInterface $e) {
+                }
                 $this->addFlash('success', 'Offre crée avec succées');
 
                 return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);

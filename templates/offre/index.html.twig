@@ -14,10 +14,10 @@ Vos offres
 
 
 
-    {% for label, messages in app.flashes(['success', 'update' , "delete","deleteT","unique"]) %}
+    {% for label, messages in app.flashes(['success', 'update' , "delete","deleteT"]) %}
         {% for message in messages %}
             <div class="alert alert-success -{{ label }}">
-                {{ message | upper}}
+              <div style="text-align: center;">  {{ message | upper}}</div>
             </div>
         {% endfor %}
     {% endfor %}

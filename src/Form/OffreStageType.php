@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -28,8 +29,15 @@ class OffreStageType extends AbstractType
             ->add('description',TextareaType::class,
                 [   'required'=>false,
                     'attr'=>['rows'=>5]])
-            ->add('dateexpiration',NULL,['label'=>"Date d'expiration"])
-            ->add('typestage',
+            ->add('dateexpiration',null, [
+                'placeholder' => [
+                    'year' => 'Année',
+                    'month' => 'Mois',
+                    'day' => 'Jour',
+                ],
+                'label'=>"Date d'expiration"
+
+            ])            ->add('typestage',
                 ChoiceType::class,
                 ['choices'=>[
                     'PFE'=>'PFE',

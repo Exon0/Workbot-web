@@ -2,6 +2,12 @@
 
 {% block container %}<br>Créer un entretien{% endblock %}
 {% block retour %}
+    {% for label, messages in app.flashes(['success', 'update','warning']) %}
+        {% for message in messages %}
+            <div class="alert alert-danger -{{ label }}">
+                {{ message | upper}}
+            </div>
+        {% endfor %}    {% endfor %}
 <a href="{{ path('app_entretien_index') }}">Retour</a>
 {% endblock %}
 

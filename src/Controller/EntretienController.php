@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Candidature;
 use App\Entity\Entretien;
-use App\Entity\Utilisateur;
+use App\Form\EntretienType;
 use App\Repository\CandidatureRepository;
 use App\Repository\EntretienRepository;
-use App\Form\EntretienType;
 use App\Repository\UtilisateurRepository;
-use ContainerNufdAdS\getConsole_ErrorListenerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,12 +20,12 @@ class EntretienController extends AbstractController
     public function index(EntretienRepository $entretienRepository): Response
     {
         return $this->render('entretien/index.html.twig', [
-            'entretiens' => $entretienRepository->findBy(['iduser'=>8]),
+            'entretiens' => $entretienRepository->findBy(['iduser' => 8]),
         ]);
     }
 
     #[Route('/new/{id}', name: 'app_entretien_new', methods: ['GET', 'POST'])]
-    public function new(UtilisateurRepository $utilisateurRepository,Candidature $idCandidature,Request $request, EntretienRepository $entretienRepository): Response
+    public function new(CandidatureRepository $candidatureRepository,UtilisateurRepository $utilisateurRepository, Candidature $idCandidature, Request $request, EntretienRepository $entretienRepository): Response
     {
 
         $entretien = new Entretien();
@@ -37,28 +35,38 @@ class EntretienController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            foreach ($entretienRepository->findAll() as $ent)
-            {
-                if($ent->getIdCandidature()->getId() === $idCandidature->getId())
-                {$this->addFlash('warning', 'Vous avez deja prévu un entretien avec ce candidat le'.$ent->getDate() .' a '. $ent->getHeure());
-                    return $this->redirectToRoute('app_entretien_index');}
-                if ($ent->getDate() === $entretien->getDate() and $ent->getHeure() === $entretien->getHeure())
-                {$this->addFlash('warning', 'Vous avez deja prévu un entretien avec un autre candidat a cette date et heure le');
-                    return $this->redirectToRoute('app_entretien_index');}
+            foreach ($entretienRepository->findAll() as $ent) {
+                if ($ent->getIdCandidature()->getId() === $idCandidature->getId()) {
+                    $this->addFlash('warning', 'Vous avez deja prévu un entretien avec ce candidat le' . $ent->getDate() . ' a ' . $ent->getHeure());
+                    return $this->redirectToRoute('app_entretien_index');
+                }
+                if ($ent->getDate() === $entretien->getDate() and $ent->getHeure() === $entretien->getHeure()) {
+                    $this->addFlash('warning', 'Vous avez deja prévu un entretien avec un autre candidat a cette date et heure ci');
+                    return $this->renderForm('entretien/new.html.twig', [
+                        'entretien' => $entretien,
+                        'form' => $form,
+                    ]);                }
 
             }
 
-            if($entretien->getDate()<=date('Y-m-d'))
-            {$this->addFlash('warning', 'date invlide');
-                return $this->redirectToRoute('app_entretien_index');}
-            if($entretien->getHeure()<'07:00:00' || $entretien->getHeure()>'18:00:00')
-            {$this->addFlash('warning', 'Veuillez respecter les horraires de travail ');
-                return $this->redirectToRoute('app_entretien_index');}
+            if ($entretien->getDate() <= date('Y-m-d')) {
+                $this->addFlash('warning', 'date invlide');
+                return $this->redirectToRoute('app_entretien_new');
+            }
+
+            if ($entretien->getHeure() < '07:00:00' || $entretien->getHeure() > '18:00:00') {
+                $this->addFlash('warning', 'Veuillez respecter les horraires de travail ');
+                return $this->redirectToRoute('app_entretien_new');
+            }
             $entretien->setIdCandidature($idCandidature);
             $entretien->setIduser($utilisateurRepository->find(8));
             $entretien->setQrCode('uploads/qrcode/qr-code1.png');
             $entretienRepository->save($entretien, true);
+            $cand=$candidatureRepository->find($entretien->getIdCandidature());
+            $cand->setStatut('Entretien');
 
+            $candidatureRepository->save($cand,true);
+            $this->addFlash('warning', 'Entretien ajouté avec succées ');
             return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -66,8 +74,7 @@ class EntretienController extends AbstractController
             'entretien' => $entretien,
             'form' => $form,
         ]);
-            }
-
+    }
 
 
     #[Route('/{id}', name: 'app_entretien_show', methods: ['GET'])]
@@ -100,7 +107,8 @@ class EntretienController extends AbstractController
     public function delete(Request $request, Entretien $entretien, EntretienRepository $entretienRepository): Response
     {
 
-            $entretienRepository->remove($entretien, true);
+        $entretienRepository->remove($entretien, true);
+        $this->addFlash('warning', 'Entretien supprimé avec succées ');
 
 
         return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);

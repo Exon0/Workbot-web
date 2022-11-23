@@ -39,8 +39,12 @@
                     Dolore, qui aspernatur accusantium! Molestiae, cum cupiditate nam optio
                     dignissimos magnam velit, perspiciatis amet qui aut nobis, quisquam, laudantium
                     vitae eos ipsam.</p>
+                {% if candidature.statut != 'Entretien' %}
                 <a class="year-exp" href="{{ path('app_entretien_new', {'id': candidature.id}) }}">Entretien</a>
+                {% else %}
+                    <a class="year-exp" href="{{ path('app_entretien_new', {'id': candidature.id}) }}">Embaucher</a>
 
+                {% endif %}
             </div>
         </div>
             {% else %}

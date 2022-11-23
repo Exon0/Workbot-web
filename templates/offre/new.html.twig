@@ -1,14 +1,20 @@
 {% extends 'offre/templateoffre.html.twig' %}
 {% block section %}
-<section class="job-post section">
 
+<section class="job-post section">
+    {% for label, messages in app.flashes([ "warning","unique"]) %}
+        {% for message in messages %}
+            <div class="alert alert-warning -{{ label }}">
+                <div style="text-align: center;"> {{ message | upper}}</div>
+            </div>
+        {% endfor %}
+    {% endfor %}
     {% endblock %}
     {% block container %}       <br>
 
         Créer une offre {% endblock %}
 
     {% block retour %}
-    <a href="{{ path('app_offre_index') }}">Retour</a>
 {% endblock %}
 
 {% block body %}
