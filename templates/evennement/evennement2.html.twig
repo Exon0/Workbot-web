@@ -1,13 +1,13 @@
 {% extends 'utilisateur/client/base.html.twig' %}
 {% block body %}
     <div class="table-responsive" style="margin-top: 50px">
-    <table class="table table-hover" id="tableac">
-        <br>
-        <br>
-        <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
-        <br>
-        <br>
-        <br>
+        <table class="table table-hover" id="tableac">
+            <br>
+            <br>
+            <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
+            <br>
+            <br>
+            <br>
             <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                 <input type="text" class="form-" placeholder="Chercher un evennement" id="search"></form>
             <br>
@@ -24,28 +24,26 @@
                 <th>Price</th>
                 <th>Flyer</th>
                 <th>Video</th>
-                <th colspan="4">actions</th>
+                <th>actions</th>
             </tr>
             </thead>
             <tbody>
-            {% for evennement in evennements %}
+            {% for ev in evennements22 %}
                 <tr>
 
-                    <td>{{ evennement.datedebut }}</td>
-                    <td>{{ evennement.datefin }}</td>
-                    <td>{{ evennement.libelle }}</td>
-                    <td>{{ evennement.heuredebut }}</td>
-                    <td>{{ evennement.heurefin }}</td>
-                    <td>{{ evennement.nbplaces }}</td>
-                    <td>{{ evennement.prix }}</td>
-                    <td>{{ evennement.flyer }}</td>
-                    <td>{{ evennement.video }}</td>
+                    <td>{{ ev.dateDebut }}</td>
+                    <td>{{ ev.dateFin }}</td>
+                    <td>{{ ev.libelle }}</td>
+                    <td>{{ ev.heureDebut }}</td>
+                    <td>{{ ev.heureFin }}</td>
+                    <td>{{ ev.nbPlaces }}</td>
+                    <td>{{ ev.prix }}</td>
+                    <td>{{ ev.flyer }}</td>
+                    <td>{{ ev.video }}</td>
 
 
-                    <td> <a href="{{ path('app_evennement_edit', {'id': evennement.id}) }}"><input type="submit" value="Edit" class="btn btn-primary"></a></td>
-                    <td><a href="{{ path('voirpev', {'id': evennement.id}) }}"><input type="submit" value="List Participants" class="btn btn-primary"></a></td>
-                    <td><a href="{{ path('sponsh', {'id': evennement.id}) }}"><input type="submit" value="Spons" class="btn btn-primary"></a></td>
-                    <td> {{ include('evennement/_delete_form.html.twig') }}</td>
+                    <td> <a href="{{ path('participer', {'id': ev.id}) }}"><input type="submit" value="Participer" class="btn btn-primary"></a></td>
+
 
 
                 </tr>
@@ -81,8 +79,7 @@
                 </tr>
             {% endfor %}
             </tbody>
-            </div>
-    </table>
+        </table>
+    </div>
 
-    <a href="{{ path('app_evennement_new') }}"><input type="submit" value="Create New" class="btn btn-primary"></a>
-{% endblock %}
+    {% endblock %}

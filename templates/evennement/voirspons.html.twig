@@ -1,0 +1,34 @@
+{% extends 'utilisateur/client/base.html.twig' %}
+
+
+
+{% block body %}
+
+<br>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <<th>Nom</th>
+            <th>LOGO</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for s in spons  %}
+            <tr>
+                <td>{{ s.nom }}</td>
+                <td>{{ s.logo }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_evennement_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a>
+    <a href="{{ path('app_sponsor_new') }}"><input type="submit" value="Ajouter sponsor" class="btn btn-primary"></a>
+
+{% endblock %}

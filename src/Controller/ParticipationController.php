@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Participation;
+use App\Entity\Utilisateur;
 use App\Repository\ParticipationRepository;
 use App\Form\ParticipationType;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,19 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParticipationController extends AbstractController
 {
     #[Route('/', name: 'app_participation_index', methods: ['GET'])]
-    public function index(ParticipationRepository $participationRepository): Response
+    public function index(ParticipationRepository $participationRepository,UtilisateurRepository $userrepo): Response
     {
+
+        $us=$userrepo->find(9);
+
+
         return $this->render('participation/index.html.twig', [
-            'participations' => $participationRepository->findAll(),
+            'us' => $us,
         ]);
     }
 
     #[Route('/new', name: 'app_participation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ParticipationRepository $participationRepository): Response
+    public function new(Request $request, ParticipationRepository $participationRepository,UtilisateurRepository $userrepo): Response
     {
         $participation = new Participation();
         $form = $this->createForm(ParticipationType::class, $participation);
         $form->handleRequest($request);
+        $user=$userrepo->find(9);
+        $participation->setIdUserp($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $participationRepository->save($participation, true);
@@ -47,6 +55,9 @@ class ParticipationController extends AbstractController
             'participation' => $participation,
         ]);
     }
+
+
+
 
     #[Route('/{id}/edit', name: 'app_participation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Participation $participation, ParticipationRepository $participationRepository): Response
@@ -75,4 +86,6 @@ class ParticipationController extends AbstractController
 
         return $this->redirectToRoute('app_participation_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }

@@ -1,0 +1,33 @@
+{% extends 'utilisateur/client/base.html.twig' %}
+
+
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+<br>
+    <table class="table">
+        <thead>
+        <tr>
+            <<th>nom</th>
+            <th>prenom</th>
+            <th>email</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for p in par %}
+        <tr>
+            <td>{{ p.nom }}</td>
+            <td>{{ p.prenom }}</td>
+            <td>{{ p.email }}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_evennement_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a>
+{% endblock %}

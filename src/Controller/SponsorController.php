@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sponsor;
+use App\Repository\EvennementRepository;
 use App\Repository\SponsorRepository;
 use App\Form\SponsorType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,13 @@ class SponsorController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sponsor_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SponsorRepository $sponsorRepository): Response
+    public function new(Request $request, SponsorRepository $sponsorRepository,EvennementRepository $eventrepo): Response
     {
         $sponsor = new Sponsor();
         $form = $this->createForm(SponsorType::class, $sponsor);
         $form->handleRequest($request);
+        $event=$eventrepo->find(4);
+        $sponsor->setIdEvenement($event);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $sponsorRepository->save($sponsor, true);

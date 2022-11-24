@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/client/base.html.twig' %}
 
-{% block title %}Participation{% endblock %}
+
 
 {% block body %}
-    <h1>Participation</h1>
+
 
     <table class="table">
         <tbody>
@@ -14,7 +14,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_participation_index') }}">back to list</a>
+    <a href="{{ path('app_participation_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a>
 
     <a href="{{ path('app_participation_edit', {'id': participation.id}) }}">edit</a>
 

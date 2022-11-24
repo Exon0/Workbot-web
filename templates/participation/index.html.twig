@@ -1,33 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/client/base.html.twig' %}
 
-{% block title %}Participation index{% endblock %}
+
 
 {% block body %}
-    <h1>Participation index</h1>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>actions</th>
+                <<th>Nom</th>
+                <th>Prenom</th>
+                <th>Tel</th>
+                <th>Email</th>
+
             </tr>
         </thead>
         <tbody>
-        {% for participation in participations %}
+
+
             <tr>
-                <td>{{ participation.id }}</td>
-                <td>
-                    <a href="{{ path('app_participation_show', {'id': participation.id}) }}">show</a>
-                    <a href="{{ path('app_participation_edit', {'id': participation.id}) }}">edit</a>
-                </td>
+                <td>{{ us.nom }}</td>
+                <td>{{ us.prenom }}</td>
+                <td>{{ us.tel }}</td>
+                <td>{{ us.email }}</td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="2">no records found</td>
-            </tr>
-        {% endfor %}
+
+
         </tbody>
     </table>
 
-    <a href="{{ path('app_participation_new') }}">Create new</a>
+    <a href="{{ path('app_evennement_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a>
 {% endblock %}

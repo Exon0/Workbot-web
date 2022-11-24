@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Evennement;
+use App\Entity\Participation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,45 @@ class EvennementRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function participnotin($iduser)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+          SELECT * FROM evennement e WHERE id NOT IN(select id_event from participation p WHERE nbPlaces>0 and p.id_event=e.id and p.id_userP=:iduser)';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery([ 'iduser'=>$iduser]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function participin($iduser)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+          SELECT * FROM evennement e WHERE id IN(select id_event from participation p WHERE nbPlaces>0 and p.id_event=e.id and p.id_userP=:iduser)';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery([ 'iduser'=>$iduser]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function affichertoutev()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+          SELECT * FROM evennement';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
 
 //    /**
 //     * @return Evennement[] Returns an array of Evennement objects
