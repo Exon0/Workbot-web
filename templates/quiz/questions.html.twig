@@ -1,8 +1,22 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
 
+
+{% block pagetitle %}
+    <div class="pagetitle">
+        <h1>Questions</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a>Accueil</a></li>
+                <li class="breadcrumb-item active">Quiz</li>
+                <li class="breadcrumb-item active">Questions</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+{% endblock%}
+
 {% block body %}
-    <div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 40px;">
-        <div class="col-lg-6">
+    <div class="row">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Question Reponse :</h5>

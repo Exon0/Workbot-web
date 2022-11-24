@@ -8,12 +8,11 @@ use App\Repository\CertificationRepository;
 use App\Repository\CoursRepository;
 use App\Form\CoursType;
 use App\Repository\QuizRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\HttpBrowser;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -51,6 +50,31 @@ class CoursController extends AbstractController
         ]);
     }
 
+    #[Route('/pdf', name: 'pdf_cours',methods: ['GET'])]
+    public function pdf_cours(CoursRepository $Repository): Response
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        // Instantiate Dompdf with our options
+        $dompdf =new Dompdf($pdfOptions);
+
+        $cours = $Repository->findAll();
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('cours/pdf.html.twig', [
+            'cours' => $cours,
+        ]);
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("njr.pdf", ["Attachment" => true]);
+        exit;
+    }
 
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
@@ -59,7 +83,7 @@ class CoursController extends AbstractController
         $cour = new Cours();
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null)
         {
 
             $brochureFile = $form->get('chemin')->getData();
@@ -92,7 +116,7 @@ class CoursController extends AbstractController
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null) {
 
             $brochureFile = $form->get('chemin')->getData();
             if ($brochureFile) {
@@ -120,4 +144,7 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
 }

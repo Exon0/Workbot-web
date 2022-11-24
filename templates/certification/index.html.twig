@@ -97,11 +97,12 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Certification :</h5>
-
-    <table class="table ta table-striped table-vcenter js-dataTable-buttons">
+                <input type="text" class="label" id="search" name="search">
+                <div class="block-content block-content-full" style="overflow-x:auto;" >
+                <table  class="table ta table-striped table-vcenter js-dataTable-buttons">
         <thead>
             <tr>
-                <th>Titrecours</th>
+                <th class="d-none d-sm-table-cell"  >Titrecours</th>
                 <th>Titretest</th>
                 <th>Dateajout</th>
                 <th>Lien</th>
@@ -145,11 +146,20 @@
         {% endfor %}
         </tbody>
     </table>
-
+                </div>
     <a href="{{ path('app_certification_new') }}">Cree Certification</a>
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
 
 
 

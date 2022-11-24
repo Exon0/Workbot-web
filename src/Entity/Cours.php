@@ -21,23 +21,23 @@ class Cours
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
-    #[Assert\Length(min:3,max: 20,minMessage:'ecrire un titre valide !',maxMessage: 'le titre est de longeure >20 !!')]
+    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
+    #[Assert\Length(min:2,max: 20,minMessage:'ecrire un titre valide !',maxMessage: 'le titre est de longeure >20 !!')]
     #[ORM\Column(name: 'titre', type: 'string', length: 100, nullable: false)]
     private string $titre;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
     #[ORM\Column(name: 'matiere', type: 'string', length: 100, nullable: false)]
     private string $matiere;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
     #[ORM\Column(name: 'domaine', type: 'string', length: 200, nullable: false)]
     private string $domaine;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
     #[ORM\Column(name: 'categorie', type: 'string', length: 30, nullable: false)]
     private string $categorie;
 
-    #[Assert\File]
     #[ORM\Column(name: 'chemin', type: 'string', length: 200, nullable: false)]
     private string $chemin;
 

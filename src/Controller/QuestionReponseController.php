@@ -140,29 +140,27 @@ class QuestionReponseController extends AbstractController
 
 
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $rq1=$form['question1']->getData();
-            $rq2=$form['question2']->getData();
-            $rq3=$form['question3']->getData();
-            $rq4=$form['question4']->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $rq1 = $form['question1']->getData();
+            $rq2 = $form['question2']->getData();
+            $rq3 = $form['question3']->getData();
+            $rq4 = $form['question4']->getData();
 
-            $res=$rq1+$rq2+$rq3+$rq4;
+            $res = $rq1 + $rq2 + $rq3 + $rq4;
 
 
-            if($res>2)
-            {
-                $badge=new Badge();
+            if ($res > 2) {
+                $badge = new Badge();
                 $badge->setNom($certification->getTitrecours());
                 $br->save($badge, true);
-                $allB=$br->findAll();
-                $r=$allB[count($allB)-1];
-                $cb=new CertifBadge();
-                $u=$ur->find(8);
+                $allB = $br->findAll();
+                $r = $allB[count($allB) - 1];
+                $cb = new CertifBadge();
+                $u = $ur->find(8);
                 $cb->setIdCertif($certification);
                 $cb->setIdBadge($r);
                 $cb->setIdUser($u);
-                $cbr->save($cb,true);
+                $cbr->save($cb, true);
 
                 $session = new Session();
 
@@ -170,7 +168,7 @@ class QuestionReponseController extends AbstractController
                 #sms commented 3al flous :p /////////---------TWILIO--------/////////////
                 #$stc->NotifCertif($texter);
 
-                $email=(new Email())->from('jardak.nader@esprit.tn')
+                $email = (new Email())->from('jardak.nader@esprit.tn')
                     ->to('naderjardak5@gmail.com')
                     ->subject('JOB.TN.com')
                     ->text('Felicitation !!')
@@ -234,7 +232,7 @@ class QuestionReponseController extends AbstractController
             </div>
 
             <div class="person">
-               '.$session->getName().'
+               ' . $session->getName() . '
             </div>
 
             <div class="reason">
@@ -245,12 +243,14 @@ class QuestionReponseController extends AbstractController
     </body>
 </html>');
 
-               $sm->send($email);
-                return $this->render('quiz/success.html.twig', ['nom'=>$session->getName()]);
-
+                $sm->send($email);
+                echo "<script>alert(\"Felicitaion vouz recevrais Votre Certification par Mail  :\")</script>";
+            }
+            else {
+                echo "<script>alert(\"Desole !!  Votre Note est >10 :\")</script>";
             }
 
-            return $this->render('quiz/refuser.html.twig', []);
+            $this->red();
         }
 
 
@@ -258,6 +258,12 @@ class QuestionReponseController extends AbstractController
             'form'=>$form->createView(),
         ]);
     }
+
+    public function red()
+    {
+        return $this->redirectToRoute("app_certification_indexu");
+    }
+
 
 
     #[Route('/{id}/save', name: 'app_question_reponse_index_save', methods: ['GET'])]

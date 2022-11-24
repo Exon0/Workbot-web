@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[Route('/certification')]
 class CertificationController extends AbstractController
@@ -49,6 +50,18 @@ class CertificationController extends AbstractController
         ]);
     }
 
+    #[Route("/searchCertification ", name:"searchcertif")]
+    public function searchCertification(Request $request,NormalizerInterface $Normalizer,CertificationRepository $repository)
+    {
+        $requestString=$request->get('searchValue');
+        $res = $repository->cert_search($requestString);
+        var_dump($res);
+        $jsonContent = $Normalizer->normalize($res, 'json',['groups'=>'certification']);
+        $retour=json_encode($jsonContent);
+        return new Response($retour);
+    }
+
+
     #[Route('/aff/{id}', name: 'app_quiz_afficher', methods: ['GET'])]
     public function certif_aff(CertificationRepository $certificationRepository,QuizRepository $qr,$id): Response
     {
@@ -68,7 +81,7 @@ class CertificationController extends AbstractController
         $form = $this->createForm(CertificationType::class, $certification);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $time = new \DateTime();
             $t=$time->format('Y/m/d');
             var_dump($t);

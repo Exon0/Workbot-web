@@ -94,6 +94,20 @@ class CertificationRepository extends ServiceEntityRepository
         $resultSet = $stmt->executeQuery();
         return $resultSet->fetchAllAssociative();
     }
+
+    public function cert_search($requestString): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $q=$requestString;
+        $sql = "SELECT * FROM `certification` where (titreCours like 'html' ) ";
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+        return $resultSet->fetchAllAssociative();
+    }
+
+
+
+
 //    /**
 //     * @return Certification[] Returns an array of Certification objects
 //     */

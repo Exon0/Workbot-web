@@ -8,21 +8,27 @@
                         <h6 class="card-title" style="display: flex;align-items: center;justify-content: center;font-size: 30px">Cours</h6>
 
 
-                        {{ form_start(form) }}<!-- General Form Elements -->
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
                         <label for="inputText" class="col-sm-4 col-form-label">Titre Cours </label>
                         <div class="col-sm-10">
                             {{ form_widget(form.titrecours,{'attr':{'class':'form-control'}}) }}
+                            {{ form_errors(form.titrecours) }}
+
                         </div>
 
                         <label for="inputText" class="col-sm-4 col-form-label">Titre Teste</label>
                         <div class="col-sm-10">
                             {{ form_widget(form.titretest,{'attr':{'class':'form-control'}}) }}
+                            {{ form_errors(form.titretest) }}
+
                         </div>
 
                         <label for="inputText" class="col-sm-4 col-form-label">Lien</label>
                         <div class="col-sm-10">
                             {{ form_widget(form.lien,{'attr':{'class':'form-control'}}) }}
+                            {{ form_errors(form.lien) }}
+
                         </div>
                         </br>
                         <table style="display: flex;align-items: center;justify-content: center;">
