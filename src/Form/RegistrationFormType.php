@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Utilisateur;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -89,7 +91,10 @@ questionSecu
             ])
             ->add('tel',TextType::class)
             ->add('mdp', PasswordType::class)
-
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'homepage',
+            ])
         ;
     }
 

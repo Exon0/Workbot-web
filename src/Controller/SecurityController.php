@@ -77,13 +77,20 @@ class SecurityController extends AbstractController
             }
 
             $url = $this->generateUrl('app_reset_password',array('token'=>$token),UrlGeneratorInterface::ABSOLUTE_URL);
-
+            //-- Path to template
+            $template = 'utilisateur/mail/my-awesome-template.html.twig';
+            //-- Params to pass to template
+            $params = [
+                'dynamicContent' => $url
+            ];
             //BUNDLE MAILER
             $message = (new Swift_Message('Mot de password oublié'))
                 ->setFrom('mohsen.fennira@esprit.tn')
                 ->setTo($user->getEmail())
-                ->setBody("<p> Bonjour</p> une demande de réinitialisation de mot de passe a été effectuée. Veuillez cliquer sur le lien suivant :".$url,
-                    "text/html");
+                ->setBody(
+                    $this->render($template, $params), 'text/html'
+                );
+
 
             //send mail
             $mailer->send($message);
@@ -119,7 +126,7 @@ class SecurityController extends AbstractController
 
         if($request->isMethod('POST')) {
             $utilisateur ->setResetToken(null);
-            $utilisateur->setMdp($userPasswordHasher->hashPassword($utilisateur,$request->request->get('password')));
+            $utilisateur->setMdp($userPasswordHasher->hashPassword($utilisateur,$request->request->get('mdp')));
 
             $entityManger = $doctrine->getManager();
             $entityManger->persist($utilisateur);

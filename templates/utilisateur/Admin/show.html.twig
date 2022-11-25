@@ -33,7 +33,18 @@
                         <td>
                     <button class="bg-danger-light"><a href="{{path('delete', {'id': f.id}) }}"method="post" >delete</a></button>
                         </td>
-                        <td><img src ="{{ asset('upload/ads/' ~ f.photo) }}"
+
+                        <td>
+                    {#
+                            {% if f.photo | length() > 20 %}
+
+                                <img src="{{ asset($Utilisateur->photoGoogleFb.url() }}">
+                            <img src=" {{ asset(f.photoGoogleFb.url) }} "/>
+                            {% endif %}
+
+                            {% else %}
+                    #}
+                            <img src ="{{ asset('upload/ads/' ~ f.photo) }}"
                                  alt="" style="width: 40px;height: 30px" class="rounded-circle justify-content-center"></td>
                     </tr>
                 {% endfor %}

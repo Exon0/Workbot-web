@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Ads;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,9 +51,14 @@ class AdsType extends AbstractType
     ],
 
             ])
-            ->add('dateFin')
+            ->add('dateFin',DateType::class,['format'=>'yyyy-MM-dd'])
             ->add('mail')
+            ->add('phonenumber')
             ->add('ajouter',SubmitType::class)
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'homepage',
+            ])
         ;
     }
 

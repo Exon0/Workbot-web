@@ -84,6 +84,38 @@ public function findadmin(){
             ->getResult();
 
     }
+    public function countuser()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u'
+        )->getSingleScalarResult();
+    }
+    public function countsociete()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','sociéte')->getSingleScalarResult();
+
+    }
+
+    public function countcandidat()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','candidat')->getSingleScalarResult();
+
+    }
+
+    public function search($term)
+    {
+        return $this->createQueryBuilder('Utilisateur')
+            ->Where('utilisateur.nom LIKE :no')
+            ->setParameter('no','%'.$term.'%')
+            ->getQuery()
+            ->execute();
+
+    }
+
 //    /**
 //     * @return Utilisateur[] Returns an array of Utilisateur objects
 //     */

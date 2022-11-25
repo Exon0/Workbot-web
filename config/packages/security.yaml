@@ -26,6 +26,7 @@ security:
             custom_authenticator:
               - App\Security\LoginSecurityAuthenticator
               - App\Security\GoogleAuthenticator
+              - App\Security\MyFacebookAuthenticator
           #  custom_authenticators:
 
             logout:
@@ -43,9 +44,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-     - { path: ^/utilisateur, roles: ROLE_Admin }
-     - { path: ^/offre, roles: ROLE_s }
-     - { path: ^/candidature, roles: ROLE_c }
+         - { path: ^/utilisateur, roles: ROLE_Admin }
+         - { path: ^/offre, roles: ROLE_s }
+         - { path: ^/candidature, roles: ROLE_c }
+
 when@test:
     security:
         password_hashers:

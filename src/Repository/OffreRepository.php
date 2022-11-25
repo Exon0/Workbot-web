@@ -38,6 +38,12 @@ class OffreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findNBoffresAdmin()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(o) from App\Entity\Offre o'
+        )->getSingleScalarResult();
+    }
 
 //    /**
 //     * @return Offre[] Returns an array of Offre objects

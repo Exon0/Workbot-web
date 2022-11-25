@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ ads.type }}</h5>
-                    <p class="card-text">Ce pack est valable uniquement + 30 jours debut de mois  {{ ads.dateFin }}  pour le client du nom: {{ ads.nom }}.</p>
+                    <p class="card-text">Ce pack est valable uniquement + 30 jours debut de mois  {{ads.dateFin.format('d/m/Y') }} pour le client du nom: {{ ads.nom }}.</p>
                     <a href="" class="btn btn-primary">Renouvellement de l'abonnement</a>
                 </div>
             </div>

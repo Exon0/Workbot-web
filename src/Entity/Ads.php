@@ -40,6 +40,25 @@ class Ads
     #[ORM\Column(name: 'photo', type: 'string', length: 250, nullable: true)]
     private ?string $photo = null;
 
+    #[ORM\Column(name: 'phonenumber', type: 'string', length: 250, nullable: true)]
+    private ?string $phonenumber = null;
+
+    /**
+     * @return string|null
+     */
+    public function getPhonenumber(): ?string
+    {
+        return $this->phonenumber;
+    }
+
+    /**
+     * @param string|null $phonenumber
+     */
+    public function setPhonenumber(?string $phonenumber): void
+    {
+        $this->phonenumber = $phonenumber;
+    }
+
     #[ORM\Column(name: 'video', type: 'string', length: 255, nullable: true)]
     private ?string $video = null;
 
@@ -51,9 +70,26 @@ class Ads
     #[ORM\Column(name: 'date_debut', type: 'string', length: 250, nullable: true)]
     private string $dateDebut;
 
-    #[Assert\NotNull]
-    #[ORM\Column(name: 'date_fin', type: 'string', length: 255, nullable: false)]
-    public string $dateFin;
+
+    #[ORM\Column(name: 'date_fin', type: 'date', nullable: false)]
+    private string|\DateTime $dateFin ;
+
+    /**
+     * @return \DateTime|string
+     */
+    public function getDateFin(): \DateTime|string
+    {
+        return $this->dateFin;
+    }
+
+    /**
+     * @param \DateTime|string $dateFin
+     */
+    public function setDateFin(\DateTime|string $dateFin): void
+    {
+        $this->dateFin = $dateFin;
+    }
+
 
     #[ORM\Column(name: 'nombre_ads', type: 'integer', nullable: false)]
     private int $nombreAds;
@@ -126,23 +162,6 @@ class Ads
 
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getDateFin(): string
-    {
-        return $this->dateFin;
-    }
-
-    /**
-     * @param string $dateFin
-     */
-    public function setDateFin(string $dateFin): void
-    {
-        $this->dateFin = $dateFin;
-    }
-
 
 
     public function getNombreAds(): ?int

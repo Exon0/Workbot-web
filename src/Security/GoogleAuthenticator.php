@@ -72,9 +72,9 @@ return $user;
         // or, on success, let the request continue to be handled by the controller
         //return null;
     }
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $Exception): ?Response
     {
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+        $message = strtr($Exception->getMessageKey(), $Exception->getMessageData());
 
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
@@ -90,6 +90,7 @@ namespace App\Security;
 
 use App\Entity\User; // your user entity
 use App\Entity\Utilisateur;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
@@ -111,11 +112,13 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
     private $clientRegistry;
     private $entityManager;
     private $router;
+    private $repository;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router)
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $entityManager, RouterInterface $router,UtilisateurRepository $repository)
     {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
+        $this->repository = $repository;
         $this->router = $router;
     }
 
@@ -153,45 +156,38 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 // 3) Maybe you just want to "register" them by creating
                 // a User object
+
+                 $t=$googleUser->getEmail();
+
+                $u=$this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $t]);
+
+                if($u !=$t)
+                {
+
                 $u=array('ROLE_Admin');
                 $utilisateur = new Utilisateur();
                 $utilisateur->setGoogleId($googleUser->getId());
                 $utilisateur->setEmail($googleUser->getEmail());
                 $utilisateur->setNom($googleUser->getLastName());
+                $utilisateur->setPhotoGoogleFb($googleUser->getAvatar());
                 $utilisateur->setPrenom($googleUser->getFirstName());
                 $utilisateur->setRole( $us);
-                $utilisateur->setRole( $u);
+                $utilisateur->setRoles( $u);
                 $this->entityManager->persist($utilisateur);
                 $this->entityManager->flush();
-#$utilisateurRepository->save($utilisateur, true);
-                return $utilisateur;
+
+                    return $utilisateur;
+                }
+
             })
         );
 
     }
-    /*
-private function  getGoogleClient(){
-        return $this->clientRegistry->getClient('google');
-}
-public  function  ajoutergoogle(UserProviderInterface $userProvider){
-    $us=('Admin');
-    $googleUser = $this->getGoogleClient();
-    $email=$googleUser->getEmail();
-    $user= $this ->em->getRepository('App:Utilisateur')->findOneBy(['email' => $email]);
-    if (!$user){
-        $utilisateur = new Utilisateur();
-        $utilisateur->setRole( $us);
-        $utilisateur->setEmail($googleUser->getEmail());
-        $this->entityManager->persist($utilisateur);
-        $this->entityManager->flush();
-        return $utilisateur;
-    }
-}
-    */
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('app_login');
+        $targetUrl = $this->router->generate('app_utilisateur_index');
 
         return new RedirectResponse($targetUrl);
 

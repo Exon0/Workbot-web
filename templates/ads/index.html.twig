@@ -34,7 +34,7 @@
                                    </td>
                                 <td>{{ f.nom }}</td>
                                 <td><a href="{{ path('app_ads_show', {'id': f.id}) }}" class="text-primary">{{ f.type }} </a></td>
-                                <td>{{f.dateFin}}</td>
+                                <td>{{f.dateFin.format('d/m/Y') }}</td>
                                 <td>{{f.status}}</td>
                                 <td>
                            <button class="bg-danger-light"> <a href="{{path('deleteads', {'id': f.id}) }}"method="post" >delete</a></button>
@@ -82,13 +82,12 @@
                                         </td>
                                         <td>{{ f.nom }}</td>
                                         <td><a href="{{ path('app_ads_show', {'id': f.id}) }}" class="text-primary">{{ f.type }} </a></td>
-                                        <td>{{f.dateFin}}</td>
+                                        <td>{{ f.dateFin.format('d/m/Y') }}</td>
                                         <td>
                                     <button class="bg-danger-light">       <a href="{{path('deleteads', {'id': f.id}) }}"method="post" >delete</a></button>
                                         </td>
                                         <td><img src ="{{ asset('upload/ads/' ~ f.photo) }}"
                                                  alt="" style="width: 100px;height: 100px"></td>
-
                                     </tr>
                                 {% endfor %}
                                 </tbody>

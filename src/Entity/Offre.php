@@ -73,7 +73,8 @@ class Offre
 
     #[ORM\JoinColumn(name: 'id_Soc', referencedColumnName: 'id')]
     private \App\Entity\Utilisateur $idSoc;
-
+    #[ORM\JoinColumn(name: 'id_Soc', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     #[ORM\JoinColumn(name: 'id_test', referencedColumnName: 'id')]
     private \App\Entity\Test $idTest;
 

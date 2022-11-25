@@ -5,16 +5,21 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\AdminType;
 use App\Form\ClientType;
+use App\Repository\AdsRepository;
+use App\Repository\OffreRepository;
 use App\Repository\UtilisateurRepository;
 use App\Form\UtilisateurType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
@@ -46,7 +51,7 @@ class UtilisateurController extends AbstractController
      *administrateur Affichage
      */
     #[Route('/Admin', name: 'app_utilisateur_appadmin', methods: ['GET'])]
-    public function adminAf(UtilisateurRepository $utilisateurRepository): Response
+    public function adminAf(UtilisateurRepository $utilisateurRepository,Request $request): Response
     {
         return $this->render('utilisateur/Admin/show.html.twig', [
             'utilisateurs' => $utilisateurRepository->findadmin(),
@@ -81,7 +86,7 @@ class UtilisateurController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // ... handle Exception if something happens during file upload
                 }
 
                 // updates the 'brochureFilename' property to store the PDF file name
@@ -172,6 +177,22 @@ class UtilisateurController extends AbstractController
             'utilisateur' => $utilisateur,
         ]);
     }
+    #[Route('/error/404', name: 'app_utilisateur_error', methods: ['GET'])]
+    public function error404(Utilisateur $utilisateur): Response
+    {
+        return $this->render('utilisateur/error404.html.twig');
+    }
+
+
+    #[Route('/s/ilyes', name: 'app_utilisateur_ilyes')]
+    public function ilyes(OffreRepository $offreRepository): Response
+    {   $nb=$offreRepository->findNBoffresAdmin();
+        $u=$offreRepository->findAll();
+        return $this->render('utilisateur/offre.html.twig', [
+            'oo' => $u,
+            'nb'=>$nb
+        ]);
+    }
 
 
     #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
@@ -193,6 +214,8 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}', name: 'app_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
     {
@@ -201,6 +224,41 @@ class UtilisateurController extends AbstractController
         }
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    //////////////stat
+    ///
+    #[Route('/Dasboard/stat/ds', name: 'app_utilisateur_dashboard', methods: ['GET'])]
+    public function dashboard(AdsRepository $adsRepository,UtilisateurRepository $utilisateurRepository,ChartBuilderInterface $chartBuilder,AdsRepository $repo): Response
+    {
+        $na=$utilisateurRepository->countuser();
+        $ns=$utilisateurRepository->countsociete();
+        $nc=$utilisateurRepository->countcandidat();
+        $adV=$adsRepository->countadsV();
+        $adNV=$adsRepository->countadsNV();
+        $adGold=$adsRepository->countgold();
+        $adBronze=$adsRepository->countbronze();
+        $adG=$adsRepository->countgratuit();
+        $ads=$adsRepository->findAll();
+        $ns1=($ns/$na)*100;
+        $nc1=($nc/$na)*100;
+        $u=$repo->findAll();
+
+        return $this->render('utilisateur/Dashbord/faceAPpstat.html.twig',
+            [
+                'naa'=>$na,
+                'ns1'=>$ns1,
+                'nss'=>$ns,
+                'ncc'=>$nc,
+                'nc1'=>$nc1,
+                'adV'=>$adV,
+                'adNV'=>$adNV,
+                'adGold'=>$adGold,
+                'adBronze'=>$adBronze,
+                '$adG'=>$adG,
+                '$ads'=> $ads,
+            ]);
     }
 
 }

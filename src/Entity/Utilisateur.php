@@ -30,8 +30,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[Assert\Length(
         min: 2,
         max: 50,
-        minMessage: 'Your first name must be at least {{ limit }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+        minMessage: 'Your last name must be at least {{ limit }} characters long',
+        maxMessage: 'Your last name cannot be longer than {{ limit }} characters',
     )]
     private ?string $nom = null;
 
@@ -42,8 +42,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[Assert\Length(
         min: 8,
         max: 15,
-        minMessage: 'Your first name must be at least {{ limit }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+        minMessage: 'Your num must be at least {{ limit }} ',
+        maxMessage: 'Your num cannot be longer than {{ limit }} ',
     )]
     #[ORM\Column(name: 'tel', type: 'string', length: 30, nullable: true)]
     private ?string $tel = null;
@@ -51,17 +51,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-    #[Assert\Email(
-        message: 'The email {{ value }} is not a valid email.',
-    )]
     #[Assert\NotNull]
     #[ORM\Column(name: 'email', type: 'string', length: 200, nullable: true)]
     private ?string $email = null;
     #[Assert\Length(
-        min: 6,
+        min: 8,
         max: 50,
-        minMessage: 'Your first name must be at least {{ limit }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+        minMessage: 'Your password must be at least {{ limit }} characters long',
+        maxMessage: 'Your password cannot be longer than {{ limit }} characters',
+    )]
+    #[Assert\Regex(
+        pattern:"/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+        message: 'Your password must be Strength',
     )]
     #[Assert\NotNull]
     #[ORM\Column(name: 'mdp', type: 'string', length: 355, nullable: true)]
@@ -69,6 +70,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[ORM\Column(name: 'adresse', type: 'string', length: 30, nullable: true)]
     private ?string $adresse = null;
 
+    #[Assert\File(
+        maxSize: '10000k',
+        mimeTypes: [ 'image/gif', 'image/jpeg','image/png',
+            'image/jpg',
+            'video/mp4',],
+        mimeTypesMessage: 'Please upload a valid image',
+    )]
     #[ORM\Column(name: 'photo', type: 'string', length: 300, nullable: true)]
     private ?string $photo = null;
 
@@ -125,10 +133,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
     #[ORM\Column(name: 'note', type: 'string', length: 255, nullable: true)]
     private ?string $note = null;
-
     #[ORM\Column(name: 'role', type: 'string', length: 25, nullable: false)]
     private string $role;
-
+    #[Assert\NotNull( message: 'The role  is not a null.',)]
     #[ORM\Column(name: 'roles', type: 'json', length: 25, nullable: true)]
     private  $roles= [];
 
@@ -136,6 +143,43 @@ use Symfony\Component\Security\Core\User\UserInterface;
     private ?string $resetToken = null;
     #[ORM\Column(name: 'googleId', type: 'integer', length: 255, nullable: true)]
     private ?string $googleId = null;
+    #[ORM\Column(name: 'facebookId', type: 'integer', length: 255, nullable: true)]
+    private ?string $facebookId = null;
+    #[ORM\Column(name: 'photoGoogleFb', type: 'string', length: 255, nullable: true)]
+    private ?string $photoGoogleFb = null;
+
+    /**
+     * @return string|null
+     */
+    public function getPhotoGoogleFb(): ?string
+    {
+        return $this->photoGoogleFb;
+    }
+
+    /**
+     * @param string|null $photoGoogleFb
+     */
+    public function setPhotoGoogleFb(?string $photoGoogleFb): void
+    {
+        $this->photoGoogleFb = $photoGoogleFb;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getFacebookId(): ?string
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string|null $facebookId
+     */
+    public function setFacebookId(?string $facebookId): void
+    {
+        $this->facebookId = $facebookId;
+    }
 
     /**
      * @return string|null

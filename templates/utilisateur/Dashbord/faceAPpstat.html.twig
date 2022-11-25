@@ -1,0 +1,246 @@
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
+{%  block body %}
+
+    <section class="section dashboard">
+        <div class="row" style="display: flex;align-items: center; justify-content: end;margin-top: 60px;">
+
+            <div class="col-lg-9">
+                <div class="row">
+
+                    <!-- Sales Card -->
+                    <div class="col-xxl-3  col-md-6">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title"> Account <span>| This Year</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ naa }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">99.9999999999999999% </span>
+                                        <span class="text-muted small pt-2 ps-1">Account</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+
+                    <!-- Revenue Card -->
+                    <div class="col-xxl-3  col-md-6">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Sociéte <span>| This Year</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ nss }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ ns1 }}%</span> <span class="text-muted small pt-2 ps-1">Account</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div></div>
+
+                    <!-- End Customers Card -->
+
+                    <!-- Customers Card -->
+                    <div class="col-xxl-3  col-md-6">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Ads <span>| This Year</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ ncc }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ nc1 }}%</span> <span class="text-muted small pt-2 ps-1">Account</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+                    <!-- Sales Card -->
+                    <div class="col-xxl-3 col-xl-4">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title"> Ads <span>| This Year</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ adV }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">99.9999999999999999% </span> <span class="text-muted small pt-2 ps-1">Legal</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+                </div>
+
+
+                <!-- End Left side columns -->
+
+                <!-- Right side columns -->
+                <div class="col-lg-8">
+                    <div class="col-lg-10">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Ads Graphique</h5>
+
+                                <!-- Column Chart -->
+                                <div id="columnChart"></div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#columnChart"), {
+                                            series: [
+                                                {
+                                                    name: 'Gold',
+                                                    data: [{{ adGold }}]
+                                                },
+                                                {
+                                                    name: 'Bronze',
+                                                    data: [{{ adBronze }}]
+                                                },
+                                                {
+                                                    name: 'Total Ads Validé',
+                                                    data: [{{ adV }}]
+                                                },
+
+                                            ],
+                                            chart: {
+                                                type: 'bar',
+                                                height: 350
+                                            },
+                                            plotOptions: {
+                                                bar: {
+                                                    horizontal: false,
+                                                    columnWidth: '55%',
+                                                    endingShape: 'rounded'
+                                                },
+                                            },
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            stroke: {
+                                                show: true,
+                                                width: 2,
+                                                colors: ['transparent']
+                                            },
+                                            xaxis: {
+                                                categories: [' '],
+                                            },
+                                            yaxis: {
+                                                title: {
+                                                    text: 'Les Ads V / Type'
+                                                }
+                                            },
+                                            fill: {
+                                                opacity: 1
+                                            },
+                                            tooltip: {
+                                                y: {
+                                                }
+                                            }
+                                        }).render();
+                                    });
+                                </script>
+
+
+                            </div><!-- End Right side columns -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right side columns -->
+
+        </div>
+    </section>
+{% endblock %}

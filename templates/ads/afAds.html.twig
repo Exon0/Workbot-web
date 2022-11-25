@@ -14,11 +14,11 @@
             <div class="carousel-item active">
                 <div class="card shadow-4 d-block">
                     <div class="d-flex justify-content-between p-3">
-                        <p class="lead mb-0">{{ f.dateFin }} Combo Offer</p>
+                        <p class="lead mb-0">{{f.dateFin.format('d/m/Y') }} Combo Offer</p>
                         <div
                                 class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
                                 style="width: 35px; height: 35px;">
-                            <p class="text-white mb-0 small">x4</p>
+                            <p class="text-white mb-0 small">+{{ f.nombreAds }}</p>
                         </div>
                     </div>
                     <img src="{{ asset('upload/ads/' ~ f.photo) }}"

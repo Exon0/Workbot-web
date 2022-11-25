@@ -2,12 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
+use App\Form\FbGoogleType;
+use App\Form\UtilisateurType;
+use App\Repository\UtilisateurRepository;
+use App\Security\LoginSecurityAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class GoogleController extends AbstractController
 {
@@ -37,7 +45,26 @@ class GoogleController extends AbstractController
             return  $this->redirectToRoute('dashbord');
         }
     }
+    ///
+    #[Route('/registerFbGoogle', name: 'app_register_google_facebook')]
+    public function registerGoogleFacebbok(Request $request, UserPasswordHasherInterface $userPasswordHasher,UtilisateurRepository $u ,UserAuthenticatorInterface $userAuthenticator, LoginSecurityAuthenticator $authenticator, EntityManagerInterface $entityManager,Utilisateur $user): Response
 
+    {
+        $form = $this->createForm(FbGoogleType::class, $user);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $u->save($user, true);
+
+            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('fbgoogle/register.html.twig', [
+            'utilisateur' => $user,
+            'form' => $form,
+        ]);
+
+    }
 
 }
