@@ -13,7 +13,9 @@ Vos offres
 {% block tableau %}
 
 
-
+    {#    <form action="{{ path('search') }}" class="form1">#}
+{#        <input type="submit" class="searchinput">#}
+{#    </form>#}
     {% for label, messages in app.flashes(['success', 'update' , "delete","deleteT"]) %}
         {% for message in messages %}
             <div class="alert alert-success -{{ label }}">
@@ -27,10 +29,15 @@ Vos offres
         <section class="find-job job-list section">
             <div class="container">
                 <div class="single-head">
-                    <div class="row">
+                    <div style="row">
+                        <span style="width:83.9%"></span>
+                        <span>
+                    <input type="text" id="search"  class="form-control-sm" name="search2" placeholder="Recherche">
+                        <img src="{{ asset('assets/img/icons8-search-24.png') }}"></span></div>
+                <div class="row" id="all">
 
                         {% for c in offres %}
-                        <div class="col-lg-6 col-12">
+                    <div class="col-lg-6 col-12">
 
                             <div class="single-job">
                                 <div class="job-image">
@@ -68,17 +75,19 @@ Vos offres
 
 
                         </div>
-                            {% else %}
+                    {% else %}
                         <div >
                                 <center>
 
                                 <h3 >Notre mission vous simplifier le travail ! Commencez par ajouter une offre </h3>
                                 <a class="btn-lg" href="{{ path('app_offre_show_typeOffre') }}">Créer une offre</a></center>
-                        </div>
                         {% endfor %}
 
                     </div>
+
                 </div>
+
+                <div id="searchDiv" class="row"></div>
 
             </div>
             </div>
@@ -87,72 +96,62 @@ Vos offres
         </section>
 
 
-    {#
-    <br>
-        <br>
-        <br>
 
-        <br>
-        <br>
-        <br>
-        <br>
-
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Titre</th>
-                    <th>Salaire</th>
-                    <th>Description</th>
-                    <th>Domaine</th>
-                    <th>Dateexpiration</th>
-                    <th>Dureestage</th>
-                    <th>Typestage</th>
-                    <th>Typecontrat</th>
-                    <th>Modetravail</th>
-                    <th>Lieu</th>
-                    <th>Typeoffre</th>
-                    <th>Dateajout</th>
-                    <th>NB cand</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for offre in offres %}
-                <tr>
-                    <td>{{ offre.id }}</td>
-                    <td>{{ offre.titre }}</td>
-                    <td>{{ offre.salaire }}</td>
-                    <td>{{ offre.description }}</td>
-                    <td>{{ offre.domaine }}</td>
-                    <td>{{ offre.dateexpiration }}</td>
-                    <td>{{ offre.dureestage }}</td>
-                    <td>{{ offre.typestage }}</td>
-                    <td>{{ offre.typecontrat }}</td>
-                    <td>{{ offre.modetravail }}</td>
-                    <td>{{ offre.lieu }}</td>
-                    <td>{{ offre.typeoffre }}</td>
-                    <td>{{ offre.dateajout }}</td>
-                    <td>{{ offre.nbCandidature }}</td>
-                    <td>
-                        <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
-
-                        <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
-
-                        <a href="{{ path('app_offre_cand', {'id': offre.id}) }}">Candidatures</a>
-
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="16">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ path('app_offre_show_typeOffre') }}">Create new</a>
-     #}
 
 {% endblock %}
+{% block javascriptTest %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+    <script>
+        $(document).ready(function (){
+            $("#search").keyup(function (e){
+                const value=$(this).val();
+                $.ajax({
+                    url : "{{ path('search') }}",
+                    type : 'GET',
+                    data:{
+                        'search2' : value
+                    },
+                    success : function (retour){
+                        if(retour){
+                            $('div#searchDiv').empty();
+                            $.each(JSON.parse(retour),function(i,obj){
+                                $('div#all').hide();
+                                $('div#searchDiv').append(' {% if 1 %}<div class="col-lg-6 col-12"> <div class="single-job"> <div class="job-image">'+
+                                   '<img src="{{asset('assets/img/card.jpg')}}" height="70" width="70" alt="#"> </div> <div class="job-content"><form><h5><a style="font-size: 30px">'+obj.titre+'</a></h5>'+
+                                   '</form><p>Type d"offre : <u style="color: black">'+obj.typeoffre+'</u></p><br><p>description : <u style="color: black">'+obj.description+'</u></p>'+
+                                    '<ul><li><i class="bx bx-yen"></i>'+obj.nbCandidature+'  </li><li> <a  href="all/'+obj.id+'">Candidatures</a></li> </ul></div>'+
+                                '<div class="job-button"><a class="btn btn-outline-primary" href="show/'+obj.id+'">Afficher</a>'+
+                                    '<a class="btn btn-outline-primary" href="'+obj.id+'/edit">Modifier</a> </div></div></div>{% endif %}'
+                                )
+                            });
+                        }
+                        else{
+                            $('div#all').show();
+                            $('div#searchDiv').empty();
+                            $('div#searchDiv').fadeIn('fast');
+                        }
+                    },
+                });return false;
+            });
+        });
+    </script>
+
+
+{#    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>#}
+{#    <script>#}
+{#        function onkeyupOffre(e) {#}
+{#            e.preventDefault();#}
+{#            const url=this.action;#}
+{#           // const div=document.querySelector('div.row')#}
+
+{#            axios.get(url).then(function (response){#}
+{#              console.log(response.data);#}
+{#            })#}
+{#        }#}
+
+{#        document.querySelector('.form1').addEventListener('click',onkeyupOffre);#}
+{#    </script>#}
+
+{% endblock %}
+

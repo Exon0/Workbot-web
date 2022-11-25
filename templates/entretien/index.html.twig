@@ -7,13 +7,13 @@
 {% block section %}
 
 <section class="job-post section">
-
+    <div class="manage-resumes section">
     {% endblock %}
 
     {% block entretien %}
 
 
-        <div class="manage-resumes section">
+
             {% for label, messages in app.flashes(['success', 'update','warning']) %}
                 {% for message in messages %}
                     <div class="alert alert-success -{{ label }}">
@@ -65,7 +65,7 @@
 
                                         <div class="update-date">
                                             <p class="status">
-                                                <strong>Created on:</strong> Fab 22, 2023
+                                                <strong>Crée le :</strong>{{ ent.dateAjout }}
                                             </p>
                                             <div class="action-btn">
 

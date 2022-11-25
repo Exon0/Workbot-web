@@ -9,20 +9,64 @@
 {% block section %}
 <section class="job-post section">
 
+    <div id="all">
 {% endblock %}
 {% block jobinformation %}<center><h4>Choisisez le type d'offre a ajouter</h4></center><br>{% endblock %}
 {% block body %}
 <br><div>
 {% for s in types %}
 
-    <span  style="width: 33%">
-    <form action="{{ path('app_offre_new',{'type':s}) }}">
-        <button class="btn-lg">{{ s }}</button>
-    </form>
-        </span>
+   <span  style="width: 33%">
+        <center>
+{#    <form  class="type" action="{{ path('app_offre_new',{'type':s}) }}">#}
+{#        <button type="submit" class="btn btn-primary">{{ s }}</button>#}
+{#    </form>#}
+    <a id="type" class="btn btn-primary"  href="{{  path('app_offre_new',{'type':s}) }}" >{{ s }}</a>
+
+</center>
+
+          </span>
+
 {% endfor %}
-</div>
+</div></div><div id="replace"></div>
+</section>
+{% endblock %}
+{% block javascriptTest %}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">#}
+{#    </script>#}
+{#    <script>#}
+{#        $(document).ready(function (){#}
+{#            $("a#type").click(function (e){#}
+{#                e.preventDefault();#}
+{#                const value=document.getElementById('type').innerText;#}
+{#                $.ajax({#}
+{#                    type : 'POST',#}
+{#                    data : {'value':value},#}
+{#                    url  : "/offre/new/Stage",#}
+
+{#                    success : function (response){#}
+
+{#                        if(response){#}
+
+{#                            $('div#replace').empty();#}
+
+{#                            $.each(JSON.parse(response),function(i,obj){#}
+{#                               $('div#all').hide();#}
+{#                                $('div#replace').append()#}
+{#                            });#}
+{#                        }#}
+{#                        else{#}
+{#                            $('div#all').show();#}
+{#                            $('div#replace').empty();#}
+{#                            $('div#replace').fadeIn('fast');#}
+{#                        }#}
+{#                    },#}
+{#                });return false;#}
+{#            });#}
+{#        });#}
+{#    </script>#}
 
 {% endblock %}
+
 
 

@@ -441,6 +441,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     public function getPassword(): string
     {
 
+        return $this->mdp;
     }
 
     public function getSalt()

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+use Cassandra\Date;
+use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\EntretienRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,6 +33,7 @@ class Entretien
 
 
     #[Assert\Time]
+    #[Assert\NotBlank]
     #[ORM\Column(name: 'heure', nullable: false)]
     private String $heure;
 
@@ -45,6 +48,21 @@ class Entretien
 
     #[ORM\Column(name: 'qrCode', type: 'string', length: 255, nullable: true)]
     private string $qrCode;
+
+    #[ORM\Column(name: 'dateAjout')]
+    private  $dateAjout;
+
+
+    public function getDateAjout()
+    {
+        return $this->dateAjout;
+    }
+
+
+    public function setDateAjout( $dateAjout): void
+    {
+        $this->dateAjout = $dateAjout;
+    }
 
     /**
      * @return string

@@ -76,7 +76,24 @@ class OffreRepository extends ServiceEntityRepository
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
     }
+    public function findOffres()
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('o.typeoffre = Stage')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
+    public function findOffresBytitre($titre)
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('o.titre LIKE :titre')
+            ->setParameter('titre','%'.$titre.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 
 //    public function findAllCandidates2($id)
