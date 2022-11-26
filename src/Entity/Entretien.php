@@ -52,6 +52,45 @@ class Entretien
     #[ORM\Column(name: 'dateAjout')]
     private  $dateAjout;
 
+    #[ORM\Column(name: 'heureFin')]
+    private  $heureFin;
+
+    #[ORM\Column(name: 'titreNom')]
+    private  $titreNom;
+
+    /**
+     * @return mixed
+     */
+    public function getTitreNom()
+    {
+        return $this->titreNom;
+    }
+
+    /**
+     * @param mixed $titreNom
+     */
+    public function setTitreNom($titreNom): void
+    {
+        $this->titreNom = $titreNom;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getHeureFin()
+    {
+        return $this->heureFin;
+    }
+
+    /**
+     * @param mixed $heureFin
+     */
+    public function setHeureFin($heureFin): void
+    {
+        $this->heureFin = $heureFin;
+    }
+
 
     public function getDateAjout()
     {

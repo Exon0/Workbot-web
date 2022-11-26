@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/entretien')]
 class EntretienController extends AbstractController
 {
-    #[Route('/', name: 'app_entretien_index', methods: ['GET'])]
+    #[Route('/alle', name: 'app_entretien_index', methods: ['GET'])]
     public function index(EntretienRepository $entretienRepository): Response
     {
         return $this->render('entretien/index.html.twig', [
@@ -93,12 +93,15 @@ class EntretienController extends AbstractController
                 ->build();
 
 
-
             //save Qr-code file
             //il faut changer le chemin avant l'integration avec l'equipe workbot
             $result->saveToFile('C:/Users/Exon/Desktop/workbot-web2/Workbot-web/public/uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
 
             $entretien->setQrCode('uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
+            $entretien->setHeureFin((int)$entretien->getHeure() + 1);
+            $cand = $candidatureRepository->find($entretien->getIdCandidature());
+            $user = $utilisateurRepository->find($cand->getIdcondidat());
+            $entretien->setTitreNom($cand->getTitre() . ' ' . $user->getNom());
             $entretienRepository->save($entretien, true);
 
             //update candidature status
@@ -160,11 +163,71 @@ class EntretienController extends AbstractController
         $entretienRepository->remove($entretien, true);
         $cand = $candidatureRepository->find($entretien->getIdCandidature());
         $cand->setStatut('Non traité');
-        $candidatureRepository->save($cand,true);
+        $candidatureRepository->save($cand, true);
 
         $this->addFlash('warning', 'Entretien supprimé avec succées ');
 
 
         return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/', name: 'app_entretien_cal')]
+    public function index2(UtilisateurRepository $utilisateurRepository, EntretienRepository $entretienRepository, CandidatureRepository $candidatureRepository): Response
+    {
+
+        $events = $entretienRepository->findAll();
+        $rdvs = [];
+
+        foreach ($events as $event) {
+            $cand = $candidatureRepository->find($event->getIdCandidature());
+            $user = $utilisateurRepository->find($cand->getIdcondidat());
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'start' => $event->getDate() . ' ' . $event->getHeure(),
+                'end' => $event->getDate() . ' ' . $event->getHeureFin() . ':00:00',
+                'title' => $event->getTitreNom(),
+
+
+            ];
+        }
+
+        $data = json_encode($rdvs);
+        return $this->render('entretien/calendrier.html.twig', compact('data'));
+
+    }
+
+    #[Route('/resize/{id}/edit', name: 'app_entretien_resize', methods: ['PUT'])]
+    public function resize(Request $request, ?Entretien $entretien, EntretienRepository $entretienRepository): Response
+    {
+
+        //recuperation des données
+        $donnees = json_decode($request->getContent());
+
+        if (
+            isset($donnees->start) && !empty($donnees->start) &&
+            isset($donnees->end) && !empty($donnees->end) &&
+            isset($donnees->title) && !empty($donnees->title))
+        {
+            if(!$entretien){
+                $entretien=new Entretien;
+                $code =201;
+            }
+            $date1=substr($donnees->start,0,10);
+            $heuredeb=substr($donnees->start,11,8);
+            $heurefin=substr($donnees->end,11,8);
+
+            $entretien->setHeure($heuredeb);
+            $entretien->setDate($date1);
+            $entretien->setHeureFin($heurefin);
+            $entretien->setTitreNom(($donnees->title));
+        }
+        else {
+            return new Response('error', 404);
+        }
+        $entretienRepository->save($entretien,true);
+
+        return new Response('ok', 201);
+
+
     }
 }
