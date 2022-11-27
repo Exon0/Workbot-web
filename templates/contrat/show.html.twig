@@ -5,12 +5,9 @@
 {% block body %}
     <h1>Contrat</h1>
 
-    <table class="table">
+    <table class="table" border="1">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ contrat.id }}</td>
-            </tr>
+
             <tr>
                 <th>Typecontrat</th>
                 <td>{{ contrat.typecontrat }}</td>
@@ -28,12 +25,8 @@
                 <td>{{ contrat.datefin ? contrat.datefin|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>Lien</th>
+                <th>Email</th>
                 <td>{{ contrat.lien }}</td>
-            </tr>
-            <tr>
-                <th>IdCandidature</th>
-                <td>{{ contrat.idCandidature }}</td>
             </tr>
             <tr>
                 <th>Datecreation</th>

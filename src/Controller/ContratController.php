@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/contrat')]
+    #[Route('/contrat')]
 class ContratController extends AbstractController
 {
     #[Route('/', name: 'app_contrat_index', methods: ['GET'])]
@@ -27,7 +27,7 @@ class ContratController extends AbstractController
         $contrat = new Contrat();
         $form = $this->createForm(ContratType::class, $contrat);
         $form->handleRequest($request);
-
+        $contrat->setDatecreation(date('Y-m-d'));
         if ($form->isSubmitted() && $form->isValid()) {
             $contratRepository->save($contrat, true);
 
@@ -75,4 +75,5 @@ class ContratController extends AbstractController
 
         return $this->redirectToRoute('app_contrat_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
