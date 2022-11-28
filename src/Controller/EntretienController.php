@@ -7,6 +7,7 @@ use App\Entity\Entretien;
 use App\Form\EntretienType;
 use App\Repository\CandidatureRepository;
 use App\Repository\EntretienRepository;
+use App\Repository\OffreRepository;
 use App\Repository\UtilisateurRepository;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
@@ -23,12 +24,36 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/entretien')]
 class EntretienController extends AbstractController
 {
-    #[Route('/alle', name: 'app_entretien_index', methods: ['GET'])]
-    public function index(EntretienRepository $entretienRepository): Response
+    #[Route('/all/ent', name: 'app_entretien_index', methods: ['GET'])]
+    public function index(EntretienRepository $entretienRepository,OffreRepository $offreRepository,UtilisateurRepository $utilisateurRepository): Response
     {
-        return $this->render('entretien/index.html.twig', [
-            'entretiens' => $entretienRepository->findBy(['iduser' => 8]),
-        ]);
+
+
+        $events = $entretienRepository->findBy(['iduser' => 8]);
+
+        $rdvs = [];
+
+        foreach ($events as $event) {
+            $cand=$utilisateurRepository->find($event->getIdCandidature()->getIdcondidat());
+            $offre=$offreRepository->find($event->getIdCandidature()->getIdOffre());
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'date' => $event->getDate(),
+                'heure' => $event->getHeure() ,
+                'title' => $event->getTitreNom(),
+                'qrcode'=>$event->getQrCode(),
+                'dateAjout'=>$event->getDateAjout(),
+                'nom'=>$cand->getNom(),
+                'prenom'=>$cand->getPrenom(),
+                'titreOffre'=>$offre->getTitre()
+
+
+
+            ];
+        }
+
+        $data = json_encode($rdvs);
+        return new Response($data);
     }
 
     #[Route('/new/{id}', name: 'app_entretien_new', methods: ['GET', 'POST'])]
@@ -98,7 +123,9 @@ class EntretienController extends AbstractController
             $result->saveToFile('C:/Users/Exon/Desktop/workbot-web2/Workbot-web/public/uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
 
             $entretien->setQrCode('uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
-            $entretien->setHeureFin((int)$entretien->getHeure() + 1);
+            $time=(int)$entretien->getHeure() + 1;
+            if($time<10)$time='0'.$time;
+            $entretien->setHeureFin($time.':00:00');
             $cand = $candidatureRepository->find($entretien->getIdCandidature());
             $user = $utilisateurRepository->find($cand->getIdcondidat());
             $entretien->setTitreNom($cand->getTitre() . ' ' . $user->getNom());
@@ -120,7 +147,7 @@ class EntretienController extends AbstractController
 //            );
 
 
-            return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_entretien_cal', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('entretien/new.html.twig', [
@@ -156,7 +183,7 @@ class EntretienController extends AbstractController
         ]);
     }
 
-    #[Route('/remove/{id}', name: 'app_entretien_delete')]
+    #[Route('/calendrier/ent/{id}', name: 'app_entretien_delete')]
     public function delete(CandidatureRepository $candidatureRepository, Request $request, Entretien $entretien, EntretienRepository $entretienRepository): Response
     {
 
@@ -168,63 +195,62 @@ class EntretienController extends AbstractController
         $this->addFlash('warning', 'Entretien supprimé avec succées ');
 
 
-        return $this->redirectToRoute('app_entretien_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_entretien_cal', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/', name: 'app_entretien_cal')]
+    #[Route('/calendrier/ent', name: 'app_entretien_cal')]
     public function index2(UtilisateurRepository $utilisateurRepository, EntretienRepository $entretienRepository, CandidatureRepository $candidatureRepository): Response
     {
 
-        $events = $entretienRepository->findAll();
+        $events = $entretienRepository->findBy(['iduser' => 8]);
         $rdvs = [];
 
         foreach ($events as $event) {
-            $cand = $candidatureRepository->find($event->getIdCandidature());
-            $user = $utilisateurRepository->find($cand->getIdcondidat());
             $rdvs[] = [
                 'id' => $event->getId(),
                 'start' => $event->getDate() . ' ' . $event->getHeure(),
-                'end' => $event->getDate() . ' ' . $event->getHeureFin() . ':00:00',
+                'end' => $event->getDate() . ' ' . $event->getHeureFin() ,
                 'title' => $event->getTitreNom(),
+
 
 
             ];
         }
 
         $data = json_encode($rdvs);
-        return $this->render('entretien/calendrier.html.twig', compact('data'));
+        return $this->render('entretien/index.html.twig', compact('data'));
 
     }
 
-    #[Route('/resize/{id}/edit', name: 'app_entretien_resize', methods: ['PUT'])]
+    #[Route('/calendrier/resize/{id}/edit', name: 'app_entretien_resize', methods: ['PUT'])]
     public function resize(Request $request, ?Entretien $entretien, EntretienRepository $entretienRepository): Response
     {
 
         //recuperation des données
         $donnees = json_decode($request->getContent());
-
         if (
             isset($donnees->start) && !empty($donnees->start) &&
             isset($donnees->end) && !empty($donnees->end) &&
-            isset($donnees->title) && !empty($donnees->title))
-        {
-            if(!$entretien){
-                $entretien=new Entretien;
-                $code =201;
+            isset($donnees->title) && !empty($donnees->title)) {
+            if (!$entretien) {
+                $entretien = new Entretien;
+                $code = 201;
             }
-            $date1=substr($donnees->start,0,10);
-            $heuredeb=substr($donnees->start,11,8);
-            $heurefin=substr($donnees->end,11,8);
+            $date1 = substr($donnees->start, 0, 10);
+            $heuredeb = substr($donnees->start, 11, 8);
+            $heurefin = substr($donnees->end, 11, 8);
 
             $entretien->setHeure($heuredeb);
             $entretien->setDate($date1);
             $entretien->setHeureFin($heurefin);
             $entretien->setTitreNom(($donnees->title));
+        } else {
+            return new Response('error', 405);
         }
-        else {
-            return new Response('error', 404);
+        if ($entretien->getHeure() < '07:00:00' || $entretien->getHeure() > '18:00:00') {
+            return new Response('heure', 401);
         }
-        $entretienRepository->save($entretien,true);
+        $entretienRepository->save($entretien, true);
 
         return new Response('ok', 201);
 

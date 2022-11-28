@@ -137,8 +137,9 @@
                 </div>
                 <ul class="breadcrumb-nav">
                     <li><a href="{{ path('app_offre_index') }}">Offres</a></li>
-                    <li><a href="{{ path('app_entretien_index') }}">Entretiens</a></li>
                     <li><a href="{{ path('app_offre_show_typeOffre') }}">Créer une offre</a></li>
+                    <li><a href="{{ path('app_entretien_cal') }}">Entretiens</a></li>
+
                 </ul>
             </div>
         </div>
@@ -186,7 +187,7 @@
         <div class="resume-inner">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1 col-12">
-                    <div class="inner-content">
+
 {% block applications %}
 
 {% endblock %}
