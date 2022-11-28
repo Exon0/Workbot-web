@@ -1,0 +1,44 @@
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
+
+
+{% block title %}Listes des contrats{% endblock %}
+
+{% block body %}
+
+<div  style="margin-left:350px;width: 50%;margin-top: 40px">
+    <h1>Tableau des contrats</h1>
+
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th>Typecontrat</th>
+                <th>DateDebut</th>
+                <th>Datefin</th>
+                <th>Salaire</th>
+                <th>Datecreation</th>
+                <th>Candidat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contrat in contrats %}
+            <tr>
+                <td>{{ contrat.typecontrat }}</td>
+                <td>{{ contrat.datedebut ? contrat.datedebut|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.datefin ? contrat.datefin|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.salaire }}</td>
+                <td>{{ contrat.datecreation ? contrat.datecreation|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.idcandidature.idcondidat.nom }} {{ contrat.idcandidature.idcondidat.prenom }}</td>
+                <td>
+                    <a href="{{ path('app_contrat_admin_show', {'id': contrat.id}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

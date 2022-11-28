@@ -1,0 +1,119 @@
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
+
+{% block title %}Candidature index{% endblock %}
+
+    {% block body %}
+        <div  style="margin-left:350px;width: 50%;margin-top: 40px">
+    <h1>Liste des candidatures</h1>
+    <div style="display: inline-block">
+        <div>
+            <h3>Candidature non traitées</h3>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Type condidature</th>
+                <th>Candidat</th>
+
+                <th>Date expiration</th>
+                <th>Date ajout</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for candidature in nonTraitees %}
+            <tr>
+                <td>{{ candidature.titre }}</td>
+                <td>{{ candidature.typecondidature }}</td>
+                {% if candidature.idcondidat is not null %}
+                    <td>{{ candidature.idcondidat.nom }} {{ candidature.idcondidat.prenom }}</td>
+                {% endif %}
+                <td>{{ candidature.dateexpiration }}</td>
+                <td>{{ candidature.dateajout }}</td>
+                <td>
+                    <a href="{{ path('app_candidature_show_admin', {'id': candidature.id}) }}">show</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        </div>
+        <div>
+            <h3>Candidature acceptées</h3>
+            <table class="table table-responsive">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Type condidature</th>
+                    <th>Candidat</th>
+
+                    <th>Date expiration</th>
+                    <th>Date ajout</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for candidature in acceptees %}
+                    <tr>
+                        <td>{{ candidature.titre }}</td>
+                        <td>{{ candidature.typecondidature }}</td>
+                        {% if candidature.idcondidat is not null %}
+                            <td>{{ candidature.idcondidat.nom }} {{ candidature.idcondidat.prenom }}</td>
+                        {% endif %}
+                        <td>{{ candidature.dateexpiration }}</td>
+                        <td>{{ candidature.dateajout }}</td>
+                        <td>
+                            <a href="{{ path('app_candidature_show_admin', {'id': candidature.id}) }}">show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="15">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>Candidature non acceptées</h3>
+            <table class="table table-responsive">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Type condidature</th>
+                    <th>Candidat</th>
+
+                    <th>Date expiration</th>
+                    <th>Date ajout</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for candidature in nonAcceptees %}
+                    <tr>
+                        <td>{{ candidature.titre }}</td>
+                        <td>{{ candidature.typecondidature }}</td>
+                        {% if candidature.idcondidat is not null %}
+                            <td>{{ candidature.idcondidat.nom }} {{ candidature.idcondidat.prenom }}</td>
+                        {% endif %}
+                        <td>{{ candidature.dateexpiration }}</td>
+                        <td>{{ candidature.dateajout }}</td>
+                        <td>
+                            <a href="{{ path('app_candidature_show_admin', {'id': candidature.id}) }}">show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="15">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+{% endblock %}
