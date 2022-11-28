@@ -1,11 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
 {% block title %}New Contrat{% endblock %}
 
 {% block body %}
-    <h1>Create new Contrat</h1>
+
+<div  style="margin-left:350px;width: 50%;margin-top: 40px">
+    <h1>Create new Contrat for candidat <b>{{ contrat.idcandidature.idcondidat.nom }} {{ contrat.idcandidature.idcondidat.prenom }}</b></h1>
     {{ include('contrat/_form.html.twig') }}
 
-    <a href="{{ path('app_contrat_index') }}">back to list</a>
-
+</div>
 {% endblock %}

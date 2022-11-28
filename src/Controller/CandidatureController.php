@@ -15,6 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/candidature')]
 class CandidatureController extends AbstractController
 {
+
+    #[Route('/admin/candidat/', name: 'app_candidature_dashboard', methods: ['GET'])]
+    public function dashboardcandidat(CandidatureRepository $candidatureRepository): Response
+    {
+
+        return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
+            'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),
+                'acceptees' => $candidatureRepository->findBy(["statut"=>'acceptée']),
+            'nonAcceptees' => $candidatureRepository->findBy(["statut"=>'refusée'])
+        ]);
+    }
     #[Route('/', name: 'app_candidature_index', methods: ['GET'])]
     public function index(CandidatureRepository $candidatureRepository): Response
     {
@@ -34,6 +45,7 @@ class CandidatureController extends AbstractController
             $candidature->setIdOffre($offre);
             $candidat = $utilisateurRepository->findOneBy(["id"=>12]);
             $candidature->setIdcondidat($candidat);
+            $candidature->setStatut("non traité");
             $candidature->setTitre($offre->getTitre());
             $candidature->setDateexpiration($offre->getDateexpiration());
             $candidature->setDateajout(date('Y-m-d'));
@@ -47,7 +59,13 @@ class CandidatureController extends AbstractController
             'form' => $form,
         ]);
     }
-
+    #[Route('/adminCondidat/{id}', name: 'app_candidature_show_admin', methods: ['GET'])]
+    public function showAdmin(Candidature $candidature): Response
+    {
+        return $this->render('utilisateur/Dashbord/candidature/show.html.twig', [
+            'candidature' => $candidature,
+        ]);
+    }
     #[Route('/{id}', name: 'app_candidature_show', methods: ['GET'])]
     public function show(Candidature $candidature): Response
     {
@@ -82,5 +100,18 @@ class CandidatureController extends AbstractController
         }
 
         return $this->redirectToRoute('app_candidature_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('refuserCandidature/{id}', name: 'refuser_candidature', methods: ['GET'])]
+    public function refuserCandidature(int $id, CandidatureRepository $candidatureRepository): Response
+    {
+        $candidature = $candidatureRepository->findOneBy(["id"=>$id]);
+        $candidature->setStatut("refusée");
+        $candidatureRepository->save($candidature, true);
+        return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
+            'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),
+            'acceptees' => $candidatureRepository->findBy(["statut"=>'acceptée']),
+            'nonAcceptees' => $candidatureRepository->findBy(["statut"=>'refusée'])
+        ]);
     }
 }

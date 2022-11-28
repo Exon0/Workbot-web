@@ -24,7 +24,7 @@ class ContratType extends AbstractType
             ->add('datedebut')
             ->add('salaire')
             ->add('datefin')
-            ->add('lien')
+            ->add('lien',null,array('label' => 'Email'))
 
 
         ;
