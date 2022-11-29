@@ -2,15 +2,15 @@
 {%  block body %}
 
     <section class="section dashboard">
-        <div class="row" style="display: flex;align-items: center; justify-content: end;margin-top: 60px;">
+        <div class="row" style="display: flex;margin-top: 120px;justify-content: end">
 
-            <div class="col-lg-9">
+            <!-- Left side columns -->
+            <div class="col-lg-5">
                 <div class="row">
 
                     <!-- Sales Card -->
-                    <div class="col-xxl-3  col-md-6">
-
-                        <div class="card info-card customers-card">
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
 
                             <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -26,7 +26,7 @@
                             </div>
 
                             <div class="card-body">
-                                <h5 class="card-title"> Account <span>| This Year</span></h5>
+                                <h5 class="card-title"> Account </h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -34,21 +34,20 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ naa }}</h6>
-                                        <span class="text-danger small pt-1 fw-bold">99.9999999999999999% </span>
+                                        <span class="text-danger small pt-1 fw-bold">99.99% </span>
                                         <span class="text-muted small pt-2 ps-1">Account</span>
 
                                     </div>
                                 </div>
 
                             </div>
-                        </div>
 
-                    </div><!-- End Customers Card -->
+                        </div>
+                    </div><!-- End Sales Card -->
 
                     <!-- Revenue Card -->
-                    <div class="col-xxl-3  col-md-6">
-
-                        <div class="card info-card customers-card">
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
 
                             <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -64,7 +63,7 @@
                             </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Sociéte <span>| This Year</span></h5>
+                                <h5 class="card-title">Sociéte </h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -78,12 +77,12 @@
                                 </div>
 
                             </div>
-                        </div></div>
 
-                    <!-- End Customers Card -->
+                        </div>
+                    </div><!-- End Revenue Card -->
 
                     <!-- Customers Card -->
-                    <div class="col-xxl-3  col-md-6">
+                    <div class="col-xxl-4 col-xl-12">
 
                         <div class="card info-card customers-card">
 
@@ -101,7 +100,7 @@
                             </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Ads <span>| This Year</span></h5>
+                                <h5 class="card-title">Candidat</h5>
 
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -118,51 +117,9 @@
                         </div>
 
                     </div><!-- End Customers Card -->
-                    <!-- Sales Card -->
-                    <div class="col-xxl-3 col-xl-4">
 
-                        <div class="card info-card customers-card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title"> Ads <span>| This Year</span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>{{ adV }}</h6>
-                                        <span class="text-danger small pt-1 fw-bold">99.9999999999999999% </span> <span class="text-muted small pt-2 ps-1">Legal</span>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div><!-- End Customers Card -->
-                </div>
-
-
-                <!-- End Left side columns -->
-
-                <!-- Right side columns -->
-                <div class="col-lg-8">
-                    <div class="col-lg-10">
-
+                    <!-- Reports -->
+                    <div class="col-12 "style="justify-items: center">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Ads Graphique</h5>
@@ -230,17 +187,90 @@
                             </div><!-- End Right side columns -->
 
                         </div>
+                    </div><!-- End Reports -->
 
-                    </div>
+
 
                 </div>
 
-            </div>
+            </div><!-- End Left side columns -->
+
+            <!-- Right side columns -->
+            <div class="col-lg-4">
+
+                <!-- Website Traffic -->
+                <div class="card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Ads </h5>
+
+                        <div id="trafficChart" style="min-height: 400px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;" class="echart" _echarts_instance_="ec_1669748798398"><div style="position: relative; width: 257px; height: 400px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="257" height="400" style="position: absolute; left: 0px; top: 0px; width: 257px; height: 400px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div class=""></div></div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                echarts.init(document.querySelector("#trafficChart")).setOption({
+                                    tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    legend: {
+                                        top: '5%',
+                                        left: 'center'
+                                    },
+                                    series: [{
+                                        name: 'Ads',
+                                        type: 'pie',
+                                        radius: ['40%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: {
+                                            show: false,
+                                            position: 'center'
+                                        },
+                                        emphasis: {
+                                            label: {
+                                                show: true,
+                                                fontSize: '18',
+                                                fontWeight: 'bold'
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: false
+                                        },
+                                        data: [{
+                                            value: [{{ adGold }}],
+                                            name: 'Gold Type'
+                                        },
+                                            {
+                                                value: [{{ adBronze }}],
+                                                name: 'Bronze'
+                                            },
+
+
+                                        ]
+                                    }]
+                                });
+                            });
+                        </script>
+
+                    </div>
+                </div><!-- End Website Traffic -->
+
+
+            </div><!-- End Right side columns -->
 
         </div>
-
-        <!-- Right side columns -->
-
         </div>
     </section>
 {% endblock %}
+

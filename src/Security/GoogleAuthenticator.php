@@ -158,25 +158,28 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 // a User object
 
                  $t=$googleUser->getEmail();
-
                 $u=$this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $t]);
 
-                if($u !=$t)
-                {
-
-                $u=array('ROLE_Admin');
-                $utilisateur = new Utilisateur();
-                $utilisateur->setGoogleId($googleUser->getId());
-                $utilisateur->setEmail($googleUser->getEmail());
-                $utilisateur->setNom($googleUser->getLastName());
-                $utilisateur->setPhotoGoogleFb($googleUser->getAvatar());
-                $utilisateur->setPrenom($googleUser->getFirstName());
-                $utilisateur->setRole( $us);
-                $utilisateur->setRoles( $u);
-                $this->entityManager->persist($utilisateur);
-                $this->entityManager->flush();
+                if(!$u) {
+                    $u=array('ROLE_Admin');
+                    $utilisateur = new Utilisateur();
+                    $utilisateur->setGoogleId($googleUser->getId());
+                    $utilisateur->setEmail($googleUser->getEmail());
+                    $utilisateur->setNom($googleUser->getLastName());
+                    $utilisateur->setPhotoGoogleFb($googleUser->getAvatar());
+                    $utilisateur->setPrenom($googleUser->getFirstName());
+                    $utilisateur->setRole( $us);
+                    $utilisateur->setRoles( $u);
+                    $this->entityManager->persist($utilisateur);
+                    $this->entityManager->flush();
 
                     return $utilisateur;
+                }
+                else{
+                    $u->setGoogleId($googleUser->getId());
+                    $this->entityManager->flush();
+
+                    return $u;
                 }
 
             })

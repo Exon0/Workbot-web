@@ -53,22 +53,31 @@ class MyFacebookAuthenticator extends OAuth2Authenticator implements Authenticat
                 if ($existingUser) {
                     return $existingUser;
                 }
-
+                $t=$facebookUser->getEmail();
+                $u=$this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $t]);
                 // 2) do we have a matching user by email?
-                $us="Admin";
-                $u=array('ROLE_Admin');
-                $utilisateur = new Utilisateur();
-                $utilisateur->setFacebookId($facebookUser->getId());
-                $utilisateur->setEmail($facebookUser->getEmail());
-                $utilisateur->setPhoto($facebookUser->getPictureUrl());
-                $utilisateur->setNom($facebookUser->getLastName());
-                $utilisateur->setPrenom($facebookUser->getFirstName());
-                $utilisateur->setRole( $us);
-                $utilisateur->setRoles( $u);
-                $this->entityManager->persist($utilisateur);
-                $this->entityManager->flush();
+                if(!$u) {
+                    $us = "Admin";
+                    $u = array('ROLE_Admin');
+                    $utilisateur = new Utilisateur();
+                    $utilisateur->setFacebookId($facebookUser->getId());
+                    $utilisateur->setEmail($facebookUser->getEmail());
+                    $utilisateur->setPhoto($facebookUser->getPictureUrl());
+                    $utilisateur->setNom($facebookUser->getLastName());
+                    $utilisateur->setPrenom($facebookUser->getFirstName());
+                    $utilisateur->setRole($us);
+                    $utilisateur->setRoles($u);
+                    $this->entityManager->persist($utilisateur);
+                    $this->entityManager->flush();
 #$utilisateurRepository->save($utilisateur, true);
-                return $utilisateur;
+                    return $utilisateur;
+                }
+                else {
+                    $u->setGoogleId($facebookUser->getId());
+                    $this->entityManager->flush();
+
+                    return $u;
+                }
             })
         );
     }

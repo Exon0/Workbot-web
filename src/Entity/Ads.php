@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -97,6 +99,14 @@ class Ads
     #[Assert\Email]
     #[ORM\Column(name: 'mail', type: 'string', length: 255, nullable: false)]
     private string $mail;
+
+    #[ORM\OneToMany(mappedBy: 'ads', targetEntity: AdsLike::class)]
+    private Collection $adsLikes;
+
+    public function __construct()
+    {
+        $this->adsLikes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -201,6 +211,45 @@ class Ads
     public function setStatus(int $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return Collection<int, AdsLike>
+     */
+    public function getAdsLikes(): Collection
+    {
+        return $this->adsLikes;
+    }
+
+    public function addAdsLike(AdsLike $adsLike): self
+    {
+        if (!$this->adsLikes->contains($adsLike)) {
+            $this->adsLikes->add($adsLike);
+            $adsLike->setAds($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdsLike(AdsLike $adsLike): self
+    {
+        if ($this->adsLikes->removeElement($adsLike)) {
+            // set the owning side to null (unless already changed)
+            if ($adsLike->getAds() === $this) {
+                $adsLike->setAds(null);
+            }
+        }
+
+        return $this;
+    }
+/////////ce ads liké par utilisateur
+    public function isLikedByUser(Utilisateur $user):bool
+    {
+         foreach ($this->adsLikes as $like)
+         {
+              if ($like->getUser()===$user) return true;
+         }
+        return false;
     }
 
 }

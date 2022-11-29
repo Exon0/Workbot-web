@@ -3,18 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Ads;
+use App\Entity\AdsLike;
 use App\Entity\Utilisateur;
 use App\Form\AdsNombreType;
+use App\Repository\AdsLikeRepository;
 use App\Repository\AdsRepository;
 use App\Form\AdsType;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\TexterInterface;
@@ -26,6 +30,42 @@ use Symfony\Component\Notifier\Recipient\Recipient;
 #[Route('utilisateur/ads')]
 class AdsController extends AbstractController
 {
+    /////permet de liker ou unliker ads
+    #[Route('/ads/{id}/like', name: 'ads_like')]
+    public function like(Ads $ads,ManagerRegistry $managerRegistry,AdsLikeRepository $adsLikeRepository): Response
+    {
+        $user = $this->getUser();
+        if(!$user) return $this->json([
+          'code' => 403,
+          'message' =>'il faut connecter'
+        ],403);
+        if($ads->isLikedByUser($user))
+        {
+            $like=$adsLikeRepository->findOneBy([
+                'ads' =>$ads,
+                'user' =>$user
+            ]);
+            $em = $managerRegistry->getManager();
+            $em->remove($like);
+            $em->flush();
+            return  $this->json([
+                'code'=>200,
+                'message'=>'like bien supp',
+                'likes'=>$adsLikeRepository->count(['ads'=>$ads])
+            ],200);
+        }
+        $like=new AdsLike();
+        $like->setAds($ads);
+        $like->setUser($user);
+        $em = $managerRegistry->getManager();
+        $em->persist($like);
+        $em->flush();
+        return  $this->json([
+            'code'=>200,
+            'message'=>'ca marche bien',
+            'likes'=>$adsLikeRepository->count(['ads'=>$ads])
+        ],200);
+    }
     #[Route('/', name: 'app_ads_index', methods: ['GET'])]
     public function index(AdsRepository $adsRepository): Response
     {
@@ -52,9 +92,14 @@ class AdsController extends AbstractController
 
 
     #[Route('/new', name: 'app_ads_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AdsRepository $adsRepository,SluggerInterface $slugger,Recaptcha3Validator $recaptcha3Validator): Response
+    public function new(Request $request,AdsLikeRepository $adsLikeRepository ,AdsRepository $adsRepository,SluggerInterface $slugger,Recaptcha3Validator $recaptcha3Validator): Response
     {
         $ad = new Ads();
+        $user = new Utilisateur();
+        $users[]=$user;
+        $session = new Session();
+
+        $like= new AdsLike();
         $form = $this->createForm(AdsType::class, $ad);
         $form->handleRequest($request);
 
@@ -99,9 +144,10 @@ class AdsController extends AbstractController
                 $ad->setNombreAds(1);
                 $score = $recaptcha3Validator->getLastResponse()->getScore();
                 $adsRepository->save($ad, true);
-
+                $like->setAds($ad);
+                $like->setUser($this->getUser());
+                $adsLikeRepository->save($like, true);
                 return $this->redirectToRoute('app_ads_index', [], Response::HTTP_SEE_OTHER);
-
             }
 
                 return $this->renderForm('ads/new.html.twig', [
@@ -250,6 +296,8 @@ class AdsController extends AbstractController
         $u=$adsRepository->findonlyValid();
         return $this->render('ads/afAds.html.twig',['ads'=>$u]);
     }
+
+
 
 }
 

@@ -8,7 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  * Utilisateur
  *
@@ -147,7 +148,44 @@ use Symfony\Component\Security\Core\User\UserInterface;
     private ?string $facebookId = null;
     #[ORM\Column(name: 'photoGoogleFb', type: 'string', length: 255, nullable: true)]
     private ?string $photoGoogleFb = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AdsLike::class)]
+    private Collection $likes;
 
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
+
+
+    /**
+     * @return Collection<int, AdsLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(AdsLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(AdsLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
     /**
      * @return string|null
      */

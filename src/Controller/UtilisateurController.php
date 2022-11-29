@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -40,6 +42,14 @@ class UtilisateurController extends AbstractController
         $em->remove($utilisateur);
         $em->flush();
         return $this->redirectToRoute('app_utilisateur_index');
+    }
+    #[Route('/ping', name: 'ping')]
+    function callMercure(HubInterface $publisher): Response
+    {
+        $update = new Update("http://127.0.0.1:8000/utilisateur/Admin",
+            "[]");
+        $publisher->publish($update);
+        return $this->redirectToRoute('app_utilisateur_appadmin');
     }
 //////////test template
     #[Route('/mouh', name: 'app_utilisateur_indexxxx', methods: ['GET'])]
@@ -233,8 +243,10 @@ class UtilisateurController extends AbstractController
     public function dashboard(AdsRepository $adsRepository,UtilisateurRepository $utilisateurRepository,ChartBuilderInterface $chartBuilder,AdsRepository $repo): Response
     {
         $na=$utilisateurRepository->countuser();
+
         $ns=$utilisateurRepository->countsociete();
         $nc=$utilisateurRepository->countcandidat();
+        $nadmin=$na-$ns-$nc;
         $adV=$adsRepository->countadsV();
         $adNV=$adsRepository->countadsNV();
         $adGold=$adsRepository->countgold();
@@ -247,6 +259,7 @@ class UtilisateurController extends AbstractController
 
         return $this->render('utilisateur/Dashbord/faceAPpstat.html.twig',
             [
+                'nadmin'=>'$nadmin',
                 'naa'=>$na,
                 'ns1'=>$ns1,
                 'nss'=>$ns,

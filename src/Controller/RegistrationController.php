@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -19,7 +21,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher,UtilisateurRepository $u ,UserAuthenticatorInterface $userAuthenticator, LoginSecurityAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request,HubInterface $hub, UserPasswordHasherInterface $userPasswordHasher,UtilisateurRepository $u ,UserAuthenticatorInterface $userAuthenticator, LoginSecurityAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
 
         $user = new Utilisateur();
@@ -41,7 +43,12 @@ class RegistrationController extends AbstractController
                     $form->get('mdp')->getData()
                 )
             );
+            $update = new Update(
+                'http://127.0.0.1:8000/utilisateur/Admin',
+                "[]"
+            );
 
+            $hub->publish($update);
             $entityManager->persist($user);
             $entityManager->flush();
 
