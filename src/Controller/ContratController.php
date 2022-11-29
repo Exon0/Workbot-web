@@ -6,6 +6,9 @@ use App\Entity\Candidature;
 use App\Entity\Contrat;
 use App\Repository\CandidatureRepository;
 use App\Repository\ContratRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Mercure\HubInterface;
 use App\Form\ContratType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,6 +68,7 @@ class ContratController extends AbstractController
         $contrat->setDatecreation(date_create(date('Y-m-d')));
         if ($form->isSubmitted() && $form->isValid()) {
             $contrat->setIdCandidature($candidature);
+            $contrat->setNoncandidat($candidature->getIdcondidat()->getNom()." ".$candidature->getIdcondidat()->getPrenom());
             $candidature->setStatut('acceptée');
             $candidatureRepository->save($candidature, true);
             $contratRepository->save($contrat, true);
@@ -90,7 +94,7 @@ class ContratController extends AbstractController
         ]);
     }
 
-        #[Route('adminshow/{id}', name: 'app_contrat_admin_show', methods: ['GET'])]
+        #[Route('/adminshow/{id}', name: 'app_contrat_admin_show', methods: ['GET'])]
         public function adminShow(Contrat $contrat): Response
         {
             return $this->render('utilisateur/Dashbord/contrat/show.html.twig', [
@@ -125,5 +129,29 @@ class ContratController extends AbstractController
 
         return $this->redirectToRoute('app_contrat_index', [], Response::HTTP_SEE_OTHER);
     }
+
+        #[Route('/admin/filter', name: 'filter_contrats', methods: ['POST'])]
+        public function filter(Request $request, ContratRepository $contratRepository): Response
+        {
+            $qb = $contratRepository->createQueryBuilder("c")
+                ->select("c.id as id, c.typecontrat as typecontrat, c.nomcondidat as nomcondidat, c.datedebut as datedebut, c.salaire as salaire, c.datefin as datefin, c.lien as lien, c.datecreation as datecreation")
+                ->where("c.salaire >= ".$request->get("salaire"));
+
+            if($request->get('typeContrat') != "") {
+                $qb->andWhere("UPPER(c.typecontrat) like UPPER('".$request->get("typeContrat")."')");
+            }
+            if($request->get('candidat') != "") {
+                $qb->andWhere("UPPER(c.nomcondidat) like UPPER('%".$request->get("candidat")."%')");
+            }
+            if($request->get("dateDebut") != "" && $request->get("dateFin") != "") {
+                $qb->andWhere("c.datedebut >= '".$request->get("dateDebut")."'")
+                    ->andWhere("c.datefin <= '".$request->get("dateFin")."'");
+            }
+               $query = $qb->getQuery();
+
+                $contrats = $query->getResult();
+
+            return new Response(json_encode(["contrats"=>$contrats]), 200);
+        }
 
 }
