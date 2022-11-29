@@ -24,11 +24,6 @@ class Contrat
     #[Assert\NotNull]
     private ?string $typecontrat = null;
 
-
-    #[ORM\Column(name: 'nomCandidat', type: 'string', length: 255, nullable: true)]
-    #[Assert\NotNull]
-    public ?string $nomcondidat = null;
-
     #[ORM\Column(name: 'dateDebut', type: 'date', nullable: true)]
     #[Assert\NotNull]
     private ?\DateTime $datedebut = null;
@@ -72,20 +67,6 @@ class Contrat
 
         return $this;
     }
-
-
-    public function getNomcandidat(): ?string
-    {
-        return $this->nomcondidat;
-    }
-
-    public function setNoncandidat(?string $nomcandidat): self
-    {
-        $this->nomcondidat = $nomcandidat;
-
-        return $this;
-    }
-
 
     public function getDatedebut(): ?\DateTimeInterface
     {

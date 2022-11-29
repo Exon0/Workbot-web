@@ -122,13 +122,13 @@ button {
 }
 
 .form-control:focus,
-.btnChat:focus {
+.btn:focus {
     box-shadow: none
 }
 
-.btnChat,
-.btnChat:focus,
-.btnChat:hover {
+.btn,
+.btn:focus,
+.btn:hover {
     background-color: rgb(40,167,69);
     border: rgb(40,167,69)
 }
