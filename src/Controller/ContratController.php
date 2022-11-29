@@ -144,8 +144,8 @@ class ContratController extends AbstractController
                 $qb->andWhere("UPPER(c.nomcondidat) like UPPER('%".$request->get("candidat")."%')");
             }
             if($request->get("dateDebut") != "" && $request->get("dateFin") != "") {
-                $qb->andWhere("c.datedebut between '".$request->get("dateDebut")."' and '".$request->get("dateFin")."'")
-                    ->andWhere("c.datefin >= '".$request->get("dateFin")."'");
+                $qb->andWhere("c.datedebut >= '".$request->get("dateDebut")."'")
+                    ->andWhere("c.datefin <= '".$request->get("dateFin")."'");
             }
                $query = $qb->getQuery();
 
