@@ -49,9 +49,9 @@ class ContratController extends AbstractController
             ]);
         }
 
-        function callMercure(HubInterface $publisher, int $id){
+        function callMercure(HubInterface $publisher, int $id, int $contratId){
 
-            $update = new Update("http://127.0.0.1:8000/addContract/".$id);
+            $update = new Update("http://127.0.0.1:8000/addContract/".$id, $contratId);
             $publisher->publish($update);
         }
 
@@ -68,7 +68,7 @@ class ContratController extends AbstractController
             $candidature->setStatut('acceptée');
             $candidatureRepository->save($candidature, true);
             $contratRepository->save($contrat, true);
-            $this->callMercure($publisher, $candidature->getIdcondidat()->getId());
+            $this->callMercure($publisher, $candidature->getIdcondidat()->getId(), $contrat->getId());
             return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
                 'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),
                 'acceptees' => $candidatureRepository->findBy(["statut"=>'acceptée']),
