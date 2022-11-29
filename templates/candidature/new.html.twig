@@ -3,9 +3,9 @@
 {% block title %}New Candidature{% endblock %}
 
 {% block body %}
-
+    <h1>Create new Candidature</h1>
 
     {{ include('candidature/_form.html.twig') }}
 
-    <a href="{{ path('app_affichageoffre') }}">back to list</a>
+    <a href="{{ path('app_candidature_index') }}">back to list</a>
 {% endblock %}

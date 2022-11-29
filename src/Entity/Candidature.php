@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Repository\CandidatureRepository;
 use Doctrine\ORM\Mapping as ORM;
 //candidatures
@@ -22,84 +22,53 @@ class Candidature
 
     #[ORM\Column(name: 'statut', type: 'string', length: 255, nullable: false)]
     private string $statut;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'lettreMotivation', type: 'string', length: 255, nullable: false)]
     private string $lettremotivation;
 
     #[ORM\Column(name: 'noteTest', type: 'string', length: 10, nullable: false)]
     private string $notetest;
 
-    #[Assert\Date]
     #[ORM\Column(name: 'dateAjout', type: 'string', length: 250, nullable: false)]
     private string $dateajout;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'Cv', type: 'string', length: 255, nullable: false)]
     private string $cv;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'NiveauFrancais', type: 'string', length: 255, nullable: false)]
     private string $niveaufrancais;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'NiveauAnglais', type: 'string', length: 255, nullable: false)]
     private string $niveauanglais;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'diplome', type: 'string', length: 255, nullable: false)]
     private string $diplome;
+
     #[ORM\Column(name: 'dateExpiration', type: 'string', length: 255, nullable: false)]
     private string $dateexpiration;
+
     #[ORM\Column(name: 'titre', type: 'string', length: 255, nullable: false)]
     private string $titre;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'TypeCondidature', type: 'string', length: 255, nullable: false)]
     private string $typecondidature;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'Experience', type: 'string', length: 25, nullable: false)]
     private string $experience;
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'Domaine', type: 'string', length: 255, nullable: false)]
     private string $domaine;
 
     #[ORM\JoinColumn(name: 'id_offre', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'Offre')]
     private \App\Entity\Offre $idOffre;
+
     #[ORM\JoinColumn(name: 'idcondidat', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idcondidat;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Offre
-     */
-    public function getIdOffre(): Offre
-    {
-        return $this->idOffre;
-    }
-
-    /**
-     * @param Offre $idOffre
-     */
-    public function setIdOffre(Offre $idOffre): void
-    {
-        $this->idOffre = $idOffre;
-    }
-
-    /**
-     * @return Utilisateur
-     */
-    public function getIdcondidat(): Utilisateur
-    {
-        return $this->idcondidat;
-    }
-
-    /**
-     * @param Utilisateur $idcondidat
-     */
-    public function setIdcondidat(Utilisateur $idcondidat): void
-    {
-        $this->idcondidat = $idcondidat;
     }
 
     public function getStatut(): ?string

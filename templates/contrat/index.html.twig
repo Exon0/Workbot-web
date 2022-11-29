@@ -1,17 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}   Contrat index {% endblock %}
+{% block title %}Contrat index{% endblock %}
 
 {% block body %}
-    <h1>Tableau des contrats</h1>
+    <h1>Contrat index</h1>
 
-    <table class="table" border="1">
+    <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Typecontrat</th>
-                <th>DateDebut</th>
-                <th>Datefin</th>
+                <th>Datedebut</th>
                 <th>Salaire</th>
+                <th>Datefin</th>
+                <th>Lien</th>
+                <th>IdCandidature</th>
                 <th>Datecreation</th>
                 <th>actions</th>
             </tr>
@@ -19,10 +22,13 @@
         <tbody>
         {% for contrat in contrats %}
             <tr>
+                <td>{{ contrat.id }}</td>
                 <td>{{ contrat.typecontrat }}</td>
                 <td>{{ contrat.datedebut ? contrat.datedebut|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.datefin ? contrat.datefin|date('Y-m-d') : '' }}</td>
                 <td>{{ contrat.salaire }}</td>
+                <td>{{ contrat.datefin ? contrat.datefin|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.lien }}</td>
+                <td>{{ contrat.idCandidature }}</td>
                 <td>{{ contrat.datecreation ? contrat.datecreation|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_contrat_show', {'id': contrat.id}) }}">show</a>
@@ -31,11 +37,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_contrat_new') }}">Create new contrat </a>
+    <a href="{{ path('app_contrat_new') }}">Create new</a>
 {% endblock %}

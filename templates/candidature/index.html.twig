@@ -3,43 +3,45 @@
 {% block title %}Candidature index{% endblock %}
 
 {% block body %}
-    <h1>Liste des candidatures</h1>
+    <h1>Candidature index</h1>
 
-    <table style="margin:20px;" class="table">
+    <table class="table">
         <thead>
             <tr>
-                <th>Titre</th>
-                <th>Typecondidature</th>
-                <th>Domaine</th>
+                <th>Id</th>
                 <th>Statut</th>
-                <th>Diplome</th>
+                <th>Lettremotivation</th>
                 <th>Notetest</th>
+                <th>Dateajout</th>
+                <th>Cv</th>
                 <th>Niveaufrancais</th>
                 <th>Niveauanglais</th>
-                <th>Experience</th>
-                <th>Lettremotivation</th>
-                 <th>Cv</th>
+                <th>Diplome</th>
                 <th>Dateexpiration</th>
-                <th>Dateajout</th>
+                <th>Titre</th>
+                <th>Typecondidature</th>
+                <th>Experience</th>
+                <th>Domaine</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for candidature in candidatures %}
             <tr>
-                <td>{{ candidature.titre }}</td>
-                <td>{{ candidature.typecondidature }}</td>
-                <td>{{ candidature.domaine }}</td>
+                <td>{{ candidature.id }}</td>
                 <td>{{ candidature.statut }}</td>
-                <td>{{ candidature.diplome }}</td>
+                <td>{{ candidature.lettremotivation }}</td>
                 <td>{{ candidature.notetest }}</td>
+                <td>{{ candidature.dateajout }}</td>
+                <td>{{ candidature.cv }}</td>
                 <td>{{ candidature.niveaufrancais }}</td>
                 <td>{{ candidature.niveauanglais }}</td>
-                <td>{{ candidature.experience }}</td>
-                <td>{{ candidature.lettremotivation }}</td>
-                <td>{{ candidature.cv }}</td>
+                <td>{{ candidature.diplome }}</td>
                 <td>{{ candidature.dateexpiration }}</td>
-                <td>{{ candidature.dateajout }}</td>
+                <td>{{ candidature.titre }}</td>
+                <td>{{ candidature.typecondidature }}</td>
+                <td>{{ candidature.experience }}</td>
+                <td>{{ candidature.domaine }}</td>
                 <td>
                     <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>
                     <a href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">edit</a>
@@ -52,5 +54,6 @@
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_affichageoffre') }}">back to list offres</a>
+
+    <a href="{{ path('app_candidature_new') }}">Create new</a>
 {% endblock %}

@@ -1,20 +1,4 @@
-
-
-
-
-
-
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    <div class="row">
-        <div class="col">{{ form_row(form.domaine) }}</div>
-        <div class="col">{{ form_row(form.diplome) }}</div>
-    </div>
-
-    <div class="row">
-        <div class="col">{{ form_row(form.niveaufrancais) }}</div>
-        <div class="col">{{ form_row(form.niveauanglais) }}</div>
-    </div>
-    {{ form_rest(form) }}
+{{ form_start(form) }}
+    {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-
