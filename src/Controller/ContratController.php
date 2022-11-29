@@ -2,78 +2,36 @@
 
 namespace App\Controller;
 
-use App\Entity\Candidature;
 use App\Entity\Contrat;
-use App\Repository\CandidatureRepository;
 use App\Repository\ContratRepository;
-use Symfony\Component\Mercure\HubInterface;
 use App\Form\ContratType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
     #[Route('/contrat')]
 class ContratController extends AbstractController
 {
     #[Route('/', name: 'app_contrat_index', methods: ['GET'])]
-    public function index(ContratRepository $contratRepository, CandidatureRepository $candidatureRepository): Response
+    public function index(ContratRepository $contratRepository): Response
     {
-        $allContrats = $contratRepository->findAll();
-        $contrats = [];
-        $i = 0;
-        foreach ($allContrats as $contrat) {
-            $candidature = $candidatureRepository->findOneBy(["id"=>$contrat->getIdCandidature()->getId()]);
-            if($candidature->getIdcondidat()->getId() == 12) {
-                $contrats[$i++]=$contrat;
-            }
-        }
         return $this->render('contrat/index.html.twig', [
-            'contrats' => $contrats,
+            'contrats' => $contratRepository->findAll(),
         ]);
     }
 
-        #[Route('/admin/contrats', name: 'app_contrat_admin', methods: ['GET'])]
-        public function contratAdmin(ContratRepository $contratRepository, CandidatureRepository $candidatureRepository): Response
-        {
-            $allContrats = $contratRepository->findAll();
-            $i = 0;
-            foreach ($allContrats as $contrat) {
-                $candidature = $candidatureRepository->findOneBy(["id"=>$contrat->getIdCandidature()->getId()]);
-                $contrat->setIdCandidature($candidature);
-                $contrats[$i++]=$contrat;
-            }
-            return $this->render('utilisateur/Dashbord/contrat/index.html.twig', [
-                'contrats' => $contrats,
-            ]);
-        }
-
-        function callMercure(HubInterface $publisher, int $id){
-
-            $update = new Update("http://127.0.0.1:8000/addContract/".$id);
-            $publisher->publish($update);
-        }
-
-    #[Route('/new/{id}', name: 'app_contrat_new', methods: ['GET', 'POST'])]
-    public function new(HubInterface  $publisher, Candidature $candidature,Request $request, ContratRepository $contratRepository, CandidatureRepository $candidatureRepository): Response
+    #[Route('/new', name: 'app_contrat_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ContratRepository $contratRepository): Response
     {
         $contrat = new Contrat();
-        $contrat->setIdCandidature($candidature);
         $form = $this->createForm(ContratType::class, $contrat);
         $form->handleRequest($request);
-        $contrat->setDatecreation(date_create(date('Y-m-d')));
+        $contrat->setDatecreation(date('Y-m-d'));
         if ($form->isSubmitted() && $form->isValid()) {
-            $contrat->setIdCandidature($candidature);
-            $candidature->setStatut('acceptée');
-            $candidatureRepository->save($candidature, true);
             $contratRepository->save($contrat, true);
-            $this->callMercure($publisher, $candidature->getIdcondidat()->getId());
-            return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
-                'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),
-                'acceptees' => $candidatureRepository->findBy(["statut"=>'acceptée']),
-                'nonAcceptees' => $candidatureRepository->findBy(["statut"=>'refusée'])
-            ]);
+
+            return $this->redirectToRoute('app_contrat_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('contrat/new.html.twig', [
@@ -90,14 +48,6 @@ class ContratController extends AbstractController
         ]);
     }
 
-        #[Route('adminshow/{id}', name: 'app_contrat_admin_show', methods: ['GET'])]
-        public function adminShow(Contrat $contrat): Response
-        {
-            return $this->render('utilisateur/Dashbord/contrat/show.html.twig', [
-                'contrat' => $contrat,
-            ]);
-        }
-
     #[Route('/{id}/edit', name: 'app_contrat_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Contrat $contrat, ContratRepository $contratRepository): Response
     {
@@ -107,10 +57,10 @@ class ContratController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contratRepository->save($contrat, true);
 
-            return $this->redirectToRoute('app_contrat_admin', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_contrat_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('utilisateur/Dashbord/contrat/edit.html.twig', [
+        return $this->renderForm('contrat/edit.html.twig', [
             'contrat' => $contrat,
             'form' => $form,
         ]);

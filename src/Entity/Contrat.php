@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Entity;
-use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ContratRepository;
 use Doctrine\DBAL\Types\Types;
@@ -44,12 +43,12 @@ class Contrat
     )]
     private ?string $lien = null;
 
-    #[ORM\JoinColumn(name: 'id_candidature', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity: 'Candidature')]
-    private Candidature|null $idCandidature = null;
-    #[ORM\Column(name: 'dateCreation', type: 'date', nullable: true)]
+    #[ORM\Column(name: 'id_candidature', type: 'integer', nullable: true)]
+    private ?int $idCandidature = null;
+    #[Assert\Date]
+    #[ORM\Column(name: 'dateCreation', type: 'string', nullable: true)]
 
-    private ?DateTime $datecreation = null;
+    private ?string $datecreation = null;
 
     public function getId(): ?int
     {
@@ -116,24 +115,24 @@ class Contrat
         return $this;
     }
 
-    public function getIdCandidature(): Candidature
+    public function getIdCandidature(): ?int
     {
         return $this->idCandidature;
     }
 
-    public function setIdCandidature(Candidature $idCandidature): self
+    public function setIdCandidature(?int $idCandidature): self
     {
         $this->idCandidature = $idCandidature;
 
         return $this;
     }
 
-    public function getDatecreation(): ?\DateTimeInterface
+    public function getDatecreation(): ?string
     {
         return $this->datecreation;
     }
 
-    public function setDatecreation(?\DateTimeInterface $datecreation): self
+    public function setDatecreation(?string $datecreation): self
     {
         $this->datecreation = $datecreation;
 

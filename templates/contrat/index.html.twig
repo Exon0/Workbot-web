@@ -26,6 +26,7 @@
                 <td>{{ contrat.datecreation ? contrat.datecreation|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_contrat_show', {'id': contrat.id}) }}">show</a>
+                    <a href="{{ path('app_contrat_edit', {'id': contrat.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -36,4 +37,5 @@
         </tbody>
     </table>
 
+    <a href="{{ path('app_contrat_new') }}">Create new contrat </a>
 {% endblock %}
