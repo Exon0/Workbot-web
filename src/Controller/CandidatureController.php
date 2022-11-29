@@ -10,8 +10,6 @@ use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/candidature')]
@@ -23,22 +21,21 @@ class CandidatureController extends AbstractController
     {
 
         return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
-            'nonTraitees' => $candidatureRepository->findBy(["statut" => 'non traité']),
-            'acceptees' => $candidatureRepository->findBy(["statut" => 'acceptée']),
-            'nonAcceptees' => $candidatureRepository->findBy(["statut" => 'refusée'])
+            'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),
+                'acceptees' => $candidatureRepository->findBy(["statut"=>'acceptée']),
+            'nonAcceptees' => $candidatureRepository->findBy(["statut"=>'refusée'])
         ]);
     }
-
     #[Route('/', name: 'app_candidature_index', methods: ['GET'])]
     public function index(CandidatureRepository $candidatureRepository): Response
     {
         return $this->render('candidature/index.html.twig', [
-            'candidatures' => $candidatureRepository->findBy(["idcondidat" => 12]),
+            'candidatures' => $candidatureRepository->findBy(["idcondidat"=>12]),
         ]);
     }
 
     #[Route('/new/{id}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
-    public function new(Offre $offre, Request $request, CandidatureRepository $candidatureRepository, UtilisateurRepository $utilisateurRepository): Response
+    public function new(Offre $offre,Request $request, CandidatureRepository $candidatureRepository, UtilisateurRepository $utilisateurRepository): Response
     {
         $candidature = new Candidature();
         $form = $this->createForm(CandidatureType::class, $candidature);
@@ -46,7 +43,7 @@ class CandidatureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $candidature->setIdOffre($offre);
-            $candidat = $utilisateurRepository->findOneBy(["id" => 12]);
+            $candidat = $utilisateurRepository->findOneBy(["id"=>12]);
             $candidature->setIdcondidat($candidat);
             $candidature->setStatut("non traité");
             $candidature->setTitre($offre->getTitre());
@@ -62,7 +59,6 @@ class CandidatureController extends AbstractController
             'form' => $form,
         ]);
     }
-
     #[Route('/adminCondidat/{id}', name: 'app_candidature_show_admin', methods: ['GET'])]
     public function showAdmin(Candidature $candidature): Response
     {
@@ -70,7 +66,6 @@ class CandidatureController extends AbstractController
             'candidature' => $candidature,
         ]);
     }
-
     #[Route('/{id}', name: 'app_candidature_show', methods: ['GET'])]
     public function show(Candidature $candidature): Response
     {
@@ -100,7 +95,7 @@ class CandidatureController extends AbstractController
     #[Route('/{id}', name: 'app_candidature_delete', methods: ['POST'])]
     public function delete(Request $request, Candidature $candidature, CandidatureRepository $candidatureRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $candidature->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$candidature->getId(), $request->request->get('_token'))) {
             $candidatureRepository->remove($candidature, true);
         }
 
@@ -110,37 +105,13 @@ class CandidatureController extends AbstractController
     #[Route('refuserCandidature/{id}', name: 'refuser_candidature', methods: ['GET'])]
     public function refuserCandidature(int $id, CandidatureRepository $candidatureRepository): Response
     {
-        $candidature = $candidatureRepository->findOneBy(["id" => $id]);
+        $candidature = $candidatureRepository->findOneBy(["id"=>$id]);
         $candidature->setStatut("refusée");
         $candidatureRepository->save($candidature, true);
         return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
-            'nonTraitees' => $candidatureRepository->findBy(["statut" => 'non traité']),
-            'acceptees' => $candidatureRepository->findBy(["statut" => 'acceptée']),
-            'nonAcceptees' => $candidatureRepository->findBy(["statut" => 'refusée'])
+            'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),
+            'acceptees' => $candidatureRepository->findBy(["statut"=>'acceptée']),
+            'nonAcceptees' => $candidatureRepository->findBy(["statut"=>'refusée'])
         ]);
-    }
-
-
-    #[Route('/getAssistance/{id}', name: 'assistance', methods: ['GET'])]
-    public function assistance(int $id, HubInterface $publisher): Response
-    {
-        $update = new Update("http://127.0.0.1:8000/assistans", $id);
-        $publisher->publish($update);
-        return new Response("true", 200);
-    }
-
-    #[Route('/sendMessage/{id}', name: 'sendMessage', methods: ['POST'])]
-    public function sendMessage(int $id, Request $request, HubInterface $publisher, UtilisateurRepository $utilisateurRepository): Response
-    {
-        if($request->get("senderId") == -1) {
-
-            $user = $utilisateurRepository->findOneBy(["id"=>$id]);
-            $update = new Update("http://127.0.0.1:8000/chat/".$id, json_encode(['sender' => $request->get("senderId"), 'message' =>$user->getNom()." ".$user->getPrenom() , 'senderName' => $request->get("senderName")]));
-
-        } else {
-            $update = new Update("http://127.0.0.1:8000/chat/".$id, json_encode(['sender' => $request->get("senderId"), 'message' => $request->get("message"), 'senderName' => $request->get("senderName")]));
-        }
-        $publisher->publish($update);
-        return new Response("true", 200);
     }
 }

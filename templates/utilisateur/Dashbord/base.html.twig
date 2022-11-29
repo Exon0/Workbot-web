@@ -15,16 +15,11 @@
         <link href="{{asset('assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
         <link href="{{asset('assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
         <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
-        <link rel="stylesheet" href="{{asset("back/mycss.css")}}">
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
     {% block javascripts %}
         <!-- Vendor JS Files -->
-
-        <script src="{{asset("back/jquery-3.3.1.min.js")}}"></script>
-        <script src="{{asset("assets/common.js")}}"></script>
-        <script src="{{asset("assets/backOffice.js")}}"></script>
         <script src="{{asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
         <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>v
         <script src="{{asset('assets/vendor/chart.js/chart.min.js') }}"></script>
@@ -513,29 +508,5 @@
 
 
 {% endblock %}
-
-<!-- snackbar -->
-<div style="cursor: pointer" id="snackbar">Utilisateur besoin d'assistance, cliquer pour aider</div>
-
-
-
-<!-- chat -->
-<div class="wrapper" id="wrapperAdmin" style="right: 20px">
-    <div class="headerChat">
-        <div onclick="terminateChat()" title="Terminer chat !" style="user-select:none;display: flex;justify-content:center;cursor: pointer;float: right;color:red;border-radius: 120px;padding: 5px;width:30px;height: 30px;background-color: white;box-shadow:2px 3px grey">
-            <span style="font-weight: bolder">X</span>
-        </div>
-        <h6 style="color: white">Service utilisateur - Direct</h6>
-    </div>
-    <div class="text-center p-2" style="height: 220px">
-        <div class="chat-logs" id="texts">
-        </div>
-    </div> <div class="chat-form">
-        <input onkeyup="sendAdminBykeyboard(event)" style="width: 68%" value="" type="text" id="adminChatInput" class="form-control" placeholder="Text...">
-        <button style="width: 110px;margin-left: 10px" onclick="sendMessageAdmin()" class="btn btn-success btn-block">Envoyer !</button>
-    </div>
-</div>
-<!-- end chat -->
-
 </body>
 </html>
