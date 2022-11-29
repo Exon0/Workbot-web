@@ -14,13 +14,14 @@
     {% block addCss %}
     {% endblock %}
     <link href="{{ asset('assets/jobPost/css2.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/jobPost/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/jobPost/LineIcons.2.0.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/jobPost/animate.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/jobPost/tiny-slider.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/jobPost/glightbox.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/jobPost/main.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/jobPost/LineIcons.2.0.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/jobPost/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/jobPost/tiny-slider.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/jobPost/glightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/jobPost/main.css') }}">
     <style type="text/css">
         @font-face {
             font-family: Roboto;
@@ -40,7 +41,7 @@
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand logo" href="https://157781.cc/index.html">
-                            <img class="logo1" src="{{ asset('assets/logo.png')}}"
+                            <img class="logo1" src="{{ asset('assets/logo.png') }}"
                                  alt="Logo">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -104,15 +105,11 @@
                                                 Sibebar</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a href="https://157781.cc/contact.html">Contact </a> </li>
+                                <li class="nav-item"><a href="https://157781.cc/contact.html">Contact </a></li>
                             </ul>
                         </div>
 
-                        <div class="button">
-                            <a href="javascript:;" data-toggle="modal" data-target="#login" class="login"><i
-                                        class="lni lni-lock-alt"></i> Login</a>
-                            <a href="javascript:;" data-toggle="modal" data-target="#signup" class="btn">Sign Up</a>
-                        </div>
+
                     </nav>
 
                 </div>
@@ -149,7 +146,7 @@
 {% endblock %}
 
 {% block section %}
-    {% endblock %}
+{% endblock %}
 {% block tableau %}
     <div class="container">
 
@@ -173,40 +170,39 @@
                     </div>
 
 
+                </div>
             </div>
         </div>
-    </div>
     </div>
 {% endblock %}
 </section>
 
 <div class="browse-resumes section">
-{% block retour2 %}
+    {% block retour2 %}
     {% endblock %}
     <div class="container">
         <div class="resume-inner">
             <div class="row">
                 <div class="col-lg-10 offset-lg-1 col-12">
+                    <div class="inner-content">
+                        {% block applications %}
 
-{% block applications %}
-
-{% endblock %}
-
+                        {% endblock %}
 
 
                     </div>
                     {% block pagination %}
-                    <div class="pagination center">
-                        <ul class="pagination-list">
-                            <li><a href="#"><i class="lni lni-arrow-left"></i></a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#"><i class="lni lni-arrow-right"></i></a></li>
-                        </ul>
-                    </div>
-{% endblock %}
+                        <div class="pagination center">
+                            <ul class="pagination-list">
+                                <li><a href="#"><i class="lni lni-arrow-left"></i></a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#"><i class="lni lni-arrow-right"></i></a></li>
+                            </ul>
+                        </div>
+                    {% endblock %}
 
                 </div>
             </div>
@@ -378,7 +374,7 @@ x
                     <div class="f-about single-footer">
                         <div class="logo">
                             <a href="https://157781.cc/index.html"><img
-                                        src="{{ asset('assets/logo.png')}}"
+                                        src="{{ asset('assets/logo.png') }}"
                                         alt="Logo"></a>
                         </div>
                         <p>Start building your creative website with our awesome template Massive.</p>
@@ -486,19 +482,19 @@ x
 </footer>
 
 {% block btnUp %}
-<a href="#" class="scroll-top btn-hover" style="display: flex;">
-    <i class="lni lni-chevron-up"></i>
-</a>
+    <a href="#" class="scroll-top btn-hover" style="display: flex;">
+        <i class="lni lni-chevron-up"></i>
+    </a>
 {% endblock %}
 
 {% block javascriptTest %}
 
 
-<script src="{{ asset('assets/jobPost/bootstrap.min.js.téléchargement')}}"></script>
-<script src="{{ asset('assets/jobPost/wow.min.js.téléchargement')}}"></script>
-<script src="{{ asset('assets/jobPost/tiny-slider.js.téléchargement')}}"></script>
-<script src="{{ asset('assets/jobPost/glightbox.min.js.téléchargement')}}"></script>
-<script src="{{ asset('assets/jobPost/main.js.téléchargement')}}"></script>
+    <script src="{{ asset('assets/jobPost/bootstrap.min.js.téléchargement') }}"></script>
+    <script src="{{ asset('assets/jobPost/wow.min.js.téléchargement') }}"></script>
+    <script src="{{ asset('assets/jobPost/tiny-slider.js.téléchargement') }}"></script>
+    <script src="{{ asset('assets/jobPost/glightbox.min.js.téléchargement') }}"></script>
+    <script src="{{ asset('assets/jobPost/main.js.téléchargement') }}"></script>
 {% endblock %}
 </body>
 

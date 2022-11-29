@@ -11,8 +11,8 @@ use App\Repository\OffreRepository;
 use App\Repository\TestRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\mailerService;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -60,12 +60,12 @@ class OffreController extends AbstractController
 
     /**
      * @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     #[Route('/new/{type}', name: 'app_offre_new', methods: ['GET', 'POST'])]
     public function new($type, Request $request, OffreRepository $offreRepository,
                         UtilisateurRepository $repository, TestRepository $repositorytest,
-                        mailerService $mailer,NormalizerInterface $normalizer): Response
+                        mailerService $mailer): Response
     {
         if ($type === 'Stage') {
 
@@ -449,19 +449,50 @@ class OffreController extends AbstractController
 
     /**
      * @throws ExceptionInterface
-     * @throws \JsonException
+     * @throws JsonException
      */
     #[Route('/offresearch', name: 'search')]
-    public function searchQB(NormalizerInterface $normalizer,OffreRepository $repository,Request $request){
-        $requeststring=$request->get('search2');
-        $offres=$repository->findOffresBytitre($requeststring);
+    public function searchQB(NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
+    {
+        $requeststring = $request->get('search2');
+        $offres = $repository->findOffresBytitre($requeststring);
         foreach ($offres as $o) {
             $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
         }
 
-        $jsoncontent=$normalizer->normalize($offres,'json',['offres'=>'offres']);
-        $retour= json_encode($jsoncontent, JSON_THROW_ON_ERROR);
+        $jsoncontent = $normalizer->normalize($offres, 'json', ['offres' => 'offres']);
+        $retour = json_encode($jsoncontent, JSON_THROW_ON_ERROR);
         return new Response($retour);
 
     }
+
+    #[Route('/offresearch/{type}', name: 'app_offre_typeOffreSearch')]
+    public function typeOffreTri($type, NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
+    {
+        // $requeststring=$request->get('search2');
+        if ($type == 'All') {
+            $offres = $repository->findBy(['idSoc' => 8]);
+            foreach ($offres as $o) {
+                $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
+            }
+
+            $jsoncontent = $normalizer->normalize($offres, 'json', ['offres' => 'offres']);
+            $retour = json_encode($jsoncontent, JSON_THROW_ON_ERROR);
+            return new Response($retour);
+        }
+        if ($type === "Type d'offre") {
+            return new Response('null', 404);
+        }
+
+        $offres = $repository->findBy(['idSoc' => 8, 'typeoffre' => $type]);
+        foreach ($offres as $o) {
+            $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
+        }
+
+        $jsoncontent = $normalizer->normalize($offres, 'json', ['offres' => 'offres']);
+        $retour = json_encode($jsoncontent, JSON_THROW_ON_ERROR);
+        return new Response($retour);
+
+    }
+
 }

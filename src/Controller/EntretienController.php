@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EntretienController extends AbstractController
 {
     #[Route('/all/ent', name: 'app_entretien_index', methods: ['GET'])]
-    public function index(EntretienRepository $entretienRepository,OffreRepository $offreRepository,UtilisateurRepository $utilisateurRepository): Response
+    public function index(EntretienRepository $entretienRepository, OffreRepository $offreRepository, UtilisateurRepository $utilisateurRepository): Response
     {
 
 
@@ -34,19 +34,50 @@ class EntretienController extends AbstractController
         $rdvs = [];
 
         foreach ($events as $event) {
-            $cand=$utilisateurRepository->find($event->getIdCandidature()->getIdcondidat());
-            $offre=$offreRepository->find($event->getIdCandidature()->getIdOffre());
+            $cand = $utilisateurRepository->find($event->getIdCandidature()->getIdcondidat());
+            $offre = $offreRepository->find($event->getIdCandidature()->getIdOffre());
             $rdvs[] = [
                 'id' => $event->getId(),
                 'date' => $event->getDate(),
-                'heure' => $event->getHeure() ,
+                'heure' => $event->getHeure(),
                 'title' => $event->getTitreNom(),
-                'qrcode'=>$event->getQrCode(),
-                'dateAjout'=>$event->getDateAjout(),
-                'nom'=>$cand->getNom(),
-                'prenom'=>$cand->getPrenom(),
-                'titreOffre'=>$offre->getTitre()
+                'qrcode' => $event->getQrCode(),
+                'dateAjout' => $event->getDateAjout(),
+                'nom' => $cand->getNom(),
+                'prenom' => $cand->getPrenom(),
+                'titreOffre' => $offre->getTitre()
 
+
+            ];
+        }
+
+        $data = json_encode($rdvs);
+        return new Response($data);
+    }
+
+    #[Route('/all/ent/today', name: 'app_entretien_today', methods: ['GET'])]
+    public function index1(EntretienRepository $entretienRepository, OffreRepository $offreRepository, UtilisateurRepository $utilisateurRepository): Response
+    {
+
+
+        $events = $entretienRepository->findBy(['iduser' => 8,
+            'date' => date('Y-m-d')]);
+
+        $rdvs = [];
+
+        foreach ($events as $event) {
+            $cand = $utilisateurRepository->find($event->getIdCandidature()->getIdcondidat());
+            $offre = $offreRepository->find($event->getIdCandidature()->getIdOffre());
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'date' => $event->getDate(),
+                'heure' => $event->getHeure(),
+                'title' => $event->getTitreNom(),
+                'qrcode' => $event->getQrCode(),
+                'dateAjout' => $event->getDateAjout(),
+                'nom' => $cand->getNom(),
+                'prenom' => $cand->getPrenom(),
+                'titreOffre' => $offre->getTitre()
 
 
             ];
@@ -123,9 +154,9 @@ class EntretienController extends AbstractController
             $result->saveToFile('C:/Users/Exon/Desktop/workbot-web2/Workbot-web/public/uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
 
             $entretien->setQrCode('uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
-            $time=(int)$entretien->getHeure() + 1;
-            if($time<10)$time='0'.$time;
-            $entretien->setHeureFin($time.':00:00');
+            $time = (int)$entretien->getHeure() + 1;
+            if ($time < 10) $time = '0' . $time;
+            $entretien->setHeureFin($time . ':00:00');
             $cand = $candidatureRepository->find($entretien->getIdCandidature());
             $user = $utilisateurRepository->find($cand->getIdcondidat());
             $entretien->setTitreNom($cand->getTitre() . ' ' . $user->getNom());
@@ -209,9 +240,11 @@ class EntretienController extends AbstractController
             $rdvs[] = [
                 'id' => $event->getId(),
                 'start' => $event->getDate() . ' ' . $event->getHeure(),
-                'end' => $event->getDate() . ' ' . $event->getHeureFin() ,
+                'end' => $event->getDate() . ' ' . $event->getHeureFin(),
                 'title' => $event->getTitreNom(),
-
+                'nb' => count($entretienRepository->findBy(['iduser' => 8])) . ' ',
+                'nb2' => count($entretienRepository->findBy(['iduser' => 8,
+                        'date' => date('Y-m-d')])) . ' '
 
 
             ];
@@ -256,4 +289,14 @@ class EntretienController extends AbstractController
 
 
     }
+
+    #[Route('/calcul/ents', name: 'app_entretien_count')]
+    public function countE(EntretienRepository $entretienRepository)
+    {
+
+        return count($entretienRepository->findBy(['iduser' => 8]));
+
+    }
+
+
 }

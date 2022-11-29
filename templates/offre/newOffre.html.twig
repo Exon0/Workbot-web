@@ -1,5 +1,5 @@
 {% extends 'offre/templateoffre.html.twig' %}
-{%  set type ="" %}
+{% set type ="" %}
 {% block container %}
     <br>
 
@@ -10,63 +10,67 @@
 <section class="job-post section">
 
     <div id="all">
-{% endblock %}
-{% block jobinformation %}<center><h4>Choisisez le type d'offre a ajouter</h4></center><br>{% endblock %}
-{% block body %}
-<br><div>
-{% for s in types %}
+        {% endblock %}
+        {% block jobinformation %}
+            <center><h4>Choisisez le type d'offre a ajouter</h4></center><br>{% endblock %}
+        {% block body %}
+        <br>
+        <div id="all">
 
-   <span  style="width: 33%">
-        <center>
-{#    <form  class="type" action="{{ path('app_offre_new',{'type':s}) }}">#}
-{#        <button type="submit" class="btn btn-primary">{{ s }}</button>#}
-{#    </form>#}
-    <a id="type" class="btn btn-primary"  href="{{  path('app_offre_new',{'type':s}) }}" >{{ s }}</a>
 
-</center>
+                <span style="width: 33%">
+        <div style="text-align: center;">
+    <a id="Stage" class="btn btn-primary" href="{{ path('app_offre_new',{'type':types.0}) }}">{{ types.0 }}</a>
+</div></span>
 
-          </span>
+            <span style="width: 33%">
+        <div style="text-align: center;">
+    <a id="Emploi" class="btn btn-primary" href="{{ path('app_offre_new',{'type':types.1}) }}">{{ types.1 }}</a>
+</div></span>
 
-{% endfor %}
-</div></div><div id="replace"></div>
+            <span style="width: 33%">
+        <div style="text-align: center;">
+    <a id="Freelancer" class="btn btn-primary" href="{{ path('app_offre_new',{'type':types.2}) }}">{{ types.2 }}</a>
+</div></span>
+        </div>
+    </div>
+    <div id="replace"></div>
 </section>
 {% endblock %}
 {% block javascriptTest %}
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">#}
-{#    </script>#}
-{#    <script>#}
-{#        $(document).ready(function (){#}
-{#            $("a#type").click(function (e){#}
-{#                e.preventDefault();#}
-{#                const value=document.getElementById('type').innerText;#}
-{#                $.ajax({#}
-{#                    type : 'POST',#}
-{#                    data : {'value':value},#}
-{#                    url  : "/offre/new/Stage",#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
 
-{#                    success : function (response){#}
+<script>
+    $(document).ready(function () {
+        $("#Stage").click(function (e) {
 
-{#                        if(response){#}
+            $.ajax({
+                url: "{{ path('app_offre_new',{'type':types.1}) }}",
+                type: 'GET,POST',
 
-{#                            $('div#replace').empty();#}
+                success: function (retour) {
+                    if (retour) {
+                        $('div#list1').empty();
+                        $.each(JSON.parse(retour), function (i, obj) {
+                            $('div#calendar').hide();
+                            $('div#list1').show();
+                            $('div#list1').append(' '
+                            )
+                        });
+                    }
+                    if (!retour) {
+                        $('div#list1').empty();
+                        $('div#calendar').hide();
+                        $('div#list1').show();
+                        $('div#list1').append('<p>hellooooooooooooooo</p>')
 
-{#                            $.each(JSON.parse(response),function(i,obj){#}
-{#                               $('div#all').hide();#}
-{#                                $('div#replace').append()#}
-{#                            });#}
-{#                        }#}
-{#                        else{#}
-{#                            $('div#all').show();#}
-{#                            $('div#replace').empty();#}
-{#                            $('div#replace').fadeIn('fast');#}
-{#                        }#}
-{#                    },#}
-{#                });return false;#}
-{#            });#}
-{#        });#}
-{#    </script>#}
-
-{% endblock %}
+                    }
+                },
+            });
+            return false;
+        });
+    {% endblock %}
 
 
 
