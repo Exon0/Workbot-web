@@ -69,7 +69,6 @@ class CertificationRepository extends ServiceEntityRepository
 
 
         $sql = 'SELECT * FROM `certification` WHERE dateAjout>:sysdate';
-        var_dump($sql);
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery(['sysdate' => $t]);
         return $resultSet->fetchAllAssociative();
@@ -97,13 +96,21 @@ class CertificationRepository extends ServiceEntityRepository
 
     public function cert_search($requestString): array
     {
+        /*
+        return $this->createQueryBuilder('c')
+            ->where('c.titrecours LIKE :req')
+            ->setParameter('req','%'.$requestString.'%')
+            ->getQuery()
+            ->getResult();
+        */
+
         $conn = $this->getEntityManager()->getConnection();
         $q=$requestString;
-        $sql = "SELECT * FROM `certification` where (titreCours like 'html' ) ";
+        $sql = "SELECT * FROM `certification` where (titreCours like :q ) ";
         $stmt = $conn->prepare($sql);
-        $resultSet = $stmt->executeQuery();
+        $resultSet = $stmt->executeQuery(['q'=>'%'.$requestString.'%']);
         return $resultSet->fetchAllAssociative();
-    }
+        }
 
 
 

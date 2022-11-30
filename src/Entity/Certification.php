@@ -30,7 +30,6 @@ class Certification
     #[ORM\Column(name: 'titreTest', type: 'string', length: 100, nullable: false)]
     private string $titretest;
 
-    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
     #[ORM\Column(name: 'dateAjout', type: 'string', length: 50, nullable: false)]
     private string $dateajout;
 

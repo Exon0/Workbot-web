@@ -1,10 +1,13 @@
-<html class="no-js" lang="zxx"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>JobGrids - Job Portal HTML Template.</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
 
 
     {% block stylesheets %}
@@ -17,25 +20,31 @@
         <link rel="stylesheet" href="{{asset('assets/main.css')}}">
     {% endblock %}
 
-    <style></style>
-    <style></style>
-    <style></style>
-    <style type="text/css"> @font-face { font-family: Roboto; src: url("chrome-extension://mcgbeeipkmelnpldkobichboakdfaeon/css/Roboto-Regular.ttf"); }</style><script type="text/javascript" async="" src="{{asset('assets/ga.js.téléchargé')}}"></script><script type="text/javascript" src="{{asset('assets/001.js.téléchargé')}}"></script><script type="text/javascript" async="" src="{{asset('assets/taas')}}"></script></head>
+    <style type="text/css">
+        @font-face {
+            font-family: Roboto;
+            src: url("chrome-extension://mcgbeeipkmelnpldkobichboakdfaeon/css/Roboto-Regular.ttf");
+        }
+    </style>
+
+</head>
+
 <body>
 <div id="loading-area" style="opacity: 0 ; display: none;"></div>
-
-
 {% block header %}
-    <header class="header">
-        <div class="navbar-area">
+    <header class="header other-page">
+        <div class="navbar-area sticky">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg">
                             <a class="navbar-brand logo" href="https://157781.cc/index.html">
-                                <img class="logo1" src="{{asset('assets/logo.svg')}}" alt="Logo">
+                                <img class="logo1" src="{{ asset('assets/logo.png')}}"
+                                     alt="Logo">
                             </a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="toggler-icon"></span>
                                 <span class="toggler-icon"></span>
                                 <span class="toggler-icon"></span>
@@ -43,15 +52,15 @@
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ml-auto">
                                     <li class="nav-item">
-                                        <a class="active" href="https://157781.cc/index.html">Home</a>
+                                        <a href="https://157781.cc/index.html">Home</a>
                                         <ul class="sub-menu">
                                             <li><a href="https://157781.cc/index.html">Home 1</a></li>
-                                            <li><a class="active" href="https://157781.cc/index2.html">Home 2</a></li>
+                                            <li><a href="https://157781.cc/index2.html">Home 2</a></li>
                                             <li><a href="https://157781.cc/index3.html">Home 3</a></li>
                                             <li><a href="https://157781.cc/index4.html">Home 4</a></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item"><a href="https://157781.cc/index2.html#">Pages</a>
+                                    <li class="nav-item"><a href="https://157781.cc/post-job.html#">Pages</a>
                                         <ul class="sub-menu">
                                             <li><a href="https://157781.cc/about-us.html">About Us</a></li>
                                             <li><a href="https://157781.cc/job-list.html">Job List</a></li>
@@ -64,28 +73,34 @@
                                             <li><a href="https://157781.cc/mail-success.html">Mail Success</a></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item"><a href="https://157781.cc/index2.html#">Candidates</a>
+                                    <li class="nav-item"><a href="https://157781.cc/post-job.html#">Candidates</a>
                                         <ul class="sub-menu">
                                             <li><a href="https://157781.cc/browse-jobs.html">Browse Jobs</a></li>
-                                            <li><a href="https://157781.cc/browse-categories.html">Browse Categories</a></li>
+                                            <li><a href="https://157781.cc/browse-categories.html">Browse Categories</a>
+                                            </li>
                                             <li><a href="https://157781.cc/add-resume.html">Add Resume</a></li>
                                             <li><a href="https://157781.cc/job-alerts.html">Job Alerts</a></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item"><a href="https://157781.cc/index2.html#">Employers </a>
+                                    <li class="nav-item"><a href="https://157781.cc/post-job.html#"
+                                                            class="active">Employers </a>
                                         <ul class="sub-menu">
-                                            <li><a href="https://157781.cc/post-job.html">Add Job</a></li>
+                                            <li><a href="https://157781.cc/post-job.html" class="active">Add Job</a>
+                                            </li>
                                             <li><a href="https://157781.cc/manage-jobs.html">Manage Jobs</a></li>
-                                            <li><a href="https://157781.cc/manage-applications.html">Manage Applications</a></li>
+                                            <li><a href="https://157781.cc/manage-applications.html">Manage
+                                                    Applications</a></li>
                                             <li><a href="https://157781.cc/manage-resumes.html">Manage Resume</a></li>
                                             <li><a href="https://157781.cc/browse-resumes.html">Browse Resumes</a></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item"><a href="https://157781.cc/index2.html#">Blog</a>
+                                    <li class="nav-item"><a href="https://157781.cc/post-job.html#">Blog</a>
                                         <ul class="sub-menu">
-                                            <li><a href="https://157781.cc/blog-grid-sidebar.html">Blog Grid Sidebar</a></li>
+                                            <li><a href="https://157781.cc/blog-grid-sidebar.html">Blog Grid Sidebar</a>
+                                            </li>
                                             <li><a href="https://157781.cc/blog-single.html">Blog Single</a></li>
-                                            <li><a href="https://157781.cc/blog-single-sidebar.html">Blog Single Sibebar</a></li>
+                                            <li><a href="https://157781.cc/blog-single-sidebar.html">Blog Single
+                                                    Sibebar</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item"><a href="https://157781.cc/contact.html">Contact </a> </li>
@@ -93,7 +108,8 @@
                             </div>
 
                             <div class="button">
-                                <a href="javascript:;" data-toggle="modal" data-target="#login" class="login"><i class="lni lni-lock-alt"></i> Login</a>
+                                <a href="javascript:;" data-toggle="modal" data-target="#login" class="login"><i
+                                            class="lni lni-lock-alt"></i> Login</a>
                                 <a href="javascript:;" data-toggle="modal" data-target="#signup" class="btn">Sign Up</a>
                             </div>
                         </nav>
@@ -106,12 +122,10 @@
         </div>
 
     </header>
-
 {% endblock %}
-
 <div>
     {% block info %}
-        <section class="apply-process section" style="margin-top: 100px">
+        <section class="apply-process section">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-12">
@@ -143,7 +157,7 @@
 
 
 
-
+</div>
 {% block body %}
 
 {% endblock %}

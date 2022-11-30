@@ -1,4 +1,5 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
+
 {% block pagetitle %}
     <div class="pagetitle">
         <h1>Certification</h1>
@@ -10,6 +11,7 @@
         </nav>
     </div><!-- End Page Title -->
 {% endblock%}
+
 {% block body %}
 <!-- Left side columns -->
 <section class="section dashboard">
@@ -97,25 +99,26 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Certification :</h5>
-                <input type="text" class="label" id="search" name="search">
+                <input type="text" id="search" name="searchValue" >
                 <div class="block-content block-content-full" style="overflow-x:auto;" >
-                <table  class="table ta table-striped table-vcenter js-dataTable-buttons">
-        <thead>
+<br>
+
+<table id="myTable" class="table" style="width: 50%" >
+
+            <thead>
             <tr>
-                <th class="d-none d-sm-table-cell"  >Titrecours</th>
-                <th>Titretest</th>
-                <th>Dateajout</th>
-                <th>Lien</th>
-                <th>action</th>
-                <th>Quiz</th>
-                <th ></th>
+                <th style="width: 10%;" class="d-none d-sm-table-cell"  >Titrecours</th>
+                <th style="width: 10%;">Dateajout</th>
+                <th style="width: 10%;">Lien</th>
+                <th style="width: 10%;">action</th>
+                <th style="width: 10%;">Quiz</th>
+                <th style="width: 2%;"></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="all">
         {% for certification in certifications %}
             <tr>
                 <td>{{ certification.titreCours }}</td>
-                <td>{{ certification.titreTest }}</td>
                 <td>{{ certification.dateAjout }}</td>
                 <td>{{ certification.lien }}</td>
                 <td>
@@ -124,26 +127,22 @@
                 <td>
                     {% if certification.id_quiz|length>0 %}
                         <a href="{{ path('app_quiz_afficher', {'id': certification.id}) }}">Changer</a>
+
+                        </td><td><a style="color: #00a656"  class="bi bi-check2-circle"></a></td>
+
                     {% else %}
                         <a href="{{ path('app_quiz_afficher', {'id': certification.id}) }}">Affecter</a>
+
+                        </td><td><a style="color: #8c1227"  class="bi bi-x-circle"></a></td>
                     {% endif %}
-
-                </td>
-                <td>
-                    {% if certification.id_quiz|length>0 %}
-                    <a style="color: #00a656"  class="bi bi-check2-circle"></a>
-
-                    {% else %}
-                        <a style="color: #8c1227"  class="bi bi-x-circle"></a>
-                    {% endif %}
-                </td>
-
             </tr>
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
+        </tbody>
+        <tbody id="searchtab">
         </tbody>
     </table>
                 </div>
@@ -152,15 +151,45 @@
         </div>
     </div>
 
+            <script>
+                $( document ).ready(function() {
+                    $("#search").keyup(function(e){
+                        var value = $(this).val();
+                        $.ajax({
+                            url : "{{ path('searchcertif') }}",
+                            type : 'GET',
+                            data: {
+                                'searchValue' : value
+                            },
+                            success : function(retour){
+                                if(retour)
+                                {
+                                    $('#myTable tbody#searchtab').empty();
+                                    $.each(JSON.parse(retour), function(i,obj) {
+                                        $('#search').css({backgroundColor:"#E0F8E9"})
+                                        $('#myTable tbody#all').hide();
+                                        if (obj.id_quiz|length>0) {
+                                            $('#myTable tbody#searchtab').append('<tr><td>'+obj.titreCours+'</td><td>'+obj.dateAjout+'</td><td>'+obj.lien+'</td><td><a href="/certification/'+obj.id+'/edit">Modifier</a></td><td><a href="/certification/aff/' + obj.id + '">Changer</a></td><td><a style="color: #00a656" class="bi bi-check2-circle"></a></td></tr>');
+                                         }
+                                         else {
+                                            $('#myTable tbody#searchtab').append('<tr><td>'+obj.titreCours+'</td><td>'+obj.dateAjout+'</td><td>'+obj.lien+'</td><td><a href="/certification/'+obj.id+'/edit">Modifier</a></td><td><a href="/certification/aff/' + obj.id + '">Affecter</a></td><td><a style="color: #8c1227" class="bi bi-x-circle"></a></td></tr>');
+                                         }
+                                    });
+                                }
+                                else
+                                {
 
-
-
-
-
-
-
-
-
+                                    $('#myTable tbody#all').show();
+                                    $('#myTable tbody#search').empty();
+                                    $('#myTable tbody#search').fadeIn('fast');
+                                }
+                            },
+                        });
+                        $('#search').css({backgroundColor:"#FFECDF"})
+                        return false;
+                    });
+                });
+            </script>
 
 
         <div class="col-lg-4">

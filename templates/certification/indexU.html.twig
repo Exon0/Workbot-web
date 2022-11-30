@@ -28,8 +28,34 @@
         </div>
     </section>
 {% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
 {% block body %}
-<section class="find-job job-list section">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
+
+    {% for message in app.flashes('mercuryseries_flashy_notification') %}
+        <script id="flashy-template" type="text/template">
+            <div class="flashy flashy--{{ message.type }}">
+                <i class="material-icons">speaker_notes</i>
+                <a class="flashy__body"  ></a>
+            </div>
+        </script>
+
+        <script>
+            flashy("{{ message.message }}", "{{ message.link }}");
+        </script>
+    {% endfor %}
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+
+
+    <section class="find-job job-list section">
     <div class="container">
         <div class="single-head">
             <div class="row">

@@ -9,12 +9,14 @@ use App\Repository\CertificationRepository;
 use App\Form\CertificationType;
 use App\Repository\QuizRepository;
 use App\Repository\UtilisateurRepository;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 
 #[Route('/certification')]
 class CertificationController extends AbstractController
@@ -41,8 +43,17 @@ class CertificationController extends AbstractController
     }
 
     #[Route('/u', name: 'app_certification_indexu', methods: ['GET'])]
-    public function indexu(CertificationRepository $certificationRepository): Response
+    public function indexu(CertificationRepository $certificationRepository,FlashyNotifier $flashy): Response
     {
+        $session = new Session();
+        var_dump(null);
+        return $this->render('certification/indexU.html.twig', [
+            'certif' => $certificationRepository->cert_aff($session->getId()),
+        ]);
+    }
+    #[Route('/u/e', name: 'app_certification_errortest', methods: ['GET'])]
+    public function indexueror(CertificationRepository $certificationRepository,FlashyNotifier $flashy): Response
+    {   $flashy->mutedDark('Le temps est révolu !! Bonne chance la prochaine fois. ');
         $session = new Session();
         var_dump(null);
         return $this->render('certification/indexU.html.twig', [
@@ -55,8 +66,7 @@ class CertificationController extends AbstractController
     {
         $requestString=$request->get('searchValue');
         $res = $repository->cert_search($requestString);
-        var_dump($res);
-        $jsonContent = $Normalizer->normalize($res, 'json',['groups'=>'certification']);
+        $jsonContent = $Normalizer->normalize($res, 'json',['groups'=>'certifications'],);
         $retour=json_encode($jsonContent);
         return new Response($retour);
     }

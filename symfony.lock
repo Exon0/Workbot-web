@@ -38,6 +38,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "mercuryseries/flashy-bundle": {
+        "version": "v5.1.0"
+    },
     "phpunit/phpunit": {
         "version": "9.5",
         "recipe": {
@@ -148,6 +151,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/mercure-bundle": {
+        "version": "v0.3.5"
     },
     "symfony/messenger": {
         "version": "5.4",

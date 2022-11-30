@@ -17,6 +17,7 @@ use App\Repository\QuestionReponseRepository;
 use App\Form\QuestionReponseType;
 use App\Repository\QuizRepository;
 use App\Repository\UtilisateurRepository;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use mPDF;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,7 +38,7 @@ class QuestionReponseController extends AbstractController
 
 
     #[Route('/{id}/testQuiz', name: 'app_quiz_test', methods: ['GET', 'POST'])]
-    public function indextest(Session $s,Request $rq,SmsTwilioCertification $stc , TexterInterface $texter,MailerInterface $sm,QuizRepository $qr, Request $request, QuestionReponseRepository $qrr, $id, CertificationRepository $cerr, BadgeRepository $br, CertifBadgeRepository $cbr , UtilisateurRepository $ur): Response
+    public function indextest(Session $s,Request $rq,SmsTwilioCertification $stc , TexterInterface $texter,MailerInterface $sm,QuizRepository $qr, Request $request, QuestionReponseRepository $qrr, $id, CertificationRepository $cerr, BadgeRepository $br, CertifBadgeRepository $cbr , UtilisateurRepository $ur,FlashyNotifier $flashy): Response
     {
 
         $certification = $cerr->find($id);
@@ -46,29 +47,16 @@ class QuestionReponseController extends AbstractController
 
         if (! $rq->isMethod('POST')) {
 
-            $s->set('k',random_int(0,3));
-            $s->set('l',random_int(0,3));
-            $s->set('n',random_int(0,3));
-            $s->set('f',random_int(0,3));
-
+            $s->set('k', random_int(0, 3));
+            $s->set('l', random_int(0, 3));
+            $s->set('n', random_int(0, 3));
+            $s->set('f', random_int(0, 3));
+        }
             $k=$s->get('k');
             $l=$s->get('l');
             $f=$s->get('f');
             $n=$s->get('s');
 
-        }
-        else {
-            $k = $s->get('k');
-            $l = $s->get('l');
-            $f = $s->get('f');
-            $n = $s->get('s');
-        }
-        var_dump($rq->isMethod('POST'));
-        /*$k=($id%2)+1;
-        $l=(count($qrr->findAll())%2)+1;
-        $f=(count($br->findAll())%2)+1;
-        $n=(count($qr->findAll())%2)+1;
-          */
         $Q1_1 = [$question[0]->getReponseF1() => 0];
         $Q1_2 = [$question[0]->getReponseF2() => 0];
         $Q1_3 = [$question[0]->getReponseV() => 1];
@@ -145,18 +133,16 @@ class QuestionReponseController extends AbstractController
             $rq2 = $form['question2']->getData();
             $rq3 = $form['question3']->getData();
             $rq4 = $form['question4']->getData();
-
             $res = $rq1 + $rq2 + $rq3 + $rq4;
-
-
             if ($res > 2) {
+                $session=new Session();
                 $badge = new Badge();
                 $badge->setNom($certification->getTitrecours());
                 $br->save($badge, true);
                 $allB = $br->findAll();
                 $r = $allB[count($allB) - 1];
                 $cb = new CertifBadge();
-                $u = $ur->find(8);
+                $u = $ur->find($session->getId());
                 $cb->setIdCertif($certification);
                 $cb->setIdBadge($r);
                 $cb->setIdUser($u);
@@ -168,6 +154,7 @@ class QuestionReponseController extends AbstractController
                 #sms commented 3al flous :p /////////---------TWILIO--------/////////////
                 #$stc->NotifCertif($texter);
 
+                #el mail bil sessionMANAGER
                 $email = (new Email())->from('jardak.nader@esprit.tn')
                     ->to('naderjardak5@gmail.com')
                     ->subject('JOB.TN.com')
@@ -232,7 +219,7 @@ class QuestionReponseController extends AbstractController
             </div>
 
             <div class="person">
-               ' . $session->getName() . '
+               '. $session->getName() .'
             </div>
 
             <div class="reason">
@@ -252,6 +239,7 @@ class QuestionReponseController extends AbstractController
 
             $this->red();
         }
+
 
 
         return $this->render('quiz/quiz_test.html.twig', [
