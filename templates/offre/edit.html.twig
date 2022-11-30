@@ -6,20 +6,20 @@
 {% block container %}<br>Modifier votre offre{% endblock %}
 
 {% block retour %}
-    <div>
-<span style="width: 89%"> <a class="btn-primary" href="{{ path('app_offre_index') }}">Retour</a></span>
-    <span>{{ include('offre/_delete_form.html.twig') }}</span>
-    </div>
+<span style="float: right">
+{{ include('offre/_delete_form.html.twig') }}</span>
 {% endblock %}
 
 {% block body %}
 
 
+               <div class="job-information">
 
 {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
         {% if  type  == "Stage" %}
 
             <div class="row">
+
                 <div class="col-lg-24">
                     <div>
 
@@ -83,7 +83,6 @@
                     <span style="color:red"> {{ form_errors(form.description) }}
                 </div>
             </div>
-
 
 
 
@@ -242,6 +241,7 @@
 
             {% endif %}
 
+
     {% if test != -1%}
         <div>
 
@@ -276,6 +276,7 @@
 
             </div>
     {% endif %}
+
  {% block classJobinfo %}{% endblock %}">
     {% block jobinformation %}{% endblock %}
 {% endblock %}
@@ -286,7 +287,7 @@
             collection = document.querySelector("#test");
             span = collection.querySelector("span");
             btnAjout = document.createElement("button");
-            btnAjout.className = "btn-secondary";
+            btnAjout.className = "btn btn-secondary";
             btnAjout.innerText = "Ajouter un test";
 
             let nouvBtn = span.append(btnAjout);
@@ -313,7 +314,7 @@
 
             let btnSupp = document.createElement("button");
             btnSupp.type = "button";
-            btnSupp.className = "btn-red";
+            btnSupp.className = "btn btn-danger";
             btnSupp.id = "delete_test-" + index;
             btnSupp.innerText = "Supprimer le test";
             newform.append(btnSupp);

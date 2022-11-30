@@ -33,7 +33,7 @@
                         <span style="width:83.9%">
 
                             <select id="typeoffre3" class="form-control-sm">
-                                 <option>Type d'offre</option>
+                                 <option hidden>Type d'offre</option>
                                  <option>All</option>
                                 <option>Stage</option>
                                 <option>Emploi</option>
@@ -56,10 +56,10 @@
                             </div>
                             <div class="job-content">
                                 <form>
-                                    <h5><a style="font-size: 30px">{{ c.titre|capitalize }}</a></h5>
+                                    <h5><a style="font-size: 30px">{{ c.titre }}</a></h5>
                                 </form>
-                                <p>Type d'offre : <u style="color: black">{{ c.typeoffre|capitalize }}</u></p><br>
-                                <p>description : <u style="color: black">{{ c.description|capitalize }}</u></p>
+                                <p>Type d'offre : <u style="color: black">{{ c.typeoffre }}</u></p><br>
+                                <p>description : <u style="color: black">{{ c.description }}</u></p>
 
                                 <ul>
 

@@ -2,13 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Candidature;
 use App\Entity\Offre;
+use ContainerIDxsAc9\getDoctrineMigrations_UpToDateCommandService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @extends ServiceEntityRepository<Offre>
@@ -42,7 +40,12 @@ class OffreRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    public function findNBoffresAdmin()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(o) from App\Entity\Offre o'
+        )->getSingleScalarResult();
+    }
 
 
     public function findByIdAndCountCand($id)
@@ -95,6 +98,54 @@ class OffreRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findOffreByWeek()
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('DATE_DIFF(CURRENT_DATE(),o.dateajout) <7')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findOffreLastWeek()
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('DATE_DIFF(CURRENT_DATE(),o.dateajout) between 8 and 15')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findOffreByMonth()
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('TIMESTAMPDIFF(MONTH,CURRENT_DATE(),o.dateajout) =0')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findOffreOfLastMonth()
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('TIMESTAMPDIFF(MONTH,o.dateajout,CURRENT_DATE()) =1')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findOffreByYear()
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('TIMESTAMPDIFF(YEAR,CURRENT_DATE(),o.dateajout) =0')
+            ->getQuery()
+            ->getResult();
+    }
+    public function findOffreByMonthDiff($month,$typeO)
+    {
+        return $this->createQueryBuilder('o')
+            ->Where('month(o.dateajout) =?1')->andWhere('o.typeoffre = :Stage')
+            ->setParameter('1',$month)
+            ->setParameter('Stage',$typeO)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    public function findAllCandidates2($id)
 //    {
@@ -123,4 +174,5 @@ class OffreRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }

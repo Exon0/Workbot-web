@@ -11,6 +11,7 @@ use App\Repository\OffreRepository;
 use App\Repository\TestRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\mailerService;
+use DoctrineExtensions\Query\Mysql\MonthName;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -470,7 +471,7 @@ class OffreController extends AbstractController
     public function typeOffreTri($type, NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
     {
         // $requeststring=$request->get('search2');
-        if ($type == 'All') {
+        if ($type === 'All') {
             $offres = $repository->findBy(['idSoc' => 8]);
             foreach ($offres as $o) {
                 $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
@@ -480,9 +481,7 @@ class OffreController extends AbstractController
             $retour = json_encode($jsoncontent, JSON_THROW_ON_ERROR);
             return new Response($retour);
         }
-        if ($type === "Type d'offre") {
-            return new Response('null', 404);
-        }
+
 
         $offres = $repository->findBy(['idSoc' => 8, 'typeoffre' => $type]);
         foreach ($offres as $o) {
@@ -493,6 +492,56 @@ class OffreController extends AbstractController
         $retour = json_encode($jsoncontent, JSON_THROW_ON_ERROR);
         return new Response($retour);
 
+    }
+
+    //Admin
+    #[Route('/admin', name: 'app_utilisateur_ilyes')]
+    public function ilyes(OffreRepository $offreRepository): Response
+    {   $nb=$offreRepository->findNBoffresAdmin();
+        $u=$offreRepository->findAll();
+
+        $pourcentageMois=((count($offreRepository->findOffreByMonth())/count($offreRepository->findOffreOfLastMonth()))-1)*100;
+        $pourcentageWeek=((count($offreRepository->findOffreByWeek())/count($offreRepository->findOffreLastWeek()))-1)*100;
+        $stageTab='';
+        //type Stage
+        $i =1;
+        while ($i<13){
+            $stageTab .=  count($offreRepository->findOffreByMonthDiff($i, 'Stage')).', ' ;
+            $i++;
+
+        }
+        //type freelancer
+        $FreelancerTab='';
+        $j =1;
+        while ($j<13){
+            $FreelancerTab .=  count($offreRepository->findOffreByMonthDiff($j, 'Freelancer')).', ' ;
+            $j++;
+
+        }
+        //type Emploi
+        $EmploiTab='';
+        $k =1;
+        while ($k<13){
+            $EmploiTab .=  count($offreRepository->findOffreByMonthDiff($k, 'Emploi')).', ' ;
+            $k++;
+
+        }
+
+        return $this->render('offre/templateAdmin.html.twig', [
+            'offres' => $u,
+            'nb'=>$nb,
+            'week'=>count($offreRepository->findOffreByWeek()),
+            'month'=>count($offreRepository->findOffreByMonth()),
+            'Pmonth' => $pourcentageMois,
+            'Pweek'=>$pourcentageWeek,
+            'Yoffre'=>count($offreRepository->findOffreByYear()),
+            'Mothname'=>count($offreRepository->findOffreByMonthDiff(12,'Stage')),
+            'stage'=>$stageTab,
+            'freelancer'=>$FreelancerTab,
+            'emploi'=>$EmploiTab
+
+
+        ]);
     }
 
 }
