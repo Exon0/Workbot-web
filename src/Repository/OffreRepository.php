@@ -54,14 +54,14 @@ class OffreRepository extends ServiceEntityRepository
             'SELECT count(c) from App\Entity\Candidature c join c.idOffre o where o.id=:id'
         )->setParameter('id',$id)->getSingleScalarResult();
     }
-    public function findAllCandidates($id)
-    {
-        return $this->getEntityManager()->createQuery(
-            'SELECT c from App\Entity\Candidature c join c.idOffre o join c.idcondidat u where c.idOffre=:id'
-        )
-            ->setParameter('id',$id)
-           ->getArrayResult();
-    }
+//    public function findAllCandidates($id)
+//    {
+//        return $this->getEntityManager()->createQuery(
+//            'SELECT c from App\Entity\Candidature c join c.idOffre o join c.idcondidat u where c.idOffre=:id'
+//        )
+//            ->setParameter('id',$id)
+//           ->getArrayResult();
+//    }
 
     public function findAllCandidates3($id)
     {
@@ -101,7 +101,7 @@ class OffreRepository extends ServiceEntityRepository
     public function findOffreByWeek()
     {
         return $this->createQueryBuilder('o')
-            ->Where('DATE_DIFF(CURRENT_DATE(),o.dateajout) <7')
+            ->Where('TIMESTAMPDIFF(WEEK,CURRENT_DATE(),o.dateajout) =0')
             ->getQuery()
             ->getResult()
             ;
@@ -109,7 +109,7 @@ class OffreRepository extends ServiceEntityRepository
     public function findOffreLastWeek()
     {
         return $this->createQueryBuilder('o')
-            ->Where('DATE_DIFF(CURRENT_DATE(),o.dateajout) between 8 and 15')
+            ->Where('TIMESTAMPDIFF(WEEK,CURRENT_DATE(),o.dateajout) =-1')
             ->getQuery()
             ->getResult()
             ;
@@ -139,12 +139,20 @@ class OffreRepository extends ServiceEntityRepository
     public function findOffreByMonthDiff($month,$typeO)
     {
         return $this->createQueryBuilder('o')
-            ->Where('month(o.dateajout) =?1')->andWhere('o.typeoffre = :Stage')
+            ->Where('month(o.dateajout) =?1')->andWhere('o.typeoffre = :type')
             ->setParameter('1',$month)
-            ->setParameter('Stage',$typeO)
+            ->setParameter('type',$typeO)
             ->getQuery()
             ->getResult();
     }
+    public function findOffreByDate()
+    {
+        return $this->createQueryBuilder('o')
+            ->orderBy('o.dateajout','DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 //    public function findAllCandidates2($id)

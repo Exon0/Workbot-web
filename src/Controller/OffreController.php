@@ -7,6 +7,7 @@ use App\Entity\Test;
 use App\Form\OffreEmploiType;
 use App\Form\OffreFreelancerType;
 use App\Form\OffreStageType;
+use App\Repository\CandidatureRepository;
 use App\Repository\OffreRepository;
 use App\Repository\TestRepository;
 use App\Repository\UtilisateurRepository;
@@ -496,12 +497,33 @@ class OffreController extends AbstractController
 
     //Admin
     #[Route('/admin', name: 'app_utilisateur_ilyes')]
-    public function ilyes(OffreRepository $offreRepository): Response
+    public function ilyes(OffreRepository $offreRepository,CandidatureRepository $candidatureRepository): Response
     {   $nb=$offreRepository->findNBoffresAdmin();
         $u=$offreRepository->findAll();
+        $offreBydate=$offreRepository->findOffreByDate();
+        $cands=count($candidatureRepository->findAll());
+        $lastmonth=count($offreRepository->findOffreOfLastMonth());
+        $lastweek=count($offreRepository->findOffreLastWeek());
+        //conditions a verifier
+//            if($lastweek == 0){
+//                $pourcentageMois=null;
+//            }
+//        //conditions a verifier
+//        if(!$lastmonth == 0){
+//                $pourcentageWeek=null;
+//            }
 
-        $pourcentageMois=((count($offreRepository->findOffreByMonth())/count($offreRepository->findOffreOfLastMonth()))-1)*100;
-        $pourcentageWeek=((count($offreRepository->findOffreByWeek())/count($offreRepository->findOffreLastWeek()))-1)*100;
+        if($lastmonth >0){
+            $pourcentageMois=((count($offreRepository->findOffreByMonth())/$lastmonth)-1)*100;
+        }else{
+            $pourcentageMois=0;
+        }
+        if($lastweek >0){
+            $pourcentageWeek=((count($offreRepository->findOffreByWeek())/$lastweek)-1)*100;
+
+        }else{
+            $pourcentageWeek=0;
+        }
         $stageTab='';
         //type Stage
         $i =1;
@@ -527,8 +549,11 @@ class OffreController extends AbstractController
 
         }
 
+        //
+
         return $this->render('offre/templateAdmin.html.twig', [
             'offres' => $u,
+            'offreTri'=>$offreBydate,
             'nb'=>$nb,
             'week'=>count($offreRepository->findOffreByWeek()),
             'month'=>count($offreRepository->findOffreByMonth()),
@@ -538,7 +563,8 @@ class OffreController extends AbstractController
             'Mothname'=>count($offreRepository->findOffreByMonthDiff(12,'Stage')),
             'stage'=>$stageTab,
             'freelancer'=>$FreelancerTab,
-            'emploi'=>$EmploiTab
+            'emploi'=>$EmploiTab,
+            'cands'=>$cands
 
 
         ]);
