@@ -3,19 +3,13 @@
 
 
 {% block body %}
-  <br>
-    <br>
-    <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
+<tr>
 
-  <a{{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}</a>
 
-    <a href="{{ path('app_sponsor_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a>
+  <td><a{{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}</a></td>>
 
-  <a{{ include('sponsor/_delete_form.html.twig') }}</a>
+  <td><a href="{{ path('app_sponsor_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a></td>>
+
+  <td><a{{ include('sponsor/_delete_form.html.twig') }}</a></td>
+</tr>
 {% endblock %}

@@ -64,6 +64,30 @@ class EvennementRepository extends ServiceEntityRepository
         // returns an array of arrays (i.e. a raw data set)
         return $resultSet->fetchAllAssociative();
     }
+    public function nbplaceupdate($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+         UPDATE evennement SET nbPlaces=(nbPlaces-1) where id=:id';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id'=>$id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+    public function annuleupdate($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+         UPDATE evennement SET nbPlaces=(nbPlaces+1) where id=:id';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id'=>$id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
 
     public function affichertoutev()
     {

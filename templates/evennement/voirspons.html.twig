@@ -4,14 +4,13 @@
 
 {% block body %}
 
-<br>
-    <br>
-    <br>
-    <table class="table">
+
+    <table class="table" style="margin-top: 100px">
         <thead>
         <tr>
             <<th>Nom</th>
             <th>LOGO</th>
+            <th colspan="3">actions</th>
 
 
         </tr>
@@ -21,7 +20,14 @@
         {% for s in spons  %}
             <tr>
                 <td>{{ s.nom }}</td>
-                <td>{{ s.logo }}</td>
+                <td><img src ="{{ asset('upload/logo/' ~ s.logo) }}"alt="" style="width: 100px;height: 100px"></td>>
+                <td><a href="{{ path('app_sponsor_show', {'id': s.id}) }}"><input type="submit" value="Show" class="btn btn-primary"></a></td>
+
+                <td> <a href="{{ path('app_sponsor_edit', {'id': s.id}) }}"><input type="submit" value="edit" class="btn btn-primary"></a>
+
+
+
+
             </tr>
         {% endfor %}
 
@@ -29,6 +35,8 @@
     </table>
 
     <a href="{{ path('app_evennement_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a>
-    <a href="{{ path('app_sponsor_new') }}"><input type="submit" value="Ajouter sponsor" class="btn btn-primary"></a>
+    <a href="{{ path('app_sponsor_new',{'id':id}) }}"><input type="submit" value="Ajouter sponsor" class="btn btn-primary"></a>
+
+
 
 {% endblock %}

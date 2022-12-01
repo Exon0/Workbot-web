@@ -31,7 +31,7 @@ class Sponsor
     private string $nom;
 
     #[ORM\Column(name: 'logo', type: 'string', length: 100, nullable: false)]
-    #[Assert\NotBlank(message: "selecter un fichier !")]
+    #[Assert\Image]
 
     private string $logo;
 

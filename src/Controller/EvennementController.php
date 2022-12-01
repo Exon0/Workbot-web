@@ -16,6 +16,10 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 #[Route('/evennement')]
 class EvennementController extends AbstractController
@@ -28,16 +32,17 @@ class EvennementController extends AbstractController
             'evennements' => $evennementRepository->findAll(),
         ]);
     }
-    #[Route('/index2', name: 'app_evennement_index2', methods: ['GET'])]
-public function indexp(EvennementRepository $evennementRepository): Response
-{
-    $session = new Session();
-    $iduser=$session->getId();
-    return $this->render('evennement/evennement2.html.twig', [
-        'evennements22' => $evennementRepository->participnotin($iduser),
-    ]);
 
-}
+    #[Route('/index2', name: 'app_evennement_index2', methods: ['GET'])]
+    public function indexp(EvennementRepository $evennementRepository): Response
+    {
+        $session = new Session();
+        $iduser = $session->getId();
+        return $this->render('evennement/evennement2.html.twig', [
+            'evennements22' => $evennementRepository->participnotin($iduser),
+        ]);
+
+    }
 
 
     #[Route('/template', name: 'app_evennement_index_temp', methods: ['GET'])]
@@ -48,34 +53,78 @@ public function indexp(EvennementRepository $evennementRepository): Response
     }
 
     #[Route('/new', name: 'app_evennement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EvennementRepository $evennementRepository,UtilisateurRepository $userrepo,MailerInterface $smail) : Response
+    public function new(Request $request, EvennementRepository $evennementRepository, UtilisateurRepository $userrepo, /*MailerInterface $smail*/SluggerInterface $slugger): Response
     {
         $evennement = new Evennement();
         $form = $this->createForm(EvennementType::class, $evennement);
         $form->handleRequest($request);
 
         $session = new Session();
-        $id=$session->getId();
-        $user=$userrepo->find($id);
+        $id = $session->getId();
+        $user = $userrepo->find($id);
         $evennement->setIdUser($user);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $evennementRepository->save($evennement, true);
-            $email=(new Email())->from('houssem.bribech@esprit.tn')
-                ->to('houssembrib98@gmail.com')
-                ->subject('JOB.TN.com')
-                ->text('Votre évènement a étè crée avec succés');
 
-            $smail->send($email);
-            return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
+            //$email = (new Email())->from('houssem.bribech@esprit.tn')
+                //->to('houssembrib98@gmail.com')
+                //->subject('JOB.TN.com')
+                //->text('Votre évènement a étè crée avec succés');
+
+           // $smail->send($email);
+            $flyerphot = $form->get('flyer')->getData();
+            $video = $form->get('video')->getData();
+
+            if ($flyerphot) {
+                $originalFilename = pathinfo($flyerphot->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $flyerphot->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $flyerphot->move(
+                        $this->getParameter('flyer_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $evennement->setFlyer($newFilename);
+
+
+            }
+            if ($video) {
+                $originalFilename = pathinfo($video->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $video->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $video->move(
+                        $this->getParameter('video_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $evennement->setVideo($newFilename);
+
+
+            }
+            $evennementRepository->save($evennement, true);
+                return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->renderForm('evennement/new.html.twig', [
+                'evennement' => $evennement,
+                'form' => $form,
+            ]);
         }
 
-        return $this->renderForm('evennement/new.html.twig', [
-            'evennement' => $evennement,
-            'form' => $form,
-        ]);
-    }
+
 
     #[Route('/{id}', name: 'app_evennement_show', methods: ['GET'])]
     public function show(Evennement $evennement): Response
@@ -105,6 +154,7 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
 
 
         $partv->particip($id,$iduser);
+        $evennementRepository->nbplaceupdate($id);
         $evennements22 = $evennementRepository->participin($iduser);
         $email=(new Email())->from('houssem.bribech@esprit.tn')
             ->to('houssembrib98@gmail.com')
@@ -129,6 +179,7 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
 
     return $this->render('evennement/voirspons.html.twig', [
         'spons'=> $spons,
+        'id'=>$id,
     ]);
 }
 
@@ -187,6 +238,7 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
         $iduser=$session->getId();
 
        $partv->deleteparticipation($id,$iduser);
+        $evennementRepository->annuleupdate($id);
 
         //var_dump($par);
 

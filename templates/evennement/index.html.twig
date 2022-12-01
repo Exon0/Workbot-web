@@ -1,6 +1,5 @@
-{% extends 'utilisateur/client/base.html.twig' %}
-{% block body %}
-    <div class="table-responsive" style="margin-top: 50px">
+{% extends 'utilisateur/client/base.html.twig' %}{% block body %}
+    {#  <div class="table-responsive" style="margin-top: 50px">
     <table class="table table-hover" id="tableac">
         <br>
         <br>
@@ -38,8 +37,11 @@
                     <td>{{ evennement.heurefin }}</td>
                     <td>{{ evennement.nbplaces }}</td>
                     <td>{{ evennement.prix }}</td>
-                    <td>{{ evennement.flyer }}</td>
-                    <td>{{ evennement.video }}</td>
+                    <td><img src ="{{ asset('upload/flyer/' ~ evennement.flyer) }}"
+                             alt="" style="width: 100px;height: 100px"></td>
+                    <td><img src ="{{ asset('upload/video/' ~ evennement.video) }}"
+                             alt="" style="width: 100px;height: 100px"></td>
+
 
 
                     <td> <a href="{{ path('app_evennement_edit', {'id': evennement.id}) }}"><input type="submit" value="Edit" class="btn btn-primary"></a></td>
@@ -84,5 +86,72 @@
             </div>
     </table>
 
-    <a href="{{ path('app_evennement_new') }}"><input type="submit" value="Create New" class="btn btn-primary"></a>
+    <a href="{{ path('app_evennement_new') }}"><input type="submit" value="Create New" class="btn btn-primary"></a>#}
+
+    <section class="find-job job-list section">
+        <div class="container">
+            <div class="single-head">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        {% set i= evennements|length/2 %}
+                        {% set k=0 %}
+                        {% for ev in evennements %}
+
+                        {% if k>=i and k< evennements|length %}
+                        {% set k= evennements|length %}
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        {% endif %}
+
+
+                        <div class="single-job">
+                            <div class="job-image">
+                                <img src="{{asset('assets/img/cours/certificate.png')}}" height="70" width="70" alt="#">
+                            </div>
+                            <div class="job-content">
+                                <form>
+                                    <h4><a style="font-size: 30px">Votre évènement</a></h4>
+                                </form>
+                                <p>Start At <u style="color: black">{{ ev.datedebut }}</u> 
+                                </p>
+                                <p>Ends At <u style="color: black">{{ ev.datefin }}</u> . </p> <p>Libelle <u style="color: black">{{ ev.libelle }}</u>. </p>
+                                <p>Starting hour <u style="color: black">{{ ev.heuredebut }}</u> . </p> <p>Ending hour <u style="color: black">{{ ev.heurefin }}</u>. </p>
+                                <p>Price <u style="color: black">{{ ev.prix }}</u> . </p> <p>Places <u style="color: black">{{ ev.nbplaces }}</u>. </p>
+                                <p>Flyer <img src ="{{ asset('upload/flyer/' ~ ev.flyer) }}"
+                                                alt="" style="width: 100px;height: 100px"></td>. </p>
+                                <ul>
+                                    <li><i class="bx lni-website"></i><a>Job.TN.com</a></li>
+                                    <li><i class="bx bx-yen"></i> Free </li>
+                                    <li><i class="lni lni-map-marker"></i>Developper par le team WorkBot</li>
+                                </ul>
+                            </div>
+                            <div class="job-button">
+                                <object type="application/html" width="100%" height="100%">
+{#     <a class="btn btn-outline-primary" href="{{ path('app_quiz_test', {'id': c.id}) }}" >Certifier</a>#}
+                                </object>
+
+
+                            </div>
+                        </div>
+                        {% set k=k+1 %}
+                        {% endfor %}
+
+
+                        {% if evennements|length==0 %}
+                            <h1> Vous avez deja obtenu tout les Certificats existant ...</h1>
+                        {% endif %}
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        </div>
+        </div>
+        </div>
+    </section>
 {% endblock %}

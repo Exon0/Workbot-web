@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
 /**
  * Evennement
  *
@@ -42,7 +43,7 @@ class Evennement
     private string $libelle;
 
     #[ORM\Column(name: 'heureDebut', type: 'string', length: 30, nullable: false)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message:"veuiller saisir l'heure de debut ")]
 
     #[Assert\Length(
         min: 2,
@@ -52,7 +53,7 @@ class Evennement
     )]
     private string $heuredebut;
     #[ORM\Column(name: 'heureFin', type: 'string', length: 30, nullable: false)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message:"veuiller saisir l'heurefin")]
 
     #[Assert\Length(
         min: 2,
@@ -71,13 +72,11 @@ class Evennement
     private ?string $prix = null;
 
     #[ORM\Column(name: 'flyer', type: 'string', length: 300, nullable: true)]
-    #[Assert\File]
-    #[Assert\NotBlank(message: "selecter un fichier !")]
+    #[Assert\Image]
     private ?string $flyer = null;
 
     #[ORM\Column(name: 'video', type: 'string', length: 300, nullable: true)]
-    #[Assert\File]
-    #[Assert\NotBlank(message: "selecter un fichier !")]
+    #[Assert\Image]
     private ?string $video = null;
 
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
