@@ -43,6 +43,7 @@ class CandidatureController extends AbstractController
     #[Route('/{id}', name: 'app_candidature_show', methods: ['GET'])]
     public function show(Candidature $candidature): Response
     {
+        echo $candidature->getId();
         return $this->render('candidature/show.html.twig', [
             'candidature' => $candidature,
         ]);

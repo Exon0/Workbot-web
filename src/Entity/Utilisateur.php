@@ -574,7 +574,9 @@ use Doctrine\Common\Collections\Collection;
 
     public function getUsername(): string
     {
+
         return (string) $this->email;
+
     }
     public function getSalt()
     {

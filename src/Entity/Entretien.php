@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+use Cassandra\Date;
+use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\EntretienRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,18 +31,127 @@ class Entretien
     #[ORM\Column(name: 'lienMeet', type: 'string', length: 350, nullable: false)]
     private string $lienmeet;
 
-    #[Assert\NotBlank]
+
     #[Assert\Time]
-    #[Assert\Range(
-        notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
-        min: 8,
-        max: 18,
-    )]
-    #[ORM\Column(name: 'heure', type: 'integer', nullable: false)]
+    #[Assert\NotBlank]
+    #[ORM\Column(name: 'heure', nullable: false)]
     private String $heure;
 
     #[ORM\JoinColumn(name: 'id_candidature', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Candidature')]
     private \App\Entity\Candidature $idCandidature;
+
+
+    #[ORM\JoinColumn(name: 'iduser', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+    private \App\Entity\Utilisateur $iduser;
+
+    #[ORM\Column(name: 'qrCode', type: 'string', length: 255, nullable: true)]
+    private string $qrCode;
+
+    #[ORM\Column(name: 'dateAjout')]
+    private  $dateAjout;
+
+    #[ORM\Column(name: 'heureFin')]
+    private  $heureFin;
+
+    #[ORM\Column(name: 'titreNom')]
+    private  $titreNom;
+
+    /**
+     * @return mixed
+     */
+    public function getTitreNom()
+    {
+        return $this->titreNom;
+    }
+
+    /**
+     * @param mixed $titreNom
+     */
+    public function setTitreNom($titreNom): void
+    {
+        $this->titreNom = $titreNom;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getHeureFin()
+    {
+        return $this->heureFin;
+    }
+
+    /**
+     * @param mixed $heureFin
+     */
+    public function setHeureFin($heureFin): void
+    {
+        $this->heureFin = $heureFin;
+    }
+
+
+    public function getDateAjout()
+    {
+        return $this->dateAjout;
+    }
+
+
+    public function setDateAjout( $dateAjout): void
+    {
+        $this->dateAjout = $dateAjout;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQrCode(): string
+    {
+        return $this->qrCode;
+    }
+
+    /**
+     * @param string $qrCode
+     */
+    public function setQrCode(string $qrCode): void
+    {
+        $this->qrCode = $qrCode;
+    }
+
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIduser(): Utilisateur
+    {
+        return $this->iduser;
+    }
+
+    /**
+     * @param Utilisateur $iduser
+     */
+    public function setIduser(Utilisateur $iduser): void
+    {
+        $this->iduser = $iduser;
+    }
+
+
+    /**
+     * @return Candidature
+     */
+    public function getIdCandidature(): Candidature
+    {
+        return $this->idCandidature;
+    }
+
+    /**
+     * @param Candidature $idCandidature
+     */
+    public function setIdCandidature(Candidature $idCandidature): void
+    {
+        $this->idCandidature = $idCandidature;
+    }
 
     public function getId(): ?int
     {

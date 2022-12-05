@@ -6851,12 +6851,12 @@ BaseTheme.DEFAULTS = (0, _extend2.default)(true, {}, _theme2.default.DEFAULTS, {
         image: function image() {
           var _this3 = this;
 
-          var fileInput = this.container.querySelector('input.ql-image[type=file]');
+          var fileInput = this.container.querySelector('input.ql-img[type=file]');
           if (fileInput == null) {
             fileInput = document.createElement('input');
             fileInput.setAttribute('type', 'file');
-            fileInput.setAttribute('accept', 'image/png, image/gif, image/jpeg, image/bmp, image/x-icon');
-            fileInput.classList.add('ql-image');
+            fileInput.setAttribute('accept', 'img/png, img/gif, img/jpeg, img/bmp, img/x-icon');
+            fileInput.classList.add('ql-img');
             fileInput.addEventListener('change', function () {
               if (fileInput.files != null && fileInput.files[0] != null) {
                 var reader = new FileReader();
