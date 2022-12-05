@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
+ ads_directory: '%kernel.project_dir%/public/upload/ads'
+ Admin_directory: '%kernel.project_dir%/public/upload/ads'
 
 services:
     # default configuration for services in *this* file

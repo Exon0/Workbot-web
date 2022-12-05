@@ -8,12 +8,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  * Utilisateur
  *
- * @method string getUserIdentifier()
+ *
  */
+
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\Table(name: 'utilisateur')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -25,31 +27,58 @@ use Symfony\Component\Security\Core\User\UserInterface;
     private int $id;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: true)]
-    #[Assert\NotNull]
+    #[Assert\NotBlank(message: "Please fill in this field")]
     #[Assert\Length(
         min: 2,
         max: 50,
-        minMessage: 'Your first name must be at least {{ limit }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+        minMessage: 'Your last name must be at least {{ limit }} characters long',
+        maxMessage: 'Your last name cannot be longer than {{ limit }} characters',
     )]
     private ?string $nom = null;
 
     #[ORM\Column(name: 'prenom', type: 'string', length: 25, nullable: true)]
-    #[Assert\NotNull]
+    #[Assert\NotBlank(message: "Please fill in this field")]
     private ?string $prenom = null;
 
 
+    #[Assert\Length(
+        min: 8,
+        max: 15,
+        minMessage: 'Your num must be at least {{ limit }} ',
+        maxMessage: 'Your num cannot be longer than {{ limit }} ',
+    )]
     #[ORM\Column(name: 'tel', type: 'string', length: 30, nullable: true)]
     private ?string $tel = null;
 
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
+    #[Assert\NotBlank(message: "Please fill in this field")]
     #[ORM\Column(name: 'email', type: 'string', length: 200, nullable: true)]
     private ?string $email = null;
-    #[Assert\NotNull]
+    #[Assert\Length(
+        min: 8,
+        max: 50,
+        minMessage: 'Your password must be at least {{ limit }} characters long',
+        maxMessage: 'Your password cannot be longer than {{ limit }} characters',
+    )]
+    #[Assert\Regex(
+        pattern:"/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+        message: 'Your password must be Strength',
+    )]
+
     #[ORM\Column(name: 'mdp', type: 'string', length: 355, nullable: true)]
     private ?string $mdp = null;
     #[ORM\Column(name: 'adresse', type: 'string', length: 30, nullable: true)]
     private ?string $adresse = null;
 
+    #[Assert\File(
+        maxSize: '10000k',
+        mimeTypes: [ 'image/gif', 'image/jpeg','image/png',
+            'image/jpg',
+            'video/mp4',],
+        mimeTypesMessage: 'Please upload a valid image',
+    )]
     #[ORM\Column(name: 'photo', type: 'string', length: 300, nullable: true)]
     private ?string $photo = null;
 
@@ -107,8 +136,124 @@ use Symfony\Component\Security\Core\User\UserInterface;
     #[ORM\Column(name: 'note', type: 'string', length: 255, nullable: true)]
     private ?string $note = null;
 
-    #[ORM\Column(name: 'role', type: 'string', length: 25, nullable: false)]
+    #[ORM\Column(name: 'role', type: 'string', length: 25, nullable: true)]
     private string $role;
+
+
+    #[ORM\Column(name: 'roles', type: 'json', length: 25, nullable: true)]
+    private  $roles= [];
+
+    #[ORM\Column(name: 'resetToken', type: 'string', length: 300, nullable: true)]
+    private ?string $resetToken = null;
+    #[ORM\Column(name: 'googleId', type: 'integer', length: 255, nullable: true)]
+    private ?string $googleId = null;
+    #[ORM\Column(name: 'facebookId', type: 'integer', length: 255, nullable: true)]
+    private ?string $facebookId = null;
+    #[ORM\Column(name: 'photoGoogleFb', type: 'string', length: 255, nullable: true)]
+    private ?string $photoGoogleFb = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: AdsLike::class)]
+    private Collection $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
+
+
+    /**
+     * @return Collection<int, AdsLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(AdsLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(AdsLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getUser() === $this) {
+                $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @return string|null
+     */
+    public function getPhotoGoogleFb(): ?string
+    {
+        return $this->photoGoogleFb;
+    }
+
+    /**
+     * @param string|null $photoGoogleFb
+     */
+    public function setPhotoGoogleFb(?string $photoGoogleFb): void
+    {
+        $this->photoGoogleFb = $photoGoogleFb;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getFacebookId(): ?string
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string|null $facebookId
+     */
+    public function setFacebookId(?string $facebookId): void
+    {
+        $this->facebookId = $facebookId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * @param string|null $googleId
+     */
+    public function setGoogleId(?string $googleId): void
+    {
+        $this->googleId = $googleId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param string|null $resetToken
+     */
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
+    }
+
 
     public function getId(): ?int
     {
@@ -119,7 +264,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
     {
         return $this->nom;
     }
-
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
     public function setNom(?string $nom): self
     {
         $this->nom = $nom;
@@ -415,6 +563,32 @@ use Symfony\Component\Security\Core\User\UserInterface;
         return $this;
     }
 
+
+
+
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
+
+
+    public function getUsername(): string
+    {
+
+        return (string) $this->email;
+
+    }
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
     public function getRole(): ?string
     {
         return $this->role;
@@ -427,35 +601,22 @@ use Symfony\Component\Security\Core\User\UserInterface;
         return $this;
     }
 
-
-    public function __call(string $name, array $arguments)
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        // TODO: Implement @method string getUserIdentifier()
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function getRoles()
+    public function setRoles(array $roles): self
     {
-        // TODO: Implement getRoles() method.
-    }
+        $this->roles = $roles;
 
-    public function getPassword(): string
-    {
-
-        return $this->mdp;
-    }
-
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-    }
-
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
-
-    public function getUsername()
-    {
-        // TODO: Implement getUsername() method.
+        return $this;
     }
 }

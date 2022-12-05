@@ -20,14 +20,17 @@
                         </thead>
                         <tbody>
                         {% for f in oo %}
-                        <tr>
-                            <td>{{f.titre}}</td>
-                            <td>{{f.typeoffre}}</td>
-                            <td>{{f.description}}</td>
-                            <td>{{f.modetravail}}</td>
-                            <td>{{f.dateajout}}</td>
 
-                            {% endfor %}
+
+
+                            <tr>
+                                <td>{{f.titre}}</td>
+                                <td>{{f.typeoffre}}</td>
+                                <td>{{f.description}}</td>
+                                <td>{{f.modetravail}}</td>
+                                <td>{{f.dateajout}}</td>
+
+                        {% endfor %}
                         </tbody>
                     </table>
 
