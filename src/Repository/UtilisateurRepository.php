@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 /**
  * @extends ServiceEntityRepository<Utilisateur>
@@ -43,12 +44,34 @@ class UtilisateurRepository extends ServiceEntityRepository
      */
 public function findadmin(){
     return $this->createQueryBuilder('u')
-    ->where('u.role= :val')
+    ->where('u.role= :val' )
     ->setParameter('val','Admin')
     ->getQuery()
     ->getResult();
 
 }
+    public function findorCreateFrom0auth(ResourceOwnerInterface $owner){
+        $utilisateur = $this->createQueryBuilder('u')
+            ->where('u.googleId= :val' )
+            ->setParameters(
+                [
+                    'googleId' => $owner->getId()
+                ]
+            )
+            ->getQuery()
+            ->getResult();
+        if($utilisateur){return $utilisateur;}
+        $user = (new user())
+            ->setGoogleId($owner->getId())
+            ->setEmail($owner->getEmail());
+        $em=$this->getEntityManager();
+        $em->persist($utilisateur);
+        $em->flush();
+        return  $utilisateur;
+
+    }
+
+
     /*
          * Requette pour les administrateurs
          */
@@ -61,6 +84,53 @@ public function findadmin(){
             ->getResult();
 
     }
+    public function countuser()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u'
+        )->getSingleScalarResult();
+    }
+    public function countsociete()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','sociéte')->getSingleScalarResult();
+
+    }
+    public function countfbgoogle()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','ROLE_a')->getSingleScalarResult();
+
+    }
+
+    public function countAdmin()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','Admin')->getSingleScalarResult();
+
+    }
+
+    public function countcandidat()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','candidat')->getSingleScalarResult();
+
+    }
+
+    public function search($term)
+    {
+        return $this->createQueryBuilder('Utilisateur')
+            ->Where('utilisateur.nom LIKE :no')
+            ->setParameter('no','%'.$term.'%')
+            ->getQuery()
+            ->execute();
+
+    }
+
 //    /**
 //     * @return Utilisateur[] Returns an array of Utilisateur objects
 //     */

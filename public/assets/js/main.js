@@ -18,7 +18,7 @@
       return document.querySelector(el)
     }
   }
-
+  import '@pugx/autocompleter-bundle/js/autocompleter-jqueryui';
   /**
    * Easy event listener function
    */
@@ -315,5 +315,6 @@
       }).observe(mainContainer);
     }, 200);
   }
+
 
 })();

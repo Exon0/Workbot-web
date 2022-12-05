@@ -4,30 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UserType;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterController extends AbstractController
 {
     private $passwordEncoder;
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
-    #[Route('/register', name: 'app_register')]
-    public function index(): Response
-    {
-        return $this->render('register/index.html.twig', [
-            'controller_name' => 'RegisterController',
-        ]);
-    }
-    #[Route('/signup', name: 'app_register')]
-    public function login(Request $request)
+    #[Route('/s', name: 'app_registeree')]
+    public function login(Request $request,UserPasswordHasherInterface $userPasswordHasher,UtilisateurRepository $utilisateurRepository)
     {
         $user = new Utilisateur();
 
@@ -37,17 +26,20 @@ class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Encode the new users password
-
+            $user->setMdp(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('mdp')->getData()
+                )
+            );
 
             // Save
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $utilisateurRepository->save($user, true);
 
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('register/index.html.twig', [
+        return $this->render('utilisateur/test.html.twig', [
             'form' => $form->createView(),
         ]);
     }
