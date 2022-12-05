@@ -97,6 +97,21 @@ public function findadmin(){
         )->setParameter('role','sociéte')->getSingleScalarResult();
 
     }
+    public function countfbgoogle()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','ROLE_a')->getSingleScalarResult();
+
+    }
+
+    public function countAdmin()
+    {
+        return $this->getEntityManager()->createQuery(
+            'SELECT count(u) from App\Entity\Utilisateur u where u.role LIKE :role'
+        )->setParameter('role','Admin')->getSingleScalarResult();
+
+    }
 
     public function countcandidat()
     {

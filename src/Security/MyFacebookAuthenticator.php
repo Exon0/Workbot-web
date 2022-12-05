@@ -57,12 +57,12 @@ class MyFacebookAuthenticator extends OAuth2Authenticator implements Authenticat
                 $u=$this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $t]);
                 // 2) do we have a matching user by email?
                 if(!$u) {
-                    $us = "Admin";
-                    $u = array('ROLE_Admin');
+                    $us = "ROLE_a";
+                    $u = array('ROLE_a');
                     $utilisateur = new Utilisateur();
                     $utilisateur->setFacebookId($facebookUser->getId());
                     $utilisateur->setEmail($facebookUser->getEmail());
-                    $utilisateur->setPhoto($facebookUser->getPictureUrl());
+
                     $utilisateur->setNom($facebookUser->getLastName());
                     $utilisateur->setPrenom($facebookUser->getFirstName());
                     $utilisateur->setRole($us);
@@ -85,7 +85,7 @@ class MyFacebookAuthenticator extends OAuth2Authenticator implements Authenticat
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('app_login');
+        $targetUrl = $this->router->generate('app_utilisateur_index');
 
         return new RedirectResponse($targetUrl);
 

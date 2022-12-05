@@ -1,15 +1,25 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
 {%  block body %}
+    <div class="card mb-3">
+    <div class="card-body" style="margin-left: 350px;margin-top: 80px">
+        <h5 class="card-title">Dashboard</h5>
 
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            </ol>
+        </nav>
+    </div>
     <section class="section dashboard">
-        <div class="row" style="display: flex;margin-top: 120px;justify-content: end">
+        <div class="row" style="display: flex;margin-left: 350px ">
 
             <!-- Left side columns -->
             <div class="col-lg-5">
                 <div class="row">
 
                     <!-- Sales Card -->
-                    <div class="col-xxl-4 col-md-6">
+                    <div class="col-xxl-6 col-md-6">
                         <div class="card info-card sales-card">
 
                             <div class="filter">
@@ -34,7 +44,127 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6>{{ naa }}</h6>
-                                        <span class="text-danger small pt-1 fw-bold">99.99% </span>
+                                        <span class="text-danger small pt-1 fw-bold">99.99% </span><br>
+                                        <span class="text-muted small pt-2 ps-1">Account</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Sales Card -->
+
+
+                    <!-- Sales Card -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card sales-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Administrateur</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ nadminn }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ nadmin1}} </span><br>
+                                        <span class="text-muted small pt-2 ps-1">Account</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Sales Card -->
+
+                    <!-- Sales Card -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card sales-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">  Client</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ ntotal }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ ntotal1}} </span><br>
+                                        <span class="text-muted small pt-2 ps-1">Account</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Sales Card -->
+
+
+
+
+
+
+
+
+
+                    <!-- Sales Card -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card sales-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">  Fb && Google</h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>{{ ng }}</h6>
+                                        <span class="text-danger small pt-1 fw-bold">{{ ng1 }} </span><br>
                                         <span class="text-muted small pt-2 ps-1">Account</span>
 
                                     </div>
@@ -46,7 +176,7 @@
                     </div><!-- End Sales Card -->
 
                     <!-- Revenue Card -->
-                    <div class="col-xxl-4 col-md-6">
+                    <div class="col-xxl-6 col-md-6">
                         <div class="card info-card revenue-card">
 
                             <div class="filter">
@@ -82,7 +212,7 @@
                     </div><!-- End Revenue Card -->
 
                     <!-- Customers Card -->
-                    <div class="col-xxl-4 col-xl-12">
+                    <div class="col-xxl-6 col-xl-12">
 
                         <div class="card info-card customers-card">
 
@@ -190,13 +320,12 @@
                     </div><!-- End Reports -->
 
 
-
                 </div>
 
             </div><!-- End Left side columns -->
 
             <!-- Right side columns -->
-            <div class="col-lg-4">
+            <div class="col-lg-6">
 
                 <!-- Website Traffic -->
                 <div class="card">
@@ -269,8 +398,12 @@
 
             </div><!-- End Right side columns -->
 
+
         </div>
+
+    </section>
         </div>
     </section>
+    </div>
 {% endblock %}
 

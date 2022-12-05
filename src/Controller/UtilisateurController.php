@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\AdminType;
 use App\Form\ClientType;
+use App\Form\GoogleFbRoleType;
 use App\Repository\AdsRepository;
 use App\Repository\OffreRepository;
 use App\Repository\UtilisateurRepository;
@@ -243,10 +244,14 @@ class UtilisateurController extends AbstractController
     public function dashboard(AdsRepository $adsRepository,UtilisateurRepository $utilisateurRepository,ChartBuilderInterface $chartBuilder,AdsRepository $repo): Response
     {
         $na=$utilisateurRepository->countuser();
-
+        $nadminn=$utilisateurRepository->countAdmin();
         $ns=$utilisateurRepository->countsociete();
         $nc=$utilisateurRepository->countcandidat();
+
+        $nG=$utilisateurRepository->countfbgoogle();
         $nadmin=$na-$ns-$nc;
+        $ntotal=$ns+$nc+$nG;
+
         $adV=$adsRepository->countadsV();
         $adNV=$adsRepository->countadsNV();
         $adGold=$adsRepository->countgold();
@@ -254,12 +259,26 @@ class UtilisateurController extends AbstractController
         $adG=$adsRepository->countgratuit();
         $ads=$adsRepository->findAll();
         $ns1=($ns/$na)*100;
+        $nadmin1=($nadminn/$na)*100;
+        $nadmin1=round($nadmin1,2);
         $nc1=($nc/$na)*100;
+        $nG1=($nG/$na)*100;
+        $ns1=round($ns1,2);
+        $ntotal1=($ntotal/$na)*100;
+        $ntotal1=round($ntotal1,2);
+        $nc1=round($nc1,2);
+        $nG1=round($nG1,2);
         $u=$repo->findAll();
 
         return $this->render('utilisateur/Dashbord/faceAPpstat.html.twig',
             [
                 'nadmin'=>'$nadmin',
+                'ntotal'=>$ntotal,
+                'ntotal1'=>$ntotal1,
+                'ng'=>$nG,
+                'ng1'=>$nG1,
+                'nadminn'=>$nadminn,
+                'nadmin1'=>$nadmin1,
                 'naa'=>$na,
                 'ns1'=>$ns1,
                 'nss'=>$ns,
@@ -273,5 +292,23 @@ class UtilisateurController extends AbstractController
                 '$ads'=> $ads,
             ]);
     }
+ ////////////////////////////GoogleFb Role Modification
+    #[Route('/role/r', name: 'app_utilisateur_edit_Fb', methods: ['GET', 'POST'])]
+    public function editFb(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository,$id): Response
+    {
+        $form = $this->createForm(GoogleFbRoleType::class, $utilisateur);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $utilisateurRepository->save($utilisateur, true);
+
+            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('utilisateur/editFbG.html.twig', [
+            'utilisateurs' => $utilisateurRepository->findAll(),
+            'form' => $form,
+        ]);
+    }
 }

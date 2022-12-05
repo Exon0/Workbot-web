@@ -27,7 +27,7 @@ use Doctrine\Common\Collections\Collection;
     private int $id;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: true)]
-    #[Assert\NotBlank(message: "veuillez renseigner ce champ")]
+    #[Assert\NotBlank(message: "Please fill in this field")]
     #[Assert\Length(
         min: 2,
         max: 50,
@@ -37,8 +37,9 @@ use Doctrine\Common\Collections\Collection;
     private ?string $nom = null;
 
     #[ORM\Column(name: 'prenom', type: 'string', length: 25, nullable: true)]
-    #[Assert\NotNull]
+    #[Assert\NotBlank(message: "Please fill in this field")]
     private ?string $prenom = null;
+
 
     #[Assert\Length(
         min: 8,
@@ -52,7 +53,7 @@ use Doctrine\Common\Collections\Collection;
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-    #[Assert\NotNull]
+    #[Assert\NotBlank(message: "Please fill in this field")]
     #[ORM\Column(name: 'email', type: 'string', length: 200, nullable: true)]
     private ?string $email = null;
     #[Assert\Length(
@@ -65,7 +66,7 @@ use Doctrine\Common\Collections\Collection;
         pattern:"/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
         message: 'Your password must be Strength',
     )]
-    #[Assert\NotNull]
+
     #[ORM\Column(name: 'mdp', type: 'string', length: 355, nullable: true)]
     private ?string $mdp = null;
     #[ORM\Column(name: 'adresse', type: 'string', length: 30, nullable: true)]
@@ -134,9 +135,11 @@ use Doctrine\Common\Collections\Collection;
 
     #[ORM\Column(name: 'note', type: 'string', length: 255, nullable: true)]
     private ?string $note = null;
-    #[ORM\Column(name: 'role', type: 'string', length: 25, nullable: false)]
+
+    #[ORM\Column(name: 'role', type: 'string', length: 25, nullable: true)]
     private string $role;
-    #[Assert\NotNull( message: 'The role  is not a null.',)]
+
+
     #[ORM\Column(name: 'roles', type: 'json', length: 25, nullable: true)]
     private  $roles= [];
 

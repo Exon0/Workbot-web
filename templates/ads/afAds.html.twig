@@ -33,9 +33,9 @@
                                     <h5 class="mb-0">Best Offer</h5>
                                     <a href="{{ path('ads_like',{'id': f.id})}}" class="action-btn js-like">
                                         {% if app.user and f.isLikedByUser(app.user) %}
-                                            <i class="a bi-heart-fill"></i>
+                                         <div class="mm"><i class="fas fa-thumbs-up"></i></div>
                                         {% else %}
-                                            <i class="b bi-suit-heart"></i>
+                                          <div class="mmm"> <i class="far fa-thumbs-up"></i></div>
                                         {% endif %}
                                     <h5 class="text-dark mb-0">
                                     <span class="js_likes">
@@ -70,10 +70,10 @@
                                 axios.get(url).then(function(response) {
                                    const likes =response.data.likes;
                                   spanCount.textContent= likes;
-                                  if (icone.classList.contains('a')){
-                                      icone.classList.replace('a','b');}
+                                  if (icone.classList.contains('fas')){
+                                      icone.classList.replace('fas','far');}
                                   else{
-                                      icone.classList.replace('b','a');}
+                                      icone.classList.replace('far','fas');}
                                 }
                                 ).catch(function (error){
                                     if(error.response.status===403){

@@ -45,6 +45,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('roles', CollectionType::class, [
                 'entry_type'   => ChoiceType::class,
+                'attr' => ['required' => true],
                 'entry_options'  => [
                     'label' => false,
 
@@ -53,8 +54,9 @@ class RegistrationFormType extends AbstractType
                         'sociéte' => 'ROLE_s',
 
                     ],
-                    'expanded' => true,
+                    'expanded' => false,
                     'multiple' => false,
+
                 ],
 
 

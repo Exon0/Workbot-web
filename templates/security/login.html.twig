@@ -1,6 +1,9 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
 {% block header %}
-
+    <link href="{{asset('https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap')}}" rel="stylesheet">
+    <link href="{{asset('assetsLogin/fonts/icomoon/style.css')}}" rel="stylesheet">
+    <link href="{{asset('assetsLogin/css/owl.carousel.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assetsLogin/css/style.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block sidebar %}
@@ -13,99 +16,82 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="content card mb-3">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-6">
+                    <img src="assetsLogin/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 contents">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="mb-4">
+                                {% if error %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
 
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <div class="container">
+                                {% if app.user %}
+                                    <div class="mb-3">
+                                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                    </div>
+                                {% endif %}
+                                <h3>Login to Your Account</h3>
+                                <p class="mb-4">Enter your username &amp; password to login</p>
+                            </div>
+                            <form action="#" method="post">
+                                <div class="form-group first">
+                                    <label for="username">Username</label>
+                                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
 
-                <div class="row justify-content-center">
-                    <img src="assets/img/job.tn.png" height="20 px"  width="20" alt="">
-                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-                        <div class="d-flex justify-content-center py-4">
-                            <a href="index.html" class="logo d-flex align-items-center w-auto">
-
-                                <span class="d-none d-lg-block">JobTn</span>
-                            </a>
-                        </div><!-- End Logo -->
-
-                        <div class="card mb-3">
-
-                            <div class="card-body">
-
-                                <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                    <p class="text-center small">Enter your username &amp; password to login</p>
-                                </div>
-                                <div class="col-12">
-                                    <a href="{{ path('connect_facebook_start') }}" class="btn btn-primary w-100" type="submit">Log  in with Facebook</a>
-                                        <hr>
-                                    <a href="{{ path('connect_google') }}" class="btn btn-danger w-100" type="submit">Log in with Google</a>
                                 </div>
                                 <br>
-                                <form class="row g-3 needs-validation" novalidate="" method="post">
-                                    {% if error %}
-                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                    {% endif %}
+                                <div class="form-group last mb-4">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="mdp" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-                                    {% if app.user %}
-                                        <div class="mb-3">
-                                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                                        </div>
-                                    {% endif %}
-                                    <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Email</label>
-                                        <div class="input-group has-validation">
-                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                                            <div class="invalid-feedback">Please enter your email.</div>
-                                        </div>
-                                    </div>
+                                </div>
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}"
+                                >
 
-                                    <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Password</label>
-                                        <input type="password" name="mdp" id="inputPassword" class="form-control" autocomplete="current-password" required>
-                                        <div class="invalid-feedback">Please enter your password!</div>
-                            </div>
+                                <div class="d-flex mb-5 align-items-center">
 
-                                    <input type="hidden" name="_csrf_token"
-                                           value="{{ csrf_token('authenticate') }}"
-                                    >
+                                    <p class="small mb-0">Forgot your? <a href="{{ path('forgot') }}">Password</a></p>
+                                </div>
 
-                                    <div class="col-12">
-                                        <p class="small mb-0">Forgot your? <a href="{{ path('forgot') }}">Password</a></p>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Login</button>
-                                    </div>
-                                    <div class="col-12">
-                                        <p class="small mb-0">Don't have account? <a href="{{ path('app_register') }}">Create an account</a></p>
-                                    </div>
-                                </form>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit">Login</button>
+                                </div>
+                                <p class="small mb-0">Don't have account? <a href="{{ path('app_register') }}">Create an account</a></p>
 
-                            </div>
+                                <span class="d-block text-left my-4 text-muted">&mdash; or login with &mdash;</span>
+
+                                <div class="social-login">
+                                    <a href="{{ path('connect_facebook_start') }}" class="facebook">
+                                        <span class="icon-facebook mr-3"></span>
+                                    </a>
+                                    <a href="#" class="twitter">
+                                        <span class="icon-twitter mr-3"></span>
+                                    </a>
+                                    <a href="{{ path('connect_google') }}" class="google">
+                                        <span class="icon-google mr-3"></span>
+                                    </a>
+                                </div>
+                            </form>
                         </div>
-
-                        <div class="credits">
-                            <!-- All the links in the footer should remain intact. -->
-                            <!-- You can delete the links only if you purchased the pro version. -->
-                            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-                            ©2022<a href="https://bootstrapmade.com/"> WorkBot Team</a>
-                        </div>
-
                     </div>
+
                 </div>
+
             </div>
-
-        </section>
-
+        </div>
     </div>
 
 
-
-
-
-
-
+{% endblock %}
+{% block javascripts %}
+    <script src="{{asset('assetsLogin/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{asset('assetsLogin/js/popper.min.js') }}"></script>
+    <script src="{{asset('assetsLogin/js/bootstrap.min.js') }}"></script>
+    <script src="{{asset('assetsLogin/js/main.js') }}"></script>
 {% endblock %}

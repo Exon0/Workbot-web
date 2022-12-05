@@ -4,8 +4,18 @@
 
 
 {% block body %}
+    <div class="card mb-3">
+    <div class="card-body" style="margin-left: 350px;margin-top: 80px">
+        <h3 class="card-title">Ads</h3>
 
-    <div class="row" style="display: flex;align-items: center;justify-content: end ;margin-top: 100px;">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Ads</a></li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row" style="display: flex;align-items: center;margin-left: 350px ">
         <div class="col-lg-9">
             <div class="col-12">
                 <div class="col-11,5">
@@ -54,7 +64,7 @@
         </div>
 
     </div>
-    <div class="row" style="display: flex;align-items: center;justify-content: end ;">
+    <div class="row" style="display: flex;align-items: center;margin-left: 350px ;">
         <div class="col-lg-9">
             <div class="col-12">
                 <div class="col-11,5">
@@ -84,7 +94,7 @@
                                         <td><a href="{{ path('app_ads_show', {'id': f.id}) }}" class="text-primary">{{ f.type }} </a></td>
                                         <td>{{ f.dateFin.format('d/m/Y') }}</td>
                                         <td>
-                                    <button class="bg-danger-light">       <a href="{{path('deleteads', {'id': f.id}) }}"method="post" >delete</a></button>
+                                    <button class="bg-danger-light"><a href="{{path('deleteads', {'id': f.id}) }}"method="post" >delete</a></button>
                                         </td>
                                         <td><img src ="{{ asset('upload/ads/' ~ f.photo) }}"
                                                  alt="" style="width: 100px;height: 100px"></td>
@@ -99,6 +109,7 @@
             </div>
         </div>
 
+    </div>
     </div>
 {% endblock %}
 

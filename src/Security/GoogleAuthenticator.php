@@ -137,7 +137,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
-                $us=('Admin');
+                $us=('ROLE_a');
                 $email = $googleUser->getEmail();
 
                 // 1) have they logged in with Facebook before? Easy!
@@ -161,7 +161,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 $u=$this->entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $t]);
 
                 if(!$u) {
-                    $u=array('ROLE_Admin');
+                    $u=array('ROLE_a');
                     $utilisateur = new Utilisateur();
                     $utilisateur->setGoogleId($googleUser->getId());
                     $utilisateur->setEmail($googleUser->getEmail());
