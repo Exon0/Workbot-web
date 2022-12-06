@@ -4,7 +4,7 @@
   },
   "devDependencies": {
     "@hotwired/stimulus": "^3.0.0",
-    "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
+    "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/assets",
     "chart.js": "^3.4.1"
   }
 }

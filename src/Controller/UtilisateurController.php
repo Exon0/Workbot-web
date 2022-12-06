@@ -195,15 +195,7 @@ class UtilisateurController extends AbstractController
     }
 
 
-    #[Route('/s/ilyes', name: 'app_utilisateur_ilyes')]
-    public function ilyes(OffreRepository $offreRepository): Response
-    {   $nb=$offreRepository->findNBoffresAdmin();
-        $u=$offreRepository->findAll();
-        return $this->render('utilisateur/offre.html.twig', [
-            'oo' => $u,
-            'nb'=>$nb
-        ]);
-    }
+
 
 
     #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]

@@ -41,7 +41,6 @@
             "./migrations/.gitignore"
         ]
     },
-
     "google/recaptcha": {
         "version": "1.2",
         "recipe": {
@@ -74,7 +73,6 @@
         "files": [
             "./config/packages/knpu_oauth2_client.yaml"
         ]
-
     },
     "phpunit/phpunit": {
         "version": "9.5",
@@ -330,7 +328,9 @@
             "ref": "eb697fe6a90b4972a4a544b4f7ea56520d29d9e9"
         }
     },
-
+    "symfony/ux-chartjs": {
+        "version": "v2.6.1"
+    },
     "symfony/validator": {
         "version": "5.4",
         "recipe": {

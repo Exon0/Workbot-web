@@ -43,12 +43,12 @@ class RegistrationController extends AbstractController
                     $form->get('mdp')->getData()
                 )
             );
-            $update = new Update(
-                'http://127.0.0.1:8000/utilisateur/Admin',
-                "[]"
-            );
+//            $update = new Update(
+//                'http://127.0.0.1:8000/utilisateur/Admin',
+//                "[]"
+//            );
 
-            $hub->publish($update);
+//            $hub->publish($update);
             $entityManager->persist($user);
             $entityManager->flush();
 
