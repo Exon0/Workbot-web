@@ -3,13 +3,13 @@
 
 
 {% block body %}
-<tr>
 
 
-  <td><a{{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}</a></td>>
 
-  <td><a href="{{ path('app_sponsor_index') }}"><input type="submit" value="Back" class="btn btn-primary"></a></td>>
+  <a{{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}</a>
 
-  <td><a{{ include('sponsor/_delete_form.html.twig') }}</a></td>
-</tr>
+  <a href="{{ path('app_sponsor_index') }}"><input type="submit" value="Back" class="btn btn-outline-success"></a>
+
+
+
 {% endblock %}

@@ -44,7 +44,7 @@ class EvennementRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-          SELECT * FROM evennement e WHERE id NOT IN(select id_event from participation p WHERE nbPlaces>0 and p.id_event=e.id and p.id_userP=:iduser)';
+          SELECT * FROM evennement e WHERE id NOT IN(select id_event from participation p WHERE p.id_event=e.id and p.id_userP=:iduser) and nbPlaces>0';
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery([ 'iduser'=>$iduser]);
 

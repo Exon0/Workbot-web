@@ -53,7 +53,7 @@ class EvennementController extends AbstractController
     }
 
     #[Route('/new', name: 'app_evennement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EvennementRepository $evennementRepository, UtilisateurRepository $userrepo, /*MailerInterface $smail*/SluggerInterface $slugger): Response
+    public function new(Request $request, EvennementRepository $evennementRepository, UtilisateurRepository $userrepo, MailerInterface $smail,SluggerInterface $slugger): Response
     {
         $evennement = new Evennement();
         $form = $this->createForm(EvennementType::class, $evennement);
@@ -67,12 +67,12 @@ class EvennementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //$email = (new Email())->from('houssem.bribech@esprit.tn')
-                //->to('houssembrib98@gmail.com')
-                //->subject('JOB.TN.com')
-                //->text('Votre évènement a étè crée avec succés');
+            $email = (new Email())->from('houssem.bribech@esprit.tn')
+                ->to('houssembrib98@gmail.com')
+                ->subject('JOB.TN.com')
+                ->text('Votre évènement a étè crée avec succés');
 
-           // $smail->send($email);
+           $smail->send($email);
             $flyerphot = $form->get('flyer')->getData();
             $video = $form->get('video')->getData();
 
@@ -146,7 +146,7 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
     }
 
     #[Route('/{id}/paticiper', name: 'participer', methods: ['GET'])]
-    public function participer (Evennement $evennement,EvennementRepository $evennementRepository,ParticipationRepository $partv,UtilisateurRepository $userrepo,$id,MailerInterface $smail): Response
+    public function participer (Evennement $evennement,EvennementRepository $evennementRepository,ParticipationRepository $partv,UtilisateurRepository $userrepo,$id,/*MailerInterface $smail*/): Response
     {
 
         $session = new Session();
@@ -156,11 +156,11 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
         $partv->particip($id,$iduser);
         $evennementRepository->nbplaceupdate($id);
         $evennements22 = $evennementRepository->participin($iduser);
-        $email=(new Email())->from('houssem.bribech@esprit.tn')
-            ->to('houssembrib98@gmail.com')
-            ->subject('JOB.TN.com')
-            ->text('Votre participation a effectué avec succés');
-             $smail->send($email);
+       // $email=(new Email())->from('houssem.bribech@esprit.tn')
+            //->to('houssembrib98@gmail.com')
+            //->subject('JOB.TN.com')
+            //->text('Votre participation a effectué avec succés');
+             //$smail->send($email);
         //var_dump($par);
 
 
@@ -184,13 +184,55 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
 }
 
     #[Route('/{id}/edit', name: 'app_evennement_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Evennement $evennement, EvennementRepository $evennementRepository): Response
+    public function edit(Request $request, Evennement $evennement, EvennementRepository $evennementRepository,SluggerInterface $slugger): Response
     {
         $form = $this->createForm(EvennementType::class, $evennement);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() ) {
+            $flyerphot = $form->get('flyer')->getData();
+            $video = $form->get('video')->getData();
+
+            if ($flyerphot) {
+                $originalFilename = pathinfo($flyerphot->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $flyerphot->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $flyerphot->move(
+                        $this->getParameter('flyer_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $evennement->setFlyer($newFilename);
+
+
+            }
+            if ($video) {
+                $originalFilename = pathinfo($video->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $video->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $video->move(
+                        $this->getParameter('video_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $evennement->setVideo($newFilename);
+
+
+            }
             $evennementRepository->save($evennement, true);
+
 
             return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
         }
