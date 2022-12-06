@@ -2,10 +2,24 @@
 
 {% block title %}{{ cour.titre }}{% endblock %}
 
+{% block pagetitle %}
+    <div class="pagetitle">
+        <h1>Cours</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a>Accueil</a></li>
+                <li class="breadcrumb-item active">Cours</li>
+                <li class="breadcrumb-item active">Afficher</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+{% endblock%}
+
+
 {% block body %}
 <div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 100px;">
 
-<div class="col-lg-5">
+<div class="col-lg-7">
         <div class="card info-card sales-card">
 
 
@@ -14,7 +28,7 @@
 
                 <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <img class="pt-1" src="{{asset('assets/img/cours/'~cour.titre~'.png')}}">
+                        <img class="pt-1" src="{{asset('assets/img/cours/htmlcours/'~cour.titre~'.png')}}">
 
                     </div>
                     <div class="ps-3">

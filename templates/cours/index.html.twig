@@ -13,7 +13,6 @@
 {% endblock%}
 
 {% block body %}
-
     <section class="section dashboard">
         <div class="row">
 
@@ -94,117 +93,116 @@
 
 
 
-<div class="card">
-      <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
 
-            <h5 class="card-title">Cours <span>|Tout</span></h5>
-                <HR>
-            <table id="myTable" class="table datatable" >
-            <thead>
-            <tr>
-                <th scope="col" style="width: 10%;">Titre</th>
-                <th scope="col" style="width: 10%;">Domaine</th>
-                <th scope="col" style="width: 10%;">Chemin</th>
-                <th scope="col" style="width: 10%;">actions</th>
-            </tr>
-            <HR>
-            </thead>
-                <tbody>
-            {% for cour in cours %}
+                        <h5 class="card-title">Cours <span>|Tout</span></h5>
+                        <HR>
+                        <table id="myTable" class="table datatable" >
+                            <thead>
+                            <tr>
+                                <th scope="col" style="width: 10%;">Titre</th>
+                                <th scope="col" style="width: 10%;">Domaine</th>
+                                <th scope="col" style="width: 10%;">Chemin</th>
+                                <th scope="col" style="width: 10%;">actions</th>
+                            </tr>
+                            <HR>
+                            </thead>
+                            <tbody>
+                            {% for cour in cours %}
 
-                <tr>
-                    <th><a src={{ cour.chemin }}>{{ cour.titre }}</a></th>
-                    <td >{{ cour.domaine }}</td>
-                    <td ><span class="badge bg-success" >{{ cour.chemin }}</span></td>
-                    <td>
+                                <tr>
+                                    <th><a src={{ cour.chemin }}>{{ cour.titre }}</a></th>
+                                    <td >{{ cour.domaine }}</td>
+                                    <td ><span class="badge bg-success" >{{ cour.chemin }}</span></td>
+                                    <td>
 
-                        <a href="{{ path('app_cours_show', {'id': cour.id}) }}" style="font-size: small"><i class="ri-error-warning-line" ></i>Info </a>
+                                        <a href="{{ path('app_cours_show', {'id': cour.id}) }}" style="font-size: small"><i class="ri-error-warning-line" ></i>Info </a>
 
-                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" style="margin-left:1px;font-size: small"><i class="bx bxs-edit-alt"></i>Modif</a>
-                    </td>
-                </tr>
+                                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" style="margin-left:1px;font-size: small"><i class="bx bxs-edit-alt"></i>Modif</a>
+                                    </td>
+                                </tr>
 
-            {% endfor %}
-                </tbody>
-        </table>
-                <HR>
-                <HR>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <HR>
+                        <HR>
 
-                <a href="{{ path('app_cours_new') }}"><i class="ri-add-circle-line" style="size: 30px"></i>Ajouter un cours</a>
-                <HR>
-                <HR>
-                <a href="{{ path('pdf_cours') }}" class="btn btn-info">Telecharger PDF</a>
-      </div>
-</div>
-</div>
+                        <a href="{{ path('app_cours_new') }}"><i class="ri-add-circle-line" style="size: 30px"></i>Ajouter un cours</a>
+                        <HR>
+                        <HR>
+                        <a href="{{ path('pdf_cours') }}" class="btn btn-info">Telecharger PDF</a>
+                    </div>
+                </div>
+            </div>
 
 
-    <script>
-        $(document).ready(function(){
-            $('#myTable').dataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/fr-FR.json"
-                }
-            })
-        });
-    </script>
-        <div class="col-lg-4">
-        <div class="card">
+            <script>
+                $(document).ready(function(){
+                    $('#myTable').dataTable({
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/fr-FR.json"
+                        }
+                    })
+                });
+            </script>
+            <div class="col-lg-4">
+                <div class="card">
 
-            <div class="card-body pb-0">
-                <h5 class="card-title">Cours Statistique <span>| Domaine</span></h5>
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">Cours Statistique <span>| Domaine</span></h5>
 
-                <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+                        <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
-                <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                        echarts.init(document.querySelector("#trafficChart")).setOption({
-                            tooltip: {
-                                trigger: 'item'
-                            },
-                            legend: {
-                                top: '5%',
-                                left: 'center'
-                            },
-                            series: [{
-                                name: 'Domaine du cours',
-                                type: 'pie',
-                                radius: ['40%', '70%'],
-                                avoidLabelOverlap: false,
-                                label: {
-                                    show: false,
-                                    position: 'center'
-                                },
-                                emphasis: {
-                                    label: {
-                                        show: true,
-                                        fontSize: '18',
-                                        fontWeight: 'bold'
-                                    }
-                                },
-                                labelLine: {
-                                    show: false
-                                },
-                                data: [
-                                    {% for s in stat %}
-                                    {
-
-                                        value: {{ s.nb }},
-                                        name: '{{ s.domaine }}'
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                echarts.init(document.querySelector("#trafficChart")).setOption({
+                                    tooltip: {
+                                        trigger: 'item'
                                     },
-                                    {% endfor %}
-                                ]
-                            }]
-                        });
-                    });
-                </script>
+                                    legend: {
+                                        top: '5%',
+                                        left: 'center'
+                                    },
+                                    series: [{
+                                        name: 'Domaine du cours',
+                                        type: 'pie',
+                                        radius: ['40%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: {
+                                            show: false,
+                                            position: 'center'
+                                        },
+                                        emphasis: {
+                                            label: {
+                                                show: true,
+                                                fontSize: '18',
+                                                fontWeight: 'bold'
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: false
+                                        },
+                                        data: [
+                                            {% for s in stat %}
+                                            {
+                                                value: {{ s.nb }},
+                                                name: '{{ s.domaine }}'
+                                            },
+                                            {% endfor %}
+                                        ]
+                                    }]
+                                });
+                            });
+                        </script>
+
+                    </div>
+                </div>
+
+                <!-- End Website Traffic -->
 
             </div>
         </div>
-
-    <!-- End Website Traffic -->
-
-</div>
-</div>
-</section>
+    </section>
 {% endblock %}

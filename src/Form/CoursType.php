@@ -31,13 +31,28 @@ class CoursType extends AbstractType
             ->add('categorie', ChoiceType::class, array(
                     'choices' => array(
                     'Appliquée' => 'Appliquée',
-                    'Fondamontale' => 'Fondamontale',
+                    'Fondamontale' => 'Fondamentale',
                 ),
             ))
-            ->add('chemin',FileType::class, [
-                'label' => false,
-                'mapped' => false, // Tell that there is no Entity to link
-                'required' => true,])
+            ->add('chemin',FileType::class,[
+                'label' => 'adset html (Des fichiers html uniquement)',
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '3000000k',
+                        'mimeTypes' => [
+                            'text/html',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid html',
+                    ])
+                ],
+            ])
             ->add('Valider',SubmitType::class);
 
     }

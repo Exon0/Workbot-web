@@ -1,26 +1,29 @@
 {% extends 'utilisateur/client/base.html.twig' %}
 {% block info %}
+
     <section class="apply-process section" style="margin-top: 100px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-12" style="border-color: #1a2e3b;border-width: 5px">
                     <div class="process-item">
-                        <img width="70" height="70" src="{{asset('assets/img/cours.png')}}">
-                        <h4>Consulter Les Cours</h4>
+                        <img width="70" height="70" src="{{asset('assets/img/cours/cours.png')}}">
+                        <br>
+                        <a href="/cours/u"><h4>Consulter Les Cours</h4></a>
                         <p>Consulter nos Cours pour acquérir des nouvelles compétences.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="process-item">
-                        <img width="70" height="70" src="{{asset('assets/img/certificate1.png')}}">
-                        <h4>Passer Un Test De Certification</h4>
+                        <img width="70" height="70" src="{{asset('assets/img/cours/certificate1.png')}}">
+                        <br>
+                        <a href="/certification/u/4"><h4>Passer Un Test De Certification</h4></a>
                         <p>Passer un test de certifications en ligne qui vont booster votre CV.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="process-item">
-                        <img width="70" height="70" src="{{asset('assets/img/badge.png')}}">
-                        <h4>Avoir Un Badge</h4>
+                        <img width="70" height="70" src="{{asset('assets/img/cours/badge.png')}}">
+                        <a href="/badge"><h4>Avoir Un Badge</h4></a>
                         <p>Obtenir un badge « Compétence vérifiée » pour démontrer la maîtrise de certaines compétences affichées sur votre profil.</p>
                     </div>
                 </div>

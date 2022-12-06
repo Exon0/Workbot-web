@@ -76,7 +76,7 @@
         </div>
         {{ form_end(form) }}<!-- End General Form Elements -->
         <br>
-        <audio id="audio" src="{{asset('assets/mp3/monmp3.mp3') }}" >
+        <audio id="audio" src="{{asset('assets/mp3/monmp3.mp3') }}" ></audio>
     </div>
     </div>
     </div>
@@ -89,7 +89,7 @@
 
     <script>
     $(document).ready(function() {
-        var secondes = 13;
+        var secondes = 30;
         var v=0;
         var au=document.getElementById("audio");
         Start();
@@ -98,22 +98,21 @@
             secondes -= 1;
 
             if (secondes < 0) {
-                 $("#path").html('<meta http-equiv = "refresh" content = "1; url = http://127.0.0.1:8000/certification/u/e" />');
+                 $("#path").html('<meta http-equiv = "refresh" content = "0; url = http://127.0.0.1:8000/certification/u/1" />');
                 secondes = 10;
                 v=1;
             }
 
             if(v!==1) {
                 if (secondes < 11) {
-                    au.play();
+
                     $("#timer").html('<a style="color: #CB2027;">Temps Restant : ' + secondes + '</a');
-                    $("#timer1").html('<h4 style="color: #6a1a21;">'+secondes+'</h4>');
+                    au.play();
                 } else {
                     $("#timer").html('Temps Restant : ' + secondes);
-                    $("#timer1").html('<h4>'+secondes+'</h4>');
                 }
             }
-
+            $("#timer1").html('<h4 style="color: #FFFFFF">'+secondes+'</h4>');
 
         }
 

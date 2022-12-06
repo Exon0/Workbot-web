@@ -11,14 +11,11 @@ use App\Repository\QuizRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-
-
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/cours')]
@@ -76,21 +73,38 @@ class CoursController extends AbstractController
         exit;
     }
 
+    #[Route('/contacter',name:'contacter_cours', methods: ['GET', 'POST'])]
+    public function contacter(): Response
+    {
+        return $this->renderForm('cours/contacte.html.twig', []);
+    }
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CoursRepository $coursRepository): Response
+    public function new(Request $request, CoursRepository $coursRepository,SluggerInterface $slugger): Response
     {
         $cour = new Cours();
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null)
         {
+            $lien = $form->get('chemin')->getData();
+            if ($lien) {
+                $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
 
-            $brochureFile = $form->get('chemin')->getData();
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $path ="C:/htmlcours/" . $originalFilename . '.html';
-                $cour->setChemin($path);
+                // Move the file to the directory where brochures are stored
+                try {
+                    $lien->move(
+                        $this->getParameter('chem_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $cour->setChemin($newFilename);
+
             }
             var_dump($cour);
             $coursRepository->save($cour, true);
@@ -111,18 +125,31 @@ class CoursController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cours_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cours $cour, CoursRepository $coursRepository): Response
+    public function edit(Request $request, Cours $cour, CoursRepository $coursRepository,SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null) {
 
-            $brochureFile = $form->get('chemin')->getData();
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $path ="C:/htmlcours/" . $originalFilename . '.html';
-                $cour->setChemin($path);
+            $lien = $form->get('chemin')->getData();
+            if ($lien) {
+                $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $lien->move(
+                        $this->getParameter('chem_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $cour->setChemin($newFilename);
+
             }
             $coursRepository->save($cour, true);
 
@@ -144,6 +171,8 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 
 
 

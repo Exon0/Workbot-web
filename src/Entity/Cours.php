@@ -38,6 +38,7 @@ class Cours
     #[ORM\Column(name: 'categorie', type: 'string', length: 30, nullable: false)]
     private string $categorie;
 
+    #[Assert\Text]
     #[ORM\Column(name: 'chemin', type: 'string', length: 200, nullable: false)]
     private string $chemin;
 

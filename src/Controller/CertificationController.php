@@ -11,11 +11,13 @@ use App\Repository\QuizRepository;
 use App\Repository\UtilisateurRepository;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/certification')]
@@ -42,24 +44,29 @@ class CertificationController extends AbstractController
         ]);
     }
 
-    #[Route('/u', name: 'app_certification_indexu', methods: ['GET'])]
-    public function indexu(CertificationRepository $certificationRepository,FlashyNotifier $flashy): Response
+    #[Route('/u/{r}', name: 'app_certification_indexu', methods: ['GET'])]
+    public function indexu(CertificationRepository $certificationRepository,FlashyNotifier $flashy,$r): Response
     {
+        if($r==1)
+        {
+            $flashy->mutedDark('Le temps est révolu !, Bonne chance la prochaine fois. ');
+        }
+        else if($r==2)
+        {
+            $flashy->success('Félicitations vous allez recevoir un E-Mail de certification !');
+        }
+        else if($r==3)
+        {
+            $flashy->error('Votre essai est faux, Bonne chance la prochaine fois.');
+        }
+
         $session = new Session();
         var_dump(null);
         return $this->render('certification/indexU.html.twig', [
-            'certif' => $certificationRepository->cert_aff($session->getId()),
+            'certif' => $certificationRepository->cert_aff(8),
         ]);
     }
-    #[Route('/u/e', name: 'app_certification_errortest', methods: ['GET'])]
-    public function indexueror(CertificationRepository $certificationRepository,FlashyNotifier $flashy): Response
-    {   $flashy->mutedDark('Le temps est révolu !! Bonne chance la prochaine fois. ');
-        $session = new Session();
-        var_dump(null);
-        return $this->render('certification/indexU.html.twig', [
-            'certif' => $certificationRepository->cert_aff($session->getId()),
-        ]);
-    }
+
 
     #[Route("/searchCertification ", name:"searchcertif")]
     public function searchCertification(Request $request,NormalizerInterface $Normalizer,CertificationRepository $repository)
@@ -85,13 +92,33 @@ class CertificationController extends AbstractController
 
 
     #[Route('/new', name: 'app_certification_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CertificationRepository $certificationRepository): Response
+    public function new(Request $request, CertificationRepository $certificationRepository,SluggerInterface $slugger): Response
     {
         $certification = new Certification();
         $form = $this->createForm(CertificationType::class, $certification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $lien = $form->get('lien')->getData();
+            if ($lien) {
+                $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $lien->move(
+                        $this->getParameter('cert_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $certification->setLien($newFilename);
+
+
+            }
             $time = new \DateTime();
             $t=$time->format('Y/m/d');
             var_dump($t);
@@ -109,12 +136,32 @@ class CertificationController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'app_certification_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Certification $certification, CertificationRepository $certificationRepository): Response
+    public function edit(Request $request, Certification $certification, CertificationRepository $certificationRepository,SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CertificationType::class, $certification);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $lien = $form->get('lien')->getData();
+            if ($lien) {
+                $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $lien->move(
+                        $this->getParameter('cert_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $certification->setLien($newFilename);
+
+
+            }
             $time = new \DateTime();
             $t=$time->format('Y/m/d');
             $certification->setDateajout($t);

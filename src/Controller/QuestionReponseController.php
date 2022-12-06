@@ -142,17 +142,15 @@ class QuestionReponseController extends AbstractController
                 $allB = $br->findAll();
                 $r = $allB[count($allB) - 1];
                 $cb = new CertifBadge();
-                $u = $ur->find($session->getId());
+                $u = $ur->find(8);
                 $cb->setIdCertif($certification);
                 $cb->setIdBadge($r);
                 $cb->setIdUser($u);
                 $cbr->save($cb, true);
 
-                $session = new Session();
-
 
                 #sms commented 3al flous :p /////////---------TWILIO--------/////////////
-                #$stc->NotifCertif($texter);
+
 
                 #el mail bil sessionMANAGER
                 $email = (new Email())->from('jardak.nader@esprit.tn')
@@ -231,25 +229,18 @@ class QuestionReponseController extends AbstractController
 </html>');
 
                 $sm->send($email);
-                echo "<script>alert(\"Felicitaion vouz recevrais Votre Certification par Mail  :\")</script>";
+
+                //$stc->NotifCertif($texter);
+                return $this->redirectToRoute('app_certification_indexu', ['r'=>2]);
             }
             else {
-                echo "<script>alert(\"Desole !!  Votre Note est >10 :\")</script>";
-            }
+                return $this->redirectToRoute('app_certification_indexu', ['r'=>3]);            }
 
-            $this->red();
         }
-
-
 
         return $this->render('quiz/quiz_test.html.twig', [
             'form'=>$form->createView(),
         ]);
-    }
-
-    public function red()
-    {
-        return $this->redirectToRoute("app_certification_indexu");
     }
 
 

@@ -33,7 +33,7 @@ class Certification
     #[ORM\Column(name: 'dateAjout', type: 'string', length: 50, nullable: false)]
     private string $dateajout;
 
-    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
+    #[Assert\Image]
     #[ORM\Column(name: 'lien', type: 'string', length: 200, nullable: false)]
     private string $lien;
 
