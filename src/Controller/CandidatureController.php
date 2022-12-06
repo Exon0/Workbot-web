@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/candidature')]
 class CandidatureController extends AbstractController
 {
-
+//fonction affiche liste tt canditure admin
     #[Route('/admin/candidat/', name: 'app_candidature_dashboard', methods: ['GET'])]
     public function dashboardcandidat(CandidatureRepository $candidatureRepository): Response
     {
@@ -28,7 +28,7 @@ class CandidatureController extends AbstractController
             'nonAcceptees' => $candidatureRepository->findBy(["statut" => 'refusée'])
         ]);
     }
-
+//fonction affiche liste condidature client
     #[Route('/', name: 'app_candidature_index', methods: ['GET'])]
     public function index(CandidatureRepository $candidatureRepository): Response
     {
@@ -36,7 +36,7 @@ class CandidatureController extends AbstractController
             'candidatures' => $candidatureRepository->findBy(["idcondidat" => 12]),
         ]);
     }
-
+//fonction creation nv candidature
     #[Route('/new/{id}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
     public function new(Offre $offre, Request $request, CandidatureRepository $candidatureRepository, UtilisateurRepository $utilisateurRepository): Response
     {
@@ -70,7 +70,6 @@ class CandidatureController extends AbstractController
             'candidature' => $candidature,
         ]);
     }
-
     #[Route('/{id}', name: 'app_candidature_show', methods: ['GET'])]
     public function show(Candidature $candidature): Response
     {
@@ -124,6 +123,7 @@ class CandidatureController extends AbstractController
     #[Route('/getAssistance/{id}', name: 'assistance', methods: ['GET'])]
     public function assistance(int $id, HubInterface $publisher): Response
     {
+        // 2éme etape connexion au chat
         $update = new Update("http://127.0.0.1:8000/assistans", $id);
         $publisher->publish($update);
         return new Response("true", 200);

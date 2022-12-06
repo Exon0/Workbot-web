@@ -120,14 +120,13 @@ function applyFilters() {
     }
     document.getElementById("resetFilters").disabled = true;
     document.getElementById("filterButton").disabled = true;
-    console.log(inputDateDebut.value, inputDateFin.value);
     $.ajax({
         type: "POST",
         url: "http://localhost:8000/contrat/admin/filter",
         data: {candidat: inputCandidat.value, salaire: inputSalaire.value, typeContrat: inputContrat.value, dateDebut: inputDateDebut.value, dateFin:inputDateFin.value},
         success: function (data) {
             changed = true;
-            data = JSON.parse(data);
+            data = JSON.parse(data) ;
             data = data.contrats;
             setData(data);
 

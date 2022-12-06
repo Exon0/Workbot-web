@@ -8,10 +8,15 @@ window.addEventListener('load', function() {
 console.log("mercure connected back office");
 });
 function connectAssitants() {
+
+    //connect to mercure server
     const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
     url.searchParams.append('topic', 'http://127.0.0.1:8000/assistans')
     assistanceSource = new EventSource(url);
+
+    // declencher par la méthode openCloseChat dans reloadNotifications.js
     assistanceSource.addEventListener('message', function(event){
+        //3éme etape connexion au chat
         showNotif(event.data);
     });
 }
@@ -27,6 +32,8 @@ function showNotif(id) {
         url.searchParams.append('topic', 'http://127.0.0.1:8000/chat/'+id)
         adminChatSource = new EventSource(url);
         chatRoomId = id;
+
+        //Listen for messages
         adminChatSource.addEventListener('message', function(event){
             if(event.data != null) {
                 data = JSON.parse(event.data);

@@ -22,13 +22,13 @@ function showAccepted(id) {
     // Add the "show" class to DIV
     x.className = "show";
 
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
 }
 
-function openCloseChat() {
+    function openCloseChat() {
     if (!chatOpen) {
         chatOpen = true;
-        $.get('http://localhost:8000/candidature/getAssistance/'+userId);
+        $.get('http://localhost:8000/candidature/getAssistance/'+userId); // premier etape connexion au chat.
 
         const url = new URL("http://127.0.0.1:3000/.well-known/mercure");
         url.searchParams.append('topic', 'http://127.0.0.1:8000/chat/'+userId)
@@ -45,7 +45,7 @@ function openCloseChat() {
                 } else if(data.sender == -2) {
                     // user left close all.
                     data.message = "Chat terminé par le conseiller";
-                    addMessage(data, -1);
+                    addMessage(data, -2);
                     chatSource.close();
                     chatSource = null;
                 } else {
@@ -71,7 +71,7 @@ function sendUserBykeyboard(event) {
 }
 
 function restartChat() {
-    document.getElementById("texts").innerHTML += "";
+    document.getElementById("texts").innerHTML = "";
     document.getElementById("chatForm").style.opacity = "1";
     document.getElementById("userChatInput").disable = false;
     document.getElementById("userChatButton").disable = false;

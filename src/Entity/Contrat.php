@@ -26,7 +26,6 @@ class Contrat
 
 
     #[ORM\Column(name: 'nomCandidat', type: 'string', length: 255, nullable: true)]
-    #[Assert\NotNull]
     public ?string $nomcondidat = null;
 
     #[ORM\Column(name: 'dateDebut', type: 'date', nullable: true)]

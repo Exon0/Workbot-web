@@ -1,13 +1,17 @@
 var INDEX = 0;
 function addMessage(data, currentId) {
 
-    if (currentId == -1) {
-        document.getElementById("texts").innerHTML += "<div style='font-weight:bolder;width: 100%;display: flex;justify-content: center;margin-top: 10px'>"+data.message+"</div><br><button onclick='restartChat()' style='color: white' class='btn btn infor'>Reconnecter</button>";
+
+    // close chat
+    if (currentId == -2) {
+        document.getElementById("texts").innerHTML += "<div style='font-weight:bolder;width: 100%;display: flex;justify-content: center;margin-top: 10px'>"+data.message+"</div><br><button onclick='restartChat()' style='color: white' class='btn btn-info'>Reconnecter</button>";
         document.getElementById("chatForm").style.opacity = "0";
         document.getElementById("userChatInput").disable = true;
         document.getElementById("userChatButton").disable = true;
         return;
     }
+
+
     // add new text
     let type = "user";
     if(data.sender == currentId) {

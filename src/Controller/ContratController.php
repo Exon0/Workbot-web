@@ -20,6 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
     #[Route('/contrat')]
 class ContratController extends AbstractController
 {
+        function __construct() { header("Access-Control-Allow-Origin: *"); }
+
     #[Route('/', name: 'app_contrat_index', methods: ['GET'])]
     public function index(ContratRepository $contratRepository, CandidatureRepository $candidatureRepository): Response
     {
@@ -72,6 +74,8 @@ class ContratController extends AbstractController
             $candidature->setStatut('acceptée');
             $candidatureRepository->save($candidature, true);
             $contratRepository->save($contrat, true);
+
+            //envoyer notification a l'utilisateur concerner
             $this->callMercure($publisher, $candidature->getIdcondidat()->getId(), $contrat->getId());
             return $this->render('utilisateur/Dashbord/candidature/index.html.twig', [
                 'nonTraitees' => $candidatureRepository->findBy(["statut"=>'non traité']),

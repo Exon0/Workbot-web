@@ -207,10 +207,3 @@ body {
     width: 60%;
 
 }
-.searchInput{
-    width: 80%;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid white;
-    color: white;
-}
