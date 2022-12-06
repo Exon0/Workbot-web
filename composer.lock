@@ -6236,7 +6236,7 @@
             ],
             "time": "2022-11-04T07:37:26+00:00"
         },
-        {
+     /*   {
             "name": "symfony/mercure",
             "version": "v0.6.2",
             "source": {
@@ -6402,7 +6402,7 @@
                 }
             ],
             "time": "2022-06-12T17:10:33+00:00"
-        },
+        },*/
         {
             "name": "symfony/messenger",
             "version": "v5.4.16",
