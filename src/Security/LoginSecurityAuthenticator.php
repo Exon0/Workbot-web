@@ -5,6 +5,7 @@ namespace App\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Security;
@@ -52,6 +53,7 @@ class LoginSecurityAuthenticator extends AbstractLoginFormAuthenticator
         }
         $user=$token->getUser();
         if(in_array('ROLE_s',$user->getRoles(),true)){
+
             return new RedirectResponse($this->urlGenerator->generate('app_offre_index'));
         }
         else if(in_array('ROLE_c',$user->getRoles(),true)){

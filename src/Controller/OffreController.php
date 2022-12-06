@@ -12,7 +12,6 @@ use App\Repository\OffreRepository;
 use App\Repository\TestRepository;
 use App\Repository\UtilisateurRepository;
 use App\Service\mailerService;
-use DoctrineExtensions\Query\Mysql\MonthName;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,9 +29,11 @@ class OffreController extends AbstractController
 
 
     #[Route('/', name: 'app_offre_index', methods: ['GET'])]
-    public function index(OffreRepository $offreRepository): Response
+    public function index(UtilisateurRepository $utilisateurRepository, OffreRepository $offreRepository): Response
     {
-        $offres = $offreRepository->findBy(['idSoc' => '8']);
+
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $offres = $offreRepository->findBy(['idSoc' => $user->getId()]);
         foreach ($offres as $o) {
             $o->setNbCandidature($offreRepository->findByIdAndCountCand($o->getId()));
         }
@@ -69,6 +70,8 @@ class OffreController extends AbstractController
                         UtilisateurRepository $repository, TestRepository $repositorytest,
                         mailerService $mailer): Response
     {
+        $user = $repository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
         if ($type === 'Stage') {
 
 
@@ -81,7 +84,7 @@ class OffreController extends AbstractController
 
 
                 //get user
-                $soc = $repository->find(8);
+                $soc = $repository->find($user->getId());
                 $offre->setIdSoc($soc);
 
                 //get request values
@@ -99,7 +102,7 @@ class OffreController extends AbstractController
                 $offre->setDomaine('Info');
                 $offre->setTypeoffre('Stage');
                 $offre->setDateajout(date('Y-m-d'));
-                foreach ($offreRepository->findBy(['idSoc' => '8']) as $unique) {
+                foreach ($offreRepository->findBy(['idSoc' => $user->getId()]) as $unique) {
                     if ($unique->getTitre() === $offre->getTitre() &&
                         $unique->getTypeoffre() === $offre->getTypeoffre() &&
                         $unique->getDateexpiration() === $offre->getDateexpiration()) {
@@ -193,7 +196,7 @@ class OffreController extends AbstractController
 
                 */
                 //get user
-                $soc = $repository->find(8);
+                $soc = $repository->find($user->getId());
                 $offre->setIdSoc($soc);
 
                 //get request values
@@ -211,7 +214,7 @@ class OffreController extends AbstractController
                 $offre->setDomaine('Info');
                 $offre->setTypeoffre('Emploi');
                 $offre->setDateajout(date('Y-m-d'));
-                foreach ($offreRepository->findBy(['idSoc' => '8']) as $unique) {
+                foreach ($offreRepository->findBy(['idSoc' => $user->getId()]) as $unique) {
                     if ($unique->getTitre() === $offre->getTitre() && $unique->getTypeoffre() === $offre->getTypeoffre() && $unique->getDateexpiration() === $offre->getDateexpiration()) {
                         if ($test ?? null) {
                             $repositorytest->remove($test);
@@ -260,7 +263,7 @@ class OffreController extends AbstractController
 
             if ($form1->isSubmitted() && $form1->isValid()) {
                 //get user
-                $soc = $repository->find(8);
+                $soc = $repository->find($user->getId());
                 $offre->setIdSoc($soc);
 
                 //get request values
@@ -281,7 +284,7 @@ class OffreController extends AbstractController
                 $offre->setDomaine('Info');
                 $offre->setTypeoffre('Freelancer');
                 $offre->setDateajout(date('Y-m-d'));
-                foreach ($offreRepository->findBy(['idSoc' => '8']) as $unique) {
+                foreach ($offreRepository->findBy(['idSoc' => $user->getId()]) as $unique) {
                     if ($unique->getTitre() === $offre->getTitre() && $unique->getTypeoffre() === $offre->getTypeoffre() && $unique->getDateexpiration() === $offre->getDateexpiration()) {
                         if ($test ?? null) {
                             $repositorytest->remove($test);
@@ -471,9 +474,11 @@ class OffreController extends AbstractController
     #[Route('/offresearch/{type}', name: 'app_offre_typeOffreSearch')]
     public function typeOffreTri($type, NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
     {
+        $user = $repository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
         // $requeststring=$request->get('search2');
         if ($type === 'All') {
-            $offres = $repository->findBy(['idSoc' => 8]);
+            $offres = $repository->findBy(['idSoc' => $user->getId()]);
             foreach ($offres as $o) {
                 $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
             }
@@ -484,7 +489,7 @@ class OffreController extends AbstractController
         }
 
 
-        $offres = $repository->findBy(['idSoc' => 8, 'typeoffre' => $type]);
+        $offres = $repository->findBy(['idSoc' => $user->getId(), 'typeoffre' => $type]);
         foreach ($offres as $o) {
             $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
         }
@@ -497,13 +502,14 @@ class OffreController extends AbstractController
 
     //Admin
     #[Route('/admin', name: 'app_utilisateur_ilyes')]
-    public function ilyes(OffreRepository $offreRepository,CandidatureRepository $candidatureRepository): Response
-    {   $nb=$offreRepository->findNBoffresAdmin();
-        $u=$offreRepository->findAll();
-        $offreBydate=$offreRepository->findOffreByDate();
-        $cands=count($candidatureRepository->findAll());
-        $lastmonth=count($offreRepository->findOffreOfLastMonth());
-        $lastweek=count($offreRepository->findOffreLastWeek());
+    public function ilyes(OffreRepository $offreRepository, CandidatureRepository $candidatureRepository): Response
+    {
+        $nb = $offreRepository->findNBoffresAdmin();
+        $u = $offreRepository->findAll();
+        $offreBydate = $offreRepository->findOffreByDate();
+        $cands = count($candidatureRepository->findAll());
+        $lastmonth = count($offreRepository->findOffreOfLastMonth());
+        $lastweek = count($offreRepository->findOffreLastWeek());
         //conditions a verifier
 //            if($lastweek == 0){
 //                $pourcentageMois=null;
@@ -513,38 +519,38 @@ class OffreController extends AbstractController
 //                $pourcentageWeek=null;
 //            }
 
-        if($lastmonth >0){
-            $pourcentageMois=((count($offreRepository->findOffreByMonth())/$lastmonth)-1)*100;
-        }else{
-            $pourcentageMois=0;
+        if ($lastmonth > 0) {
+            $pourcentageMois = ((count($offreRepository->findOffreByMonth()) / $lastmonth) - 1) * 100;
+        } else {
+            $pourcentageMois = 0;
         }
-        if($lastweek >0){
-            $pourcentageWeek=((count($offreRepository->findOffreByWeek())/$lastweek)-1)*100;
+        if ($lastweek > 0) {
+            $pourcentageWeek = ((count($offreRepository->findOffreByWeek()) / $lastweek) - 1) * 100;
 
-        }else{
-            $pourcentageWeek=0;
+        } else {
+            $pourcentageWeek = 0;
         }
-        $stageTab='';
+        $stageTab = '';
         //type Stage
-        $i =1;
-        while ($i<13){
-            $stageTab .=  count($offreRepository->findOffreByMonthDiff($i, 'Stage')).', ' ;
+        $i = 1;
+        while ($i < 13) {
+            $stageTab .= count($offreRepository->findOffreByMonthDiff($i, 'Stage')) . ', ';
             $i++;
 
         }
         //type freelancer
-        $FreelancerTab='';
-        $j =1;
-        while ($j<13){
-            $FreelancerTab .=  count($offreRepository->findOffreByMonthDiff($j, 'Freelancer')).', ' ;
+        $FreelancerTab = '';
+        $j = 1;
+        while ($j < 13) {
+            $FreelancerTab .= count($offreRepository->findOffreByMonthDiff($j, 'Freelancer')) . ', ';
             $j++;
 
         }
         //type Emploi
-        $EmploiTab='';
-        $k =1;
-        while ($k<13){
-            $EmploiTab .=  count($offreRepository->findOffreByMonthDiff($k, 'Emploi')).', ' ;
+        $EmploiTab = '';
+        $k = 1;
+        while ($k < 13) {
+            $EmploiTab .= count($offreRepository->findOffreByMonthDiff($k, 'Emploi')) . ', ';
             $k++;
 
         }
@@ -553,18 +559,18 @@ class OffreController extends AbstractController
 
         return $this->render('offre/templateAdmin.html.twig', [
             'offres' => $u,
-            'offreTri'=>$offreBydate,
-            'nb'=>$nb,
-            'week'=>count($offreRepository->findOffreByWeek()),
-            'month'=>count($offreRepository->findOffreByMonth()),
+            'offreTri' => $offreBydate,
+            'nb' => $nb,
+            'week' => count($offreRepository->findOffreByWeek()),
+            'month' => count($offreRepository->findOffreByMonth()),
             'Pmonth' => $pourcentageMois,
-            'Pweek'=>$pourcentageWeek,
-            'Yoffre'=>count($offreRepository->findOffreByYear()),
-            'Mothname'=>count($offreRepository->findOffreByMonthDiff(12,'Stage')),
-            'stage'=>$stageTab,
-            'freelancer'=>$FreelancerTab,
-            'emploi'=>$EmploiTab,
-            'cands'=>$cands
+            'Pweek' => $pourcentageWeek,
+            'Yoffre' => count($offreRepository->findOffreByYear()),
+            'Mothname' => count($offreRepository->findOffreByMonthDiff(12, 'Stage')),
+            'stage' => $stageTab,
+            'freelancer' => $FreelancerTab,
+            'emploi' => $EmploiTab,
+            'cands' => $cands
 
 
         ]);

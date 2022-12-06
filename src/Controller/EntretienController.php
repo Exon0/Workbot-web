@@ -28,8 +28,9 @@ class EntretienController extends AbstractController
     public function index(EntretienRepository $entretienRepository, OffreRepository $offreRepository, UtilisateurRepository $utilisateurRepository): Response
     {
 
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
-        $events = $entretienRepository->findBy(['iduser' => 8]);
+        $events = $entretienRepository->findBy(['iduser' => $user->getId()]);
 
         $rdvs = [];
 
@@ -59,8 +60,10 @@ class EntretienController extends AbstractController
     public function index1(EntretienRepository $entretienRepository, OffreRepository $offreRepository, UtilisateurRepository $utilisateurRepository): Response
     {
 
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
-        $events = $entretienRepository->findBy(['iduser' => 8,
+
+        $events = $entretienRepository->findBy(['iduser' =>  $user->getId(),
             'date' => date('Y-m-d')]);
 
         $rdvs = [];
@@ -90,6 +93,7 @@ class EntretienController extends AbstractController
     #[Route('/new/{id}', name: 'app_entretien_new', methods: ['GET', 'POST'])]
     public function new(CandidatureRepository $candidatureRepository, UtilisateurRepository $utilisateurRepository, Candidature $idCandidature, Request $request, EntretienRepository $entretienRepository): Response
     {
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
         $entretien = new Entretien();
         $form = $this->createForm(EntretienType::class, $entretien);
@@ -129,7 +133,7 @@ class EntretienController extends AbstractController
                 ]);
             }
             $entretien->setIdCandidature($idCandidature);
-            $entretien->setIduser($utilisateurRepository->find(8));
+            $entretien->setIduser($utilisateurRepository->find($user->getId()));
 
             //create QR-code with meet link
             $result = Builder::create()
@@ -232,8 +236,9 @@ class EntretienController extends AbstractController
     #[Route('/calendrier/ent', name: 'app_entretien_cal')]
     public function index2(UtilisateurRepository $utilisateurRepository, EntretienRepository $entretienRepository, CandidatureRepository $candidatureRepository): Response
     {
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
-        $events = $entretienRepository->findBy(['iduser' => 8]);
+        $events = $entretienRepository->findBy(['iduser' => $user->getId()]);
         $rdvs = [];
 
         foreach ($events as $event) {
@@ -242,8 +247,8 @@ class EntretienController extends AbstractController
                 'start' => $event->getDate() . ' ' . $event->getHeure(),
                 'end' => $event->getDate() . ' ' . $event->getHeureFin(),
                 'title' => $event->getTitreNom(),
-                'nb' => count($entretienRepository->findBy(['iduser' => 8])) . ' ',
-                'nb2' => count($entretienRepository->findBy(['iduser' => 8,
+                'nb' => count($entretienRepository->findBy(['iduser' => $user->getId()])) . ' ',
+                'nb2' => count($entretienRepository->findBy(['iduser' =>$user->getId(),
                         'date' => date('Y-m-d')])) . ' '
 
 
@@ -291,10 +296,11 @@ class EntretienController extends AbstractController
     }
 
     #[Route('/calcul/ents', name: 'app_entretien_count')]
-    public function countE(EntretienRepository $entretienRepository)
-    {
+    public function countE(UtilisateurRepository $utilisateurRepository,EntretienRepository $entretienRepository)
+    {        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
-        return count($entretienRepository->findBy(['iduser' => 8]));
+
+        return count($entretienRepository->findBy(['iduser' => $user->getId()]));
 
     }
 
