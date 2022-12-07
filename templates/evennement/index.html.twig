@@ -1,23 +1,30 @@
-{% extends 'utilisateur/client/base.html.twig' %}{% block body %}
-    <br>
-    <br>
-    <br>
+{% extends 'offre/templateoffre.html.twig' %}
+    {% block container %}
+        <br>
+        Vos Evenements
+
+    {% endblock %}
+    {% block postjob %}
+
+    {% endblock %}
+    {% block jobinformation %}
+    {% endblock %}
+    {% block tableau %}
+
     <style>
         .vl {
             border-left: 6px solid green;
             height: 100px;
         }
     </style>
-
-    <a style="margin-top: 150px;margin-left: 230px"href="{{ path('app_evennement_new') }}"><input type="submit" value="Create New" class="btn btn-outline-primary"></a>
     <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
-    <br>
-    <br>
-    <br>
-    <form style="margin-left: 230px" ;class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-        <input type="text" class="form" placeholder="Chercher un évènement" id="search"></form>
+
 
     <section class="find-job job-list section">
+        <a style="margin-left: 230px;" href="{{ path('app_evennement_new') }}"><input type="submit" value="Create New" class="btn btn-primary"></a>
+
+        <form style="margin-left: 230px" ;class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+            <input type="text" class="form-control-sm" placeholder="Chercher un évènement" id="search"></form>
         <div class="container">
             <div class="single-head">
                 <div class="row">
@@ -40,7 +47,7 @@
                             </div>#}
                             <div class="job-content">
                                 <form>
-                                    <h4><a style="font-size: 30px"><b>Votre évènement</b></a></h4>
+                                    <h4><a style="font-size: 30px"><b>{{ ev.libelle }}</b></a></h4>
                                 </form>
                                 <p><b>Start At </b><u style="color: black">{{ ev.datedebut }}</u></p>
                                 <br>

@@ -1,13 +1,15 @@
-{% extends 'utilisateur/client/base.html.twig' %}
+{% extends 'offre/templateoffre.html.twig' %}
+    {% block container %}
+        <br>
+        Ajouter vos sponsors
 
+    {% endblock %}
+    {% block postjob %}
 
-
-
-{% block body %}
-    <br>
-    <br>
-    <br>
-    <br>
+    {% endblock %}
+    {% block jobinformation %}
+    {% endblock %}
+    {% block tableau %}
 
     {{ include('sponsor/_form.html.twig') }}
 

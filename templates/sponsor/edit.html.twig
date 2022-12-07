@@ -1,14 +1,21 @@
-{% extends 'utilisateur/client/base.html.twig' %}
+{% extends 'offre/templateoffre.html.twig' %}
+    {% block container %}
+      <br>
+      Ajouter vos sponsors
+
+    {% endblock %}
+    {% block postjob %}
+
+    {% endblock %}
+    {% block jobinformation %}
+    {% endblock %}
+    {% block tableau %}
 
 
+        <center>
+  <a{{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}></a>
 
-{% block body %}
-
-
-
-  <a{{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}</a>
-
-  <a href="{{ path('app_sponsor_index') }}"><input type="submit" value="Back" class="btn btn-outline-success"></a>
+       <a href="{{ path('app_sponsor_index') }}"><input type="submit" value="Back" class="btn btn-outline-success"></a></center>
 
 
 

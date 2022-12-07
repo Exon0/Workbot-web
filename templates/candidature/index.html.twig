@@ -1,59 +1,3 @@
-{#{% extends 'offre/templateoffre.html.twig' %}#}
-
-{#{% block title %}Candidature index{% endblock %}#}
-
-{#{% block body %}#}
-{#    <h1>Liste des candidatures</h1>#}
-
-{#    <table style="margin:20px;" class="table">#}
-{#        <thead>#}
-{#            <tr>#}
-{#                <th>Titre</th>#}
-{#                <th>Typecondidature</th>#}
-{#                <th>Domaine</th>#}
-{#                <th>Statut</th>#}
-{#                <th>Diplome</th>#}
-{#                <th>Notetest</th>#}
-{#                <th>Niveaufrancais</th>#}
-{#                <th>Niveauanglais</th>#}
-{#                <th>Experience</th>#}
-{#                <th>Lettremotivation</th>#}
-{#                 <th>Cv</th>#}
-{#                <th>Dateexpiration</th>#}
-{#                <th>Dateajout</th>#}
-{#                <th>actions</th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for candidature in candidatures %}#}
-{#            <tr>#}
-{#                <td>{{ candidature.titre }}</td>#}
-{#                <td>{{ candidature.typecondidature }}</td>#}
-{#                <td>{{ candidature.domaine }}</td>#}
-{#                <td>{{ candidature.statut }}</td>#}
-{#                <td>{{ candidature.diplome }}</td>#}
-{#                <td>{{ candidature.notetest }}</td>#}
-{#                <td>{{ candidature.niveaufrancais }}</td>#}
-{#                <td>{{ candidature.niveauanglais }}</td>#}
-{#                <td>{{ candidature.experience }}</td>#}
-{#                <td>{{ candidature.lettremotivation }}</td>#}
-{#                <td>{{ candidature.cv }}</td>#}
-{#                <td>{{ candidature.dateexpiration }}</td>#}
-{#                <td>{{ candidature.dateajout }}</td>#}
-{#                <td>#}
-{#                    <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>#}
-{#                    <a href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">edit</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="15">no records found</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-{#    <a href="{{ path('app_affichageoffre') }}">back to list offres</a>#}
-{#{% endblock %}#}
 
 
 
@@ -179,9 +123,13 @@
                         Business draws on a wide range of different business .</p>
                 </div>
                 <ul class="breadcrumb-nav">
-                    <li><a href="https://157781.cc/index.html">Home</a></li>
-                    <li><a href="https://157781.cc/404.html">Blog</a></li>
-                    <li>Post a Job</li>
+                    <li><a href="{{ path('app_affichageoffre') }}">Offres</a></li>
+                    <li><a href="{{ path('app_candidature_index') }}">Candidatures</a></li>
+                    <li><a href="{{ path('app_evennement_index2') }}">Evénements</a></li>
+                    <li><a href="{{ path('app_contrat_index') }}">Contrats</a></li>
+
+
+
                 </ul>
             </div>
         </div>

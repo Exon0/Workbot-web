@@ -1,9 +1,6 @@
-{% extends 'utilisateur/client/base.html.twig' %}
+{% extends 'candidature/index.html.twig' %}
 {% block body %}
-<br>
-<br>
-<br>
-<br>
+
     <style>
         .vl {
             border-left: 6px solid green;
@@ -90,9 +87,12 @@
                     {% if eventannule|length==0 %}
                         <h1> Il ny'a pas des évènements a afficher</h1>
                     {% endif %}
+                    <br>
+                    <br>
+                </div>
 
 
-                    {% endblock %}
+                {% endblock %}
 {#
 <div class="table-responsive" style="margin-top: 50px">
     <table class="table table-hover" id="tableac">

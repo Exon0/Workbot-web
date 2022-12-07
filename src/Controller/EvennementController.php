@@ -57,8 +57,8 @@ class EvennementController extends AbstractController
         $form = $this->createForm(EvennementType::class, $evennement);
         $form->handleRequest($request);
 
-        $session = new Session();
-        $id = $session->getId();
+        $user = $userrepo->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $id = $user->getId();
         $user = $userrepo->find($id);
         $evennement->setIdUser($user);
 
@@ -145,9 +145,11 @@ class EvennementController extends AbstractController
     #[Route('/{id}/paticiper', name: 'participer', methods: ['GET'])]
     public function participer(Evennement $evennement, EvennementRepository $evennementRepository, ParticipationRepository $partv, UtilisateurRepository $userrepo, $id,/*MailerInterface $smail*/): Response
     {
+        $user = $userrepo->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $iduser = $user->getId();
 
-        $session = new Session();
-        $iduser = $session->getId();
+
+
 
 
         $partv->particip($id, $iduser);

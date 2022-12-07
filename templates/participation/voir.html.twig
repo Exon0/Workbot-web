@@ -1,12 +1,16 @@
-{% extends 'utilisateur/client/base.html.twig' %}
 
+{% extends 'offre/templateoffre.html.twig' %}
+    {% block container %}
+        <br>
+        Vos Participants
 
+    {% endblock %}
+    {% block postjob %}
 
-{% block body %}
-    <br>
-    <br>
-    <br>
-    <br>
+    {% endblock %}
+    {% block jobinformation %}
+    {% endblock %}
+    {% block tableau %}
     <style>
         .vl {
             border-left: 6px solid forestgreen;
@@ -69,7 +73,7 @@
 
 
                         {% if par|length==0 %}
-                            <h1>NO Participates in this event</h1>
+                            <h2>Vous n'avez pas des participants dans cette évènements</h2>
                         {% endif %}
 
 

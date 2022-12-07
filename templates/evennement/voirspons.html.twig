@@ -1,12 +1,16 @@
-{% extends 'utilisateur/client/base.html.twig' %}
 
+{% extends 'offre/templateoffre.html.twig' %}
+    {% block container %}
+        <br>
+        Editer vos évènements
 
+    {% endblock %}
+    {% block postjob %}
 
-{% block body %}
-    <br>
-    <br>
-    <br>
-    <br>
+    {% endblock %}
+    {% block jobinformation %}
+    {% endblock %}
+    {% block tableau %}
     <style>
         .vl {
             border-left: 6px solid forestgreen;
@@ -71,7 +75,7 @@
 
 
                         {% if spons|length==0 %}
-                            <h1>No Sponsors yet Add one</h1>
+                            <h2>Vous n'avez pas des sponsors dans cette évènement</h2>
                         {% endif %}
 
 
