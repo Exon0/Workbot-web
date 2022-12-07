@@ -11,4 +11,3 @@
 },{"./date-170bba30.js":1}]},{},[2])(2)
 });
 
-$("#datatable").DataTable();

@@ -1,4 +1,4 @@
-{% extends 'utilisateur/Dashbord/baseAmeni.html.twig' %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
 
 {% block title %}Listes des contrats{% endblock %}
@@ -59,7 +59,7 @@
                 <td>{{ contrat.datefin ? contrat.datefin|date('Y-m-d') : '' }}</td>
                 <td>{{ contrat.salaire }}</td>
                 <td>{{ contrat.datecreation ? contrat.datecreation|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.idcandidature}} {{ contrat.idcandidature}}</td>
+                <td>{{ contrat.idcandidature.idcondidat.nom}} {{ contrat.idcandidature.idcondidat.prenom}}</td>
                 <td>
                     <a href="{{ path('app_contrat_admin_show', {'id': contrat.id}) }}">show</a>
                 </td>
