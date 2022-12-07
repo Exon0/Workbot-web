@@ -69,7 +69,7 @@ class ContratController extends AbstractController
         $form->handleRequest($request);
         $contrat->setDatecreation(date_create(date('Y-m-d')));
         if ($form->isSubmitted() && $form->isValid()) {
-            $contrat->setIdCandidature($candidature);
+            //$contrat->setIdCandidature($candidature);
             $contrat->setNoncandidat($candidature->getIdcondidat()->getNom()." ".$candidature->getIdcondidat()->getPrenom());
             $candidature->setStatut('acceptée');
             $candidatureRepository->save($candidature, true);

@@ -33,7 +33,7 @@ class CandidatureController extends AbstractController
     public function index(CandidatureRepository $candidatureRepository): Response
     {
         return $this->render('candidature/index.html.twig', [
-            'candidatures' => $candidatureRepository->findBy(["idcondidat" => 12]),
+            'candidatures' => $candidatureRepository->findAll(),
         ]);
     }
 //fonction creation nv candidature
