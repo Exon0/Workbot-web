@@ -20,5 +20,7 @@ return [
     Symfony\Bundle\MercureBundle\MercureBundle::class => ['all' => true],
     PUGX\AutocompleterBundle\PUGXAutocompleterBundle::class => ['all' => true],
     Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
+     MercurySeries\FlashyBundle\MercurySeriesFlashyBundle::class => ['all' => true],
+     Sasedev\MpdfBundle\SasedevMpdfBundle::class => ['all' => true]
 
 ];
