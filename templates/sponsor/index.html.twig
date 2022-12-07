@@ -1,28 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
-{% block title %}Sponsor index{% endblock %}
 
 {% block body %}
-    <h1>Sponsor index</h1>
 
+
+    <br>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+
                 <th>Nom</th>
                 <th>Logo</th>
-                <th>actions</th>
+                <th colspan="2">actions</th>
             </tr>
         </thead>
         <tbody>
         {% for sponsor in sponsors %}
             <tr>
-                <td>{{ sponsor.id }}</td>
+
                 <td>{{ sponsor.nom }}</td>
-                <td>{{ sponsor.logo }}</td>
-                <td>
-                    <a href="{{ path('app_sponsor_show', {'id': sponsor.id}) }}">show</a>
-                    <a href="{{ path('app_sponsor_edit', {'id': sponsor.id}) }}">edit</a>
+
+
+                <td><a href="{{ path('app_sponsor_show', {'id': sponsor.id}) }}"><input type="submit" value="Show" class="btn btn-primary"></a></td>
+
+                   <td> <a href="{{ path('app_sponsor_edit', {'id': sponsor.id}) }}"><input type="submit" value="edit" class="btn btn-primary"></a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +34,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_sponsor_new') }}">Create new</a>
+    <a href="{{ path('app_sponsor_new',{'id':id}) }}"><input type="submit" value="Ajouter un sponsor" class="btn btn-primary"></a>
 {% endblock %}

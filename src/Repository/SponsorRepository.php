@@ -6,6 +6,7 @@ use App\Entity\Sponsor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Sponsor>
  *
@@ -28,6 +29,19 @@ class SponsorRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    public function voirspon($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+           select * from sponsor where id_evenement=:id
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
     }
 
     public function remove(Sponsor $entity, bool $flush = false): void

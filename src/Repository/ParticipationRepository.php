@@ -38,6 +38,43 @@ class ParticipationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function voirp($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+           SELECT u.prenom,u.nom,u.email FROM utilisateur u JOIN participation p ON u.id=p.id_userP WHERE p.id_event=:id
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+    public function particip($id,$iduser)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+          INSERT INTO participation(id_event,id_userP) VALUES(:id,:iduser)';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id , 'iduser'=>$iduser]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+    public function deleteparticipation($id,$iduser)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+          DELETE FROM participation WHERE id_userP=:iduser and id_event=:id';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id , 'iduser'=>$iduser]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
 
 //    /**
 //     * @return Participation[] Returns an array of Participation objects

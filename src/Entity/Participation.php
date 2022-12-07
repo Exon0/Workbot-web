@@ -21,10 +21,44 @@ class Participation
     private int $id;
 
     #[ORM\JoinColumn(name: 'id_event', referencedColumnName: 'id')]
-    private \App\Entity\Evennement $idEvent;
+    #[ORM\ManyToOne(targetEntity: 'Evennement')]
+    private Evennement $idEvent;
 
     #[ORM\JoinColumn(name: 'id_userP', referencedColumnName: 'id')]
-    private \App\Entity\Utilisateur $idUserp;
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+    private Utilisateur $idUserp;
+
+    /**
+     * @return Evennement
+     */
+    public function getIdEvent(): Evennement
+    {
+        return $this->idEvent;
+    }
+
+    /**
+     * @param Evennement $idEvent
+     */
+    public function setIdEvent(Evennement $idEvent): void
+    {
+        $this->idEvent = $idEvent;
+    }
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIdUserp(): Utilisateur
+    {
+        return $this->idUserp;
+    }
+
+    /**
+     * @param Utilisateur $idUserp
+     */
+    public function setIdUserp(Utilisateur $idUserp): void
+    {
+        $this->idUserp = $idUserp;
+    }
 
     public function getId(): ?int
     {

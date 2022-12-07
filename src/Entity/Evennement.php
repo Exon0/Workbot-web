@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\EvennementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Evennement
@@ -19,36 +21,81 @@ class Evennement
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
+
     #[ORM\Column(name: 'dateDebut', type: 'string', length: 25, nullable: false)]
+    #[assert\Date]
     private string $datedebut;
 
+
     #[ORM\Column(name: 'dateFin', type: 'string', length: 25, nullable: false)]
+    #[assert\Date]
     private string $datefin;
 
     #[ORM\Column(name: 'libelle', type: 'string', length: 50, nullable: false)]
+    #[Assert\NotBlank(message: "Taper le libelle")]
+    #[Assert\Length(
+        min: 4,
+        max: 20,
+        minMessage: 'check libelle',
+        maxMessage: 'check libelle',
+    )]
     private string $libelle;
 
     #[ORM\Column(name: 'heureDebut', type: 'string', length: 30, nullable: false)]
+    #[Assert\NotBlank(message: "veuiller saisir l'heure de debut ")]
+    #[Assert\Length(
+        min: 2,
+        max: 5,
+        minMessage: 'check Time',
+        maxMessage: 'check Time',
+    )]
     private string $heuredebut;
-
     #[ORM\Column(name: 'heureFin', type: 'string', length: 30, nullable: false)]
+    #[Assert\NotBlank(message: "veuiller saisir l'heurefin")]
+    #[Assert\Length(
+        min: 2,
+        max: 5,
+        minMessage: 'check EndTime',
+        maxMessage: 'check EndTime',
+    )]
     private string $heurefin;
 
+    #[Assert\NotBlank(message: "Taper le nombre des places")]
     #[ORM\Column(name: 'nbPlaces', type: 'integer', nullable: false)]
     private int $nbplaces;
-
+    #[Assert\NotBlank(message: "Taper le prix")]
     #[ORM\Column(name: 'prix', type: 'string', length: 20, nullable: true)]
     private ?string $prix = null;
 
     #[ORM\Column(name: 'flyer', type: 'string', length: 300, nullable: true)]
+    #[Assert\Image]
     private ?string $flyer = null;
 
     #[ORM\Column(name: 'video', type: 'string', length: 300, nullable: true)]
+    #[Assert\Image]
     private ?string $video = null;
 
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
-    private \App\Entity\Utilisateur $idUser;
+
+    private Utilisateur $idUser;
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIdUser(): Utilisateur
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * @param Utilisateur $idUser
+     */
+    public function setIdUser(Utilisateur $idUser): void
+    {
+        $this->idUser = $idUser;
+    }
+
 
     public function getId(): ?int
     {
@@ -66,6 +113,7 @@ class Evennement
 
         return $this;
     }
+
 
     public function getDatefin(): ?string
     {
