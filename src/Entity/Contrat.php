@@ -23,6 +23,10 @@ class Contrat
     #[ORM\Column(name: 'typeContrat', type: 'string', length: 100, nullable: true)]
     private ?string $typecontrat = null;
 
+
+    #[ORM\Column(name: 'nomCandidat', type: 'string', length: 255, nullable: true)]
+    public ?string $nomcondidat = null;
+
     #[ORM\Column(name: 'dateDebut', type: 'date', nullable: true)]
     private ?\DateTime $datedebut = null;
 
@@ -57,6 +61,20 @@ class Contrat
 
         return $this;
     }
+
+
+    public function getNomcandidat(): ?string
+    {
+        return $this->nomcondidat;
+    }
+
+    public function setNoncandidat(?string $nomcandidat): self
+    {
+        $this->nomcondidat = $nomcandidat;
+
+        return $this;
+    }
+
 
     public function getDatedebut(): ?\DateTimeInterface
     {
