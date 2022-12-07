@@ -39,6 +39,11 @@ class EntretienRepository extends ServiceEntityRepository
         }
     }
 
+    public function changeStatut($id){
+
+    }
+
+
 //    /**
 //     * @return Entretien[] Returns an array of Entretien objects
 //     */

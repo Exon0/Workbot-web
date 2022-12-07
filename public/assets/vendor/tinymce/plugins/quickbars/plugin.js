@@ -77,7 +77,7 @@
       return new global$2(function (resolve) {
         var fileInput = document.createElement('input');
         fileInput.type = 'file';
-        fileInput.accept = 'image/*';
+        fileInput.accept = 'img/*';
         fileInput.style.position = 'fixed';
         fileInput.style.left = '0';
         fileInput.style.top = '0';
@@ -107,7 +107,7 @@
     var setupButtons = function (editor) {
       editor.ui.registry.addButton('quickimage', {
         icon: 'image',
-        tooltip: 'Insert image',
+        tooltip: 'Insert img',
         onAction: function () {
           pickFile(editor).then(function (files) {
             if (files.length > 0) {

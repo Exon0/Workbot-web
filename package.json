@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "axios": "^1.2.0"
+  },
+  "devDependencies": {
+    "@hotwired/stimulus": "^3.0.0",
+    "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/assets",
+    "chart.js": "^3.4.1"
+  }
+}

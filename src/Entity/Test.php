@@ -30,12 +30,7 @@ class Test
     #[ORM\Column(name: 'description', type: 'string', length: 350, nullable: true)]
     private ?string $description = null;
 
-    #[Assert\NotBlank]
-    #[Assert\File(
-        maxSize: '1024k',
-        mimeTypes: ['application/pdf', 'application/x-pdf'],
-        mimeTypesMessage: 'Please upload a valid PDF',
-    )]
+    #[Assert\Url]
     #[ORM\Column(name: 'lien', type: 'string', length: 350, nullable: false)]
     private string $lien;
 
@@ -43,7 +38,32 @@ class Test
     private ?string $categorie = null;
 
     #[ORM\JoinColumn(name: 'id_soc', referencedColumnName: 'id')]
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
     private \App\Entity\Utilisateur $idSoc;
+
+
+
+    public function __toString(): string
+    {
+
+        return $this->lien; // Remplacer champ par une propriété "string" de l'entité
+    }
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIdSoc(): Utilisateur
+    {
+        return $this->idSoc;
+    }
+
+    /**
+     * @param Utilisateur $idSoc
+     */
+    public function setIdSoc(Utilisateur $idSoc): void
+    {
+        $this->idSoc = $idSoc;
+    }
 
 
     public function getId(): ?int
@@ -87,7 +107,7 @@ class Test
         return $this;
     }
 
-    public function getLien(): ?string
+    public function getLien()
     {
         return $this->lien;
     }

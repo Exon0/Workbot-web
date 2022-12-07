@@ -1,12 +1,178 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
-{% block title %}Register{% endblock %}
 
+{% block header %}
+
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
 {% block body %}
-    <h1>Register</h1>
-    {{ form_start(registrationForm)}}
+    <div class="card mb-3">
+    {# #} {{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+    <div class="container ">
+
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container ">
+                <div class="row justify-content ">
+
+                    <div class="col-md-7 " style="margin-top: 200px;">
+                        <img src="assetsLogin/images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="col-md-5 contents " >
+
+                        <div class="col-lg-12 col-md-8 d-flex flex-column align-items-center justify-content-center">
+
+                            <div class="d-flex justify-content-center py-4">
+                                <a href="index.html" class="logo d-flex align-items-center w-auto">
+
+                                </a>
+                            </div><!-- End Logo -->
+
+                            <div class="card mb-3">
+
+                                <div class="card-body">
+
+                                    <div class="pt-4 pb-2">
+                                        <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                                        <p class="text-center small">Enter your personal details to create account</p>
+                                    </div>
 
 
-        <button type="submit" class="btn">Register</button>
- {{ form_end(registrationForm)}}
+                                    {#  #}
+
+                                    <div class="col-12">
+                                        <label for="yourName" class="form-label">Votre Nom</label>
+
+                                        <div class="invalid-feedback"> entre votre Nom!</div>
+                                        {{ form_widget(form.nom,{'attr':{'class':'form-control'}}) }}
+                                        <p class="text-danger">{{ form_errors(form.nom,{'attr':{'class':'form-control'}}) }}</p>
+                                        <div class="col-12">
+                                            <label for="yourName" class="form-label">Votre Prenom</label>
+
+                                            <div class="invalid-feedback">entre votre Prenom!</div>
+                                            {{ form_widget(form.prenom,{'attr':{'class':'form-control'}}) }}
+                                            {{ form_errors(form.prenom,{'attr':{'class':'form-control'}}) }}
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="col-12">
+                                        <label for="yourEmail" class="form-label">Votre Email</label>
+                                        {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
+                                        {{ form_errors(form.email,{'attr':{'class':'form-control'}}) }}
+                                        <div class="invalid-feedback">entre votre  Email adddress!</div>
+
+                                    </div>
+
+
+
+                                    <div class="col-12">
+                                        <label for="yourPassword" class="form-label">Mot passe</label>
+                                        {{ form_widget(form.mdp,{'attr':{'class':'form-control'}}) }}
+                                        {{ form_errors(form.mdp,{'attr':{'class':'form-control'}}) }}
+                                        <div class="invalid-feedback">entre votre  Email Mot passe!</div>
+                                    </div>
+
+
+
+                                    <div class="col-12">
+                                        <label for="yourName" class="form-label">Question de sécurite</label>
+
+                                        <div class="invalid-feedback">entre votre  Question de sécurite</div>
+                                        <div class="form-select">
+                                            {{ form_widget(form.questionSecu,{'attr':{'class':'form-control'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="yourName" class="form-label">Reponse de sécurite</label>
+
+                                        <div class="invalid-feedback">entre votre  Reponse de sécurite</div>
+                                        {{ form_widget(form.reponseSecu,{'attr':{'class':'form-control'}}) }}
+                                        {{ form_errors(form.reponseSecu,{'attr':{'class':'form-control'}}) }}
+
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="yourName" class="form-label">Domaine</label>
+
+                                        <div class="invalid-feedback">entre votre Domaine</div>
+                                        {{ form_widget(form.domaine,{'attr':{'class':'form-control'}}) }}
+                                        {{ form_errors(form.domaine,{'attr':{'class':'form-control'}}) }}
+                                    </div>
+
+
+                                    <label>role</label>
+                                    <div class="dropdown show ">
+                                        <div class="invalid-feedback justify-content-center form-check form-check-inline">entre role</div>
+                                        {{ form_widget(form.roles,{'attr':{'class':'form-control'}}) }}
+                                        {{ form_errors(form.roles,{'attr':{'class':'form-control'}}) }}
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <label for="yourName" class="form-label">Adresse</label>
+
+                                        <div class="invalid-feedback">entre votre  Adresse</div>
+                                        {{ form_widget(form.adresse,{'attr':{'class':'form-control'}}) }}
+                                        {{ form_errors(form.adresse,{'attr':{'class':'form-control'}}) }}
+
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="yourName" class="form-label">numero télephone</label>
+
+                                        <div class="invalid-feedback">entre votre  numéro</div>
+                                        {{ form_widget(form.tel,{'attr':{'class':'form-control'}}) }}
+                                        <p class="text-danger">       {{ form_errors(form.tel,{'attr':{'class':'form-control'}}) }}</p>
+
+                                    </div>
+
+
+
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required="">
+                                            <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
+                                            <div class="invalid-feedback">You must agree before submitting.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100" type="submit">Create Account</button>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="small mb-0">Already have an account? <a href="{{ path('app_login') }}">Log in</a></p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="credits">
+                                <!-- All the links in the footer should remain intact. -->
+                                <!-- You can delete the links only if you purchased the pro version. -->
+                                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+                                ©2022<a href="https://bootstrapmade.com/"> WorkBot Team</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+    {{ form_end(form) }}
+    </div>
 {% endblock %}

@@ -6768,7 +6768,7 @@
       var pickerDom = {
         tag: 'input',
         attributes: {
-          accept: 'image/*',
+          accept: 'img/*',
           type: 'file',
           title: ''
         },

@@ -77,6 +77,7 @@ class Evennement
 
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
     #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+
     private Utilisateur $idUser;
 
     /**
@@ -94,6 +95,7 @@ class Evennement
     {
         $this->idUser = $idUser;
     }
+
 
     public function getId(): ?int
     {

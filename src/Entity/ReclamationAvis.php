@@ -33,7 +33,7 @@ class ReclamationAvis
     #[ORM\Column(name: 'description', type: 'string', length: 250, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(name: 'image', type: 'string', length: 300, nullable: true)]
+    #[ORM\Column(name: 'img', type: 'string', length: 300, nullable: true)]
     private ?string $image = null;
 
     #[ORM\Column(name: 'note', type: 'string', length: 11, nullable: true)]

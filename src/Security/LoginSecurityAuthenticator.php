@@ -5,6 +5,7 @@ namespace App\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Security;
@@ -21,29 +22,28 @@ class LoginSecurityAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     public function authenticate(Request $request): Passport
     {
-        echo $request;
         $email = $request->request->get('email', '');
-        echo $email ."222";
-
-
+        $mdp = $request->request->get('mdp', '');
         $request->getSession()->set(Security::LAST_USERNAME, $email);
+
+
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($request->request->get('mdp', '')),
+            new PasswordCredentials($mdp),
+
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
             ]
         );
+
+
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -51,17 +51,28 @@ class LoginSecurityAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+        $user=$token->getUser();
+        if(in_array('ROLE_s',$user->getRoles(),true)){
 
+            return new RedirectResponse($this->urlGenerator->generate('app_offre_index'));
+        }
+        else if(in_array('ROLE_c',$user->getRoles(),true)){
+            return new RedirectResponse($this->urlGenerator->generate('app_candidature_index'));
+        }
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_utilisateur_new'));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+         return new RedirectResponse($this->urlGenerator->generate('app_utilisateur_appadmin'));
+      //  throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
+
+
 
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-
-
+    public function supports(Request $request): bool
+    {
+        return $request->isMethod('POST') && $this->getLoginUrl($request) === $request->getRequestUri();
+    }
 }

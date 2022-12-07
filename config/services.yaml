@@ -8,6 +8,9 @@ parameters:
     logo_directory: '%kernel.project_dir%/public/upload/logo'
     video_directory: '%kernel.project_dir%/public/upload/video'
 
+ ads_directory: '%kernel.project_dir%/public/upload/ads'
+ Admin_directory: '%kernel.project_dir%/public/upload/ads'
+
 services:
     # default configuration for services in *this* file
     _defaults:
