@@ -16,7 +16,7 @@ class SponsorType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('logo',FileType::class, [
+            ->add('logo', FileType::class, [
                 'label' => 'adset image (Des fichiers images uniquement)',
 
                 'mapped' => false,
@@ -38,10 +38,7 @@ class SponsorType extends AbstractType
                 ],
 
             ])
-            ->add('Valider',SubmitType::class)
-
-
-        ;
+            ->add('Valider', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

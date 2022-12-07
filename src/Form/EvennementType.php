@@ -3,14 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Evennement;
-use phpDocumentor\Reflection\Types\True_;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\File;
 
 class EvennementType extends AbstractType
@@ -18,7 +15,6 @@ class EvennementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add('datedebut')
             ->add('datefin')
             ->add('libelle')
@@ -26,7 +22,7 @@ class EvennementType extends AbstractType
             ->add('heurefin')
             ->add('nbplaces')
             ->add('prix')
-            ->add('flyer',FileType::class,[
+            ->add('flyer', FileType::class, [
                 'label' => 'adset image (Des fichiers images uniquement)',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -50,7 +46,7 @@ class EvennementType extends AbstractType
                 ],
 
             ])
-            ->add('video',FileType::class,[
+            ->add('video', FileType::class, [
                 'label' => 'adset image (Des fichiers images uniquement)',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -74,7 +70,7 @@ class EvennementType extends AbstractType
                 ],
 
             ])
-            ->add('Valider',SubmitType::class);
+            ->add('Valider', SubmitType::class);
 
 
     }

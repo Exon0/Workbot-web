@@ -35,7 +35,7 @@
                                 </form>
                                 <p><b>Start At </b><u style="color: black">{{ ev.dateDebut }}</u></p>
                                 <br>
-                                <p><b>Ends At</b> <u style="color: black">{{ ev.dateFin }}</u>  </p>
+                                <p><b>Ends At</b> <u style="color: black">{{ ev.dateFin }}</u></p>
                                 <br>
                                 <p><b>Libelle</b> <u style="color: black">{{ ev.libelle }}</u>. </p>
                                 <br>
@@ -49,16 +49,20 @@
                                 <br>
                                 <table>
                                     <tr>
-                                        <td><p> <img src ="{{ asset('upload/flyer/' ~ ev.flyer) }}"
-                                                     alt="" style="width: 100px;height: 100px"></td>. </p></td>
-                                        <td><div class="vl"></div></td>
-                                        <td><p><img src ="{{ asset('upload/video/' ~ ev.video) }}"
-                                                    alt="" style="width: 100px;height: 100px"></td>. </p></td>
+                                        <td><p><img src="{{ asset('upload/flyer/' ~ ev.flyer) }}"
+                                                    alt="" style="width: 100px;height: 100px"></td>
+                                        . </p></td>
+                                        <td>
+                                            <div class="vl"></div>
+                                        </td>
+                                        <td><p><img src="{{ asset('upload/video/' ~ ev.video) }}"
+                                                    alt="" style="width: 100px;height: 100px"></td>
+                                        . </p></td>
                                     </tr>
                                 </table>
                                 <ul>
                                     <li><i class="bx lni-website"></i><a>Job.TN.com</a></li>
-                                    <li><i class="bx bx-yen"></i> Free </li>
+                                    <li><i class="bx bx-yen"></i> Free</li>
                                     <li><i class="lni lni-map-marker"></i>Developper par le team WorkBot</li>
                                 </ul>
                             </div>
@@ -66,7 +70,7 @@
                                 <object type="application/html" width="100%" height="100%" style="margin-top: 100px">
 
 
-                                    <a class="btn btn-outline-success" href="{{ path('participer', {'id': ev.id}) }}" >Participer</a>
+                                    <a class="btn btn-outline-success" href="{{ path('participer', {'id': ev.id}) }}">Participer</a>
                                     <br>
                                     <br>
 
@@ -84,8 +88,6 @@
                         {% endif %}
 
 
-
-
                     </div>
 
                 </div>
@@ -96,7 +98,7 @@
         </div>
         </div>
     </section>
-    {% endblock %}
+{% endblock %}
 {#  <div class="table-responsive" style="margin-top: 50px">
         <table class="table table-hover" id="tableac">
             <br>
@@ -177,4 +179,4 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>#}
+    </div> #}

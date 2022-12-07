@@ -4,10 +4,9 @@ namespace App\Controller;
 
 
 use App\Entity\Sponsor;
+use App\Form\SponsorType;
 use App\Repository\EvennementRepository;
 use App\Repository\SponsorRepository;
-use App\Form\SponsorType;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +26,12 @@ class SponsorController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_sponsor_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SponsorRepository $sponsorRepository,$id,EvennementRepository $eventrepo,SluggerInterface $slugger): Response
+    public function new(Request $request, SponsorRepository $sponsorRepository, $id, EvennementRepository $eventrepo, SluggerInterface $slugger): Response
     {
         $sponsor = new Sponsor();
         $form = $this->createForm(SponsorType::class, $sponsor);
         $form->handleRequest($request);
-        $event=$eventrepo->find($id);
+        $event = $eventrepo->find($id);
         $sponsor->setIdEvenement($event);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +47,7 @@ class SponsorController extends AbstractController
                         $this->getParameter('logo_directory'),
                         $newFilename
                     );
-                } catch (FileException $exception ) {
+                } catch (FileException $exception) {
 
                 }
 
@@ -57,7 +56,7 @@ class SponsorController extends AbstractController
 
             $sponsorRepository->save($sponsor, true);
 
-            return $this->redirectToRoute('sponsh', ['id'=>$id], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('sponsh', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('sponsor/new.html.twig', [
@@ -76,12 +75,12 @@ class SponsorController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_sponsor_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Sponsor $sponsor, SponsorRepository $sponsorRepository,SluggerInterface $slugger): Response
+    public function edit(Request $request, Sponsor $sponsor, SponsorRepository $sponsorRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(SponsorType::class, $sponsor);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted()) {
             $logophot = $form->get('logo')->getData();
             if ($logophot) {
                 $originalFilename = pathinfo($logophot->getClientOriginalName(), PATHINFO_FILENAME);
@@ -94,7 +93,7 @@ class SponsorController extends AbstractController
                         $this->getParameter('logo_directory'),
                         $newFilename
                     );
-                } catch (FileException $exception ) {
+                } catch (FileException $exception) {
 
                 }
 
@@ -113,12 +112,12 @@ class SponsorController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_sponsor_delete', methods: ['POST'])]
-    public function delete(Request $request, Sponsor $sponsor, SponsorRepository $sponsorRepository,$id): Response
+    public function delete(Request $request, Sponsor $sponsor, SponsorRepository $sponsorRepository, $id): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sponsor->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sponsor->getId(), $request->request->get('_token'))) {
             $sponsorRepository->remove($sponsor, true);
         }
 
-        return $this->redirectToRoute('sponsh', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('sponsh', ['id' => $id], Response::HTTP_SEE_OTHER);
     }
 }

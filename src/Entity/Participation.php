@@ -21,12 +21,12 @@ class Participation
     private int $id;
 
     #[ORM\JoinColumn(name: 'id_event', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity:'Evennement')]
-    private \App\Entity\Evennement $idEvent;
+    #[ORM\ManyToOne(targetEntity: 'Evennement')]
+    private Evennement $idEvent;
 
     #[ORM\JoinColumn(name: 'id_userP', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity:'Utilisateur')]
-    private \App\Entity\Utilisateur $idUserp;
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+    private Utilisateur $idUserp;
 
     /**
      * @return Evennement

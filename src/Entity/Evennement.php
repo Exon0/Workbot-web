@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-
 /**
  * Evennement
  *
@@ -24,7 +23,7 @@ class Evennement
 
 
     #[ORM\Column(name: 'dateDebut', type: 'string', length: 25, nullable: false)]
-   #[assert\Date]
+    #[assert\Date]
     private string $datedebut;
 
 
@@ -43,8 +42,7 @@ class Evennement
     private string $libelle;
 
     #[ORM\Column(name: 'heureDebut', type: 'string', length: 30, nullable: false)]
-    #[Assert\NotBlank(message:"veuiller saisir l'heure de debut ")]
-
+    #[Assert\NotBlank(message: "veuiller saisir l'heure de debut ")]
     #[Assert\Length(
         min: 2,
         max: 5,
@@ -53,8 +51,7 @@ class Evennement
     )]
     private string $heuredebut;
     #[ORM\Column(name: 'heureFin', type: 'string', length: 30, nullable: false)]
-    #[Assert\NotBlank(message:"veuiller saisir l'heurefin")]
-
+    #[Assert\NotBlank(message: "veuiller saisir l'heurefin")]
     #[Assert\Length(
         min: 2,
         max: 5,
@@ -64,7 +61,6 @@ class Evennement
     private string $heurefin;
 
     #[Assert\NotBlank(message: "Taper le nombre des places")]
-
     #[ORM\Column(name: 'nbPlaces', type: 'integer', nullable: false)]
     private int $nbplaces;
     #[Assert\NotBlank(message: "Taper le prix")]
@@ -80,8 +76,8 @@ class Evennement
     private ?string $video = null;
 
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity:'Utilisateur')]
-    private \App\Entity\Utilisateur $idUser;
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+    private Utilisateur $idUser;
 
     /**
      * @return Utilisateur
@@ -115,7 +111,6 @@ class Evennement
 
         return $this;
     }
-
 
 
     public function getDatefin(): ?string
@@ -213,7 +208,6 @@ class Evennement
 
         return $this;
     }
-
 
 
 }

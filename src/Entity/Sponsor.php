@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use App\Repository\SponsorRepository;
 use Doctrine\ORM\Mapping as ORM;
-use http\Message;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Serializer\Annotation\Input;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,18 +24,15 @@ class Sponsor
     #[ORM\Column(name: 'nom', type: 'string', length: 30, nullable: false)]
     #[Assert\NotBlank(message: "taper votre nom svp !")]
     #[Assert\NotNull(message: "ce champs ne peut pas etre vide")]
-
-
     private string $nom;
 
     #[ORM\Column(name: 'logo', type: 'string', length: 100, nullable: false)]
     #[Assert\Image]
-
     private string $logo;
 
     #[ORM\JoinColumn(name: 'id_evenement', referencedColumnName: 'id')]
-    #[ORM\ManyToOne(targetEntity:'Evennement')]
-    private \App\Entity\Evennement $idEvenement;
+    #[ORM\ManyToOne(targetEntity: 'Evennement')]
+    private Evennement $idEvenement;
 
     /**
      * @return Evennement

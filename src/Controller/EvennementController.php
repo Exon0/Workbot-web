@@ -3,22 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Evennement;
-use App\Entity\Participation;
-use App\Repository\EvennementRepository;
 use App\Form\EvennementType;
+use App\Repository\EvennementRepository;
 use App\Repository\ParticipationRepository;
 use App\Repository\SponsorRepository;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 #[Route('/evennement')]
@@ -53,7 +51,7 @@ class EvennementController extends AbstractController
     }
 
     #[Route('/new', name: 'app_evennement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EvennementRepository $evennementRepository, UtilisateurRepository $userrepo, MailerInterface $smail,SluggerInterface $slugger): Response
+    public function new(Request $request, EvennementRepository $evennementRepository, UtilisateurRepository $userrepo, MailerInterface $smail, SluggerInterface $slugger): Response
     {
         $evennement = new Evennement();
         $form = $this->createForm(EvennementType::class, $evennement);
@@ -72,7 +70,7 @@ class EvennementController extends AbstractController
                 ->subject('JOB.TN.com')
                 ->text('Votre évènement a étè crée avec succés');
 
-           $smail->send($email);
+            $smail->send($email);
             $flyerphot = $form->get('flyer')->getData();
             $video = $form->get('video')->getData();
 
@@ -115,15 +113,14 @@ class EvennementController extends AbstractController
 
             }
             $evennementRepository->save($evennement, true);
-                return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
-            }
-
-            return $this->renderForm('evennement/new.html.twig', [
-                'evennement' => $evennement,
-                'form' => $form,
-            ]);
+            return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        return $this->renderForm('evennement/new.html.twig', [
+            'evennement' => $evennement,
+            'form' => $form,
+        ]);
+    }
 
 
     #[Route('/{id}', name: 'app_evennement_show', methods: ['GET'])]
@@ -135,7 +132,7 @@ class EvennementController extends AbstractController
     }
 
     #[Route('/{id}/voir', name: 'voirpev', methods: ['GET'])]
-public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurRepository $userrep,$id): Response
+    public function voir(Evennement $ev, ParticipationRepository $partv, UtilisateurRepository $userrep, $id): Response
     {
 
         $par = $partv->voirp($id);
@@ -146,21 +143,21 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
     }
 
     #[Route('/{id}/paticiper', name: 'participer', methods: ['GET'])]
-    public function participer (Evennement $evennement,EvennementRepository $evennementRepository,ParticipationRepository $partv,UtilisateurRepository $userrepo,$id,/*MailerInterface $smail*/): Response
+    public function participer(Evennement $evennement, EvennementRepository $evennementRepository, ParticipationRepository $partv, UtilisateurRepository $userrepo, $id,/*MailerInterface $smail*/): Response
     {
 
         $session = new Session();
-        $iduser=$session->getId();
+        $iduser = $session->getId();
 
 
-        $partv->particip($id,$iduser);
+        $partv->particip($id, $iduser);
         $evennementRepository->nbplaceupdate($id);
         $evennements22 = $evennementRepository->participin($iduser);
-       // $email=(new Email())->from('houssem.bribech@esprit.tn')
-            //->to('houssembrib98@gmail.com')
-            //->subject('JOB.TN.com')
-            //->text('Votre participation a effectué avec succés');
-             //$smail->send($email);
+        // $email=(new Email())->from('houssem.bribech@esprit.tn')
+        //->to('houssembrib98@gmail.com')
+        //->subject('JOB.TN.com')
+        //->text('Votre participation a effectué avec succés');
+        //$smail->send($email);
         //var_dump($par);
 
 
@@ -172,24 +169,24 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
 
 
     #[Route('/{id}/spons', name: 'sponsh', methods: ['GET'])]
-    public function spons (SponsorRepository $sponrepo,$id,): Response
-{
+    public function spons(SponsorRepository $sponrepo, $id,): Response
+    {
 
-    $spons=$sponrepo->voirspon($id);
+        $spons = $sponrepo->voirspon($id);
 
-    return $this->render('evennement/voirspons.html.twig', [
-        'spons'=> $spons,
-        'id'=>$id,
-    ]);
-}
+        return $this->render('evennement/voirspons.html.twig', [
+            'spons' => $spons,
+            'id' => $id,
+        ]);
+    }
 
     #[Route('/{id}/edit', name: 'app_evennement_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Evennement $evennement, EvennementRepository $evennementRepository,SluggerInterface $slugger): Response
+    public function edit(Request $request, Evennement $evennement, EvennementRepository $evennementRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(EvennementType::class, $evennement);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted()) {
             $flyerphot = $form->get('flyer')->getData();
             $video = $form->get('video')->getData();
 
@@ -246,40 +243,43 @@ public function voir (Evennement $ev,ParticipationRepository $partv,UtilisateurR
     #[Route('/{id}', name: 'app_evennement_delete', methods: ['POST'])]
     public function delete(Request $request, Evennement $evennement, EvennementRepository $evennementRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$evennement->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $evennement->getId(), $request->request->get('_token'))) {
             $evennementRepository->remove($evennement, true);
         }
 
         return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
     }
+
     #[Route('/annuler', name: 'annule', methods: ['GET'])]
     public function indexannule(EvennementRepository $evennementRepository): Response
     {
         $session = new Session();
-        $iduser=$session->getId();
+        $iduser = $session->getId();
         return $this->render('evennement/participannule.html.twig', [
             'eventannule' => $evennementRepository->participin($iduser),
         ]);
 
     }
+
     #[Route('/annuler', name: 'annule', methods: ['GET'])]
     public function indexannule2(EvennementRepository $evennementRepository): Response
     {
         $session = new Session();
-        $iduser=$session->getId();
+        $iduser = $session->getId();
         return $this->render('evennement/participannule.html.twig', [
             'eventannule' => $evennementRepository->participin($iduser),
         ]);
 
     }
+
     #[Route('/{id}/paticiperdelete', name: 'participerdelete', methods: ['GET'])]
-    public function participerdelete (ParticipationRepository $partv,$id,EvennementRepository $evennementRepository): Response
+    public function participerdelete(ParticipationRepository $partv, $id, EvennementRepository $evennementRepository): Response
     {
 
         $session = new Session();
-        $iduser=$session->getId();
+        $iduser = $session->getId();
 
-       $partv->deleteparticipation($id,$iduser);
+        $partv->deleteparticipation($id, $iduser);
         $evennementRepository->annuleupdate($id);
 
         //var_dump($par);

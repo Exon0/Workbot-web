@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Participation;
-use App\Entity\Utilisateur;
-use App\Repository\ParticipationRepository;
 use App\Form\ParticipationType;
+use App\Repository\ParticipationRepository;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class ParticipationController extends AbstractController
 {
     #[Route('/', name: 'app_participation_index', methods: ['GET'])]
-    public function index(ParticipationRepository $participationRepository,UtilisateurRepository $userrepo): Response
+    public function index(ParticipationRepository $participationRepository, UtilisateurRepository $userrepo): Response
     {
 
-        $us=$userrepo->find(9);
+        $us = $userrepo->find(9);
 
 
         return $this->render('participation/index.html.twig', [
@@ -28,12 +27,12 @@ class ParticipationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_participation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ParticipationRepository $participationRepository,UtilisateurRepository $userrepo): Response
+    public function new(Request $request, ParticipationRepository $participationRepository, UtilisateurRepository $userrepo): Response
     {
         $participation = new Participation();
         $form = $this->createForm(ParticipationType::class, $participation);
         $form->handleRequest($request);
-        $user=$userrepo->find(9);
+        $user = $userrepo->find(9);
         $participation->setIdUserp($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,8 +56,6 @@ class ParticipationController extends AbstractController
     }
 
 
-
-
     #[Route('/{id}/edit', name: 'app_participation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Participation $participation, ParticipationRepository $participationRepository): Response
     {
@@ -80,7 +77,7 @@ class ParticipationController extends AbstractController
     #[Route('/{id}', name: 'app_participation_delete', methods: ['POST'])]
     public function delete(Request $request, Participation $participation, ParticipationRepository $participationRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$participation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $participation->getId(), $request->request->get('_token'))) {
             $participationRepository->remove($participation, true);
         }
 
