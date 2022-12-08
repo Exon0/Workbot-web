@@ -1,9 +1,11 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}QuestionReponse index{% endblock %}
+{% extends 'utilisateur/Dashbord/base.html.twig' %}
 
 {% block body %}
-    <h1>QuestionReponse index</h1>
+<div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 40px;">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Question Reponse :</h5>
 
     <table class="table">
         <thead>
@@ -36,6 +38,11 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <button onClick="window.history.back();" class="btn btn-outline-dark">Retour</button>
     {#  <a href="{{ path('app_question_reponse_new') }}">Create new</a>#}
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}

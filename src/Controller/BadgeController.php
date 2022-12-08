@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Badge;
+use App\Entity\CertifBadge;
 use App\Repository\BadgeRepository;
 use App\Form\BadgeType;
+use App\Repository\CertifBadgeRepository;
+use App\Repository\OffreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +18,12 @@ class
 BadgeController extends AbstractController
 {
     #[Route('/', name: 'app_badge_index', methods: ['GET'])]
-    public function index(BadgeRepository $badgeRepository): Response
+    public function index(BadgeRepository $badgeRepository,OffreRepository $ofr): Response
     {
+        $nombre=count($ofr->findAll());
         return $this->render('badge/index.html.twig', [
-            'badges' => $badgeRepository->findAll(),
+            'badges' => $badgeRepository->Afficher_certif_badge(8),
+            'nb'=>$nombre,
         ]);
     }
 

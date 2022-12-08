@@ -1,71 +1,106 @@
+{% extends 'utilisateur/client/base.html.twig' %}
 
 {% block title %}Cours index{% endblock %}
 
-{% block body %}
-    <h1>Cours index</h1>
 
-    <div class="table-responsive">
-        <table class="table table-hover" id="tableac">
-            <script src="{{ asset('/assets/js/jquery.min.js') }}"></script>
-            <div>
-                <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                    <input type="text" class="form-control" placeholder="Chercher un cours" id="search"> </form>
-                <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Matiere</th>
-                    <th>Domaine</th>
-                    <th>Categorie</th>
-                    <th>Chemin</th>
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for cour in cours %}
-                    <tr>
-                        <td>{{ cour.titre }}</td>
-                        <td>{{ cour.matiere }}</td>
-                        <td>{{ cour.domaine }}</td>
-                        <td>{{ cour.categorie }}</td>
-                        <td>{{ cour.chemin }}</td>
-                        <td>
-                            <a href="{{ path('app_cours_show', {'id': cour.id}) }}">show</a>
-                        </td>
-                    </tr>
-                    <script>
-                        $(document).ready(function(){
-                            $('#search').keyup(function(){
-                                search_table($(this).val());
-                            });
-                            function search_table(value){
-                                $('#tableac tbody tr').each(function(){
-                                    var found = 'false';
-                                    $(this).each(function(){
-                                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
-                                        {
-                                            found = 'true';
-                                        }
-                                    });
-                                    if(found == 'true')
-                                    {
-                                        $(this).show();
-                                    }
-                                    else
-                                    {
-                                        $(this).hide();
-                                    }
-                                });
-                            }
-                        });
-                    </script>
-                    {% else %}
-                    <tr>
-                        <td colspan="7">no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
+{% block info %}
+
+    <section class="apply-process section" style="margin-top: 100px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12 " >
+                    <div class="process-item" >
+                        <img width="70" height="70" src="{{asset('assets/img/cours/cours.png')}}">
+                        <br>
+                        <a href="/cours/u"><h4>Consulter Les Cours</h4></a>
+                        <p>Consulter nos Cours pour acquérir des nouvelles compétences.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="process-item">
+                        <img width="90" height="90" src="{{asset('assets/img/cours/certificate1.png')}}">
+                        <br>
+                        <a href="/certification/u/4"><h4>Passer Un Test De Certification</h4></a>
+                        <p>Passer un test de certifications en ligne qui vont booster votre CV.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="process-item">
+                        <img width="70" height="70" src="{{asset('assets/img/cours/badge.png')}}">
+                        <a href="/badge"><h4>Avoir Un Badge</h4></a>
+                        <p>Obtenir un badge « Compétence vérifiée » pour démontrer la maîtrise de certaines compétences affichées sur votre profil.</p>
+                    </div>
+                </div>
             </div>
-        </table>
-
-    </div>
+        </div>
+    </section>
 {% endblock %}
+
+
+{% block body %}
+
+<section class="find-job job-list section">
+    <div class="container">
+
+                <table id="myTable" class="table table-borderless" >
+                    <thead>
+                    <tr>
+                        <th scope="col" style="visibility: hidden"></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in cours %}
+                        <tr>
+                            <td style="visibility: hidden">
+                            {{ c.titre }}
+                            </td>
+                            <td>
+                    <div class="single-job">
+                        <div class="job-image">
+                            <img src="{{asset('assets/img/cours/htmlcours/'~c.titre~'.png')}}" height="70" width="70" alt="#">
+                        </div>
+                        <div class="job-content">
+                            <form>
+                            <h4><a style="font-size: 20px">{{ c.titre|upper }}</a></h4>
+                            </form>
+                            <p>Cours de <u style="color: black">{{ c.titre|upper }}</u>  specialise pour le domaine <u style="color: black">{{ c.domaine|upper }}</u> . </p> <p>C'est un cours <u style="color: black">{{ c.categorie|upper }}</u> . </p>
+                            <ul>
+                                <li><i class="bx lni-website"></i><a>Job.TN.com</a></li>
+                                <li><i class="bx bx-yen"></i> Free </li>
+                                <li><i class="lni lni-map-marker"></i>Developper par le team WorkBot</li>
+                            </ul>
+                        </div>
+                        <div class="job-button">
+                            <object type="application/html" width="100%" height="100%">
+                                <a class="btn btn-outline-primary" target="_blank" href="{{ asset('upload/chem/'~c.chemin)}}" >Afficher</a>
+                            </object>
+                        </div>
+                    </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <script type="text/javascript" src="{{ asset('/media/js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('/media/js/jquery.dataTables.min.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/media/css/jquery.dataTables.min.css')}}">
+
+    <script>
+        $(document).ready(function(){
+            $('#myTable').dataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/fr-FR.json"
+                }
+            });
+        });
+    </script>
+{% endblock%}

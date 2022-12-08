@@ -39,6 +39,17 @@ class BadgeRepository extends ServiceEntityRepository
         }
     }
 
+    public function Afficher_certif_badge($iduser): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'select b.* from certif_badge cb join badge b on cb.id_badge=b.id where cb.id_user=:iduser';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['iduser' => $iduser]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
 //    /**
 //     * @return Badge[] Returns an array of Badge objects
 //     */

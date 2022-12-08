@@ -3560,7 +3560,7 @@
           }; // Modifiers have the ability to reset the current update cycle. The
           // most common use case for this is the `flip` modifier changing the
           // placement, which then needs to re-run all the modifiers, because the
-          // logic was previously ran for the previous placement and is therefore
+          // logic was previously ran.php for the previous placement and is therefore
           // stale/incorrect
 
           state.reset = false;

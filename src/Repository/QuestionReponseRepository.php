@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\QuestionReponse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,6 +39,12 @@ class QuestionReponseRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * @throws Exception
+     */
+
+
 
 //    /**
 //     * @return QuestionReponse[] Returns an array of QuestionReponse objects

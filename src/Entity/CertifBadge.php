@@ -22,18 +22,70 @@ class CertifBadge
     private int $id;
 
     #[ORM\JoinColumn(name: 'id_certif', referencedColumnName: 'id')]
-    private \App\Entity\Certification $idCertif;
+    #[ORM\ManyToOne(targetEntity: 'Certification')]
+    private Certification $idCertif;
 
     #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
-    private \App\Entity\Utilisateur $idUser;
+    #[ORM\ManyToOne(targetEntity: 'Utilisateur')]
+    private Utilisateur $idUser;
 
     #[ORM\JoinColumn(name: 'id_badge', referencedColumnName: 'id')]
-    private \App\Entity\Badge $idBadge;
+    #[ORM\ManyToOne(targetEntity: 'Badge')]
+    private Badge $idBadge;
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    /**
+     * @return Certification
+     */
+    public function getIdCertif(): Certification
+    {
+        return $this->idCertif;
+    }
+
+    /**
+     * @param Certification $idCertif
+     */
+    public function setIdCertif(Certification $idCertif): void
+    {
+        $this->idCertif = $idCertif;
+    }
+
+    /**
+     * @return Utilisateur
+     */
+    public function getIdUser(): Utilisateur
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * @param Utilisateur $idUser
+     */
+    public function setIdUser(Utilisateur $idUser): void
+    {
+        $this->idUser = $idUser;
+    }
+
+    /**
+     * @return Badge
+     */
+    public function getIdBadge(): Badge
+    {
+        return $this->idBadge;
+    }
+
+    /**
+     * @param Badge $idBadge
+     */
+    public function setIdBadge(Badge $idBadge): void
+    {
+        $this->idBadge = $idBadge;
+    }
+
 
 
 }

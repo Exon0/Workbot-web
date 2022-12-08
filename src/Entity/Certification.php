@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Quiz;
 use App\Repository\CertificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,24 +22,24 @@ class Certification
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private int $id;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
     #[ORM\Column(name: 'titreCours', type: 'string', length: 100, nullable: false)]
     private string $titrecours;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: "Champ Obligatoire !!")]
     #[ORM\Column(name: 'titreTest', type: 'string', length: 100, nullable: false)]
     private string $titretest;
 
-    #[Assert\NotBlank]
     #[ORM\Column(name: 'dateAjout', type: 'string', length: 50, nullable: false)]
     private string $dateajout;
 
-    #[Assert\NotBlank]
+    #[Assert\Image]
     #[ORM\Column(name: 'lien', type: 'string', length: 200, nullable: false)]
     private string $lien;
 
     #[ORM\JoinColumn(name: 'id_quiz', referencedColumnName: 'id')]
-    private \App\Entity\Quiz $idQuiz;
+    #[ORM\ManyToOne(targetEntity: 'Quiz')]
+    private Quiz $idQuiz;
 
     public function getId(): ?int
     {
@@ -91,6 +92,22 @@ class Certification
         $this->lien = $lien;
 
         return $this;
+    }
+
+    /**
+     * @return \App\Entity\Quiz
+     */
+    public function getIdQuiz(): \App\Entity\Quiz
+    {
+        return $this->idQuiz;
+    }
+
+    /**
+     * @param \App\Entity\Quiz $idQuiz
+     */
+    public function setIdQuiz(\App\Entity\Quiz $idQuiz): void
+    {
+        $this->idQuiz = $idQuiz;
     }
 
 

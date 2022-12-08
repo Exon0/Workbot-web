@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\QuestionReponse;
 use App\Entity\Quiz;
+use App\Repository\QuestionReponseRepository;
 use App\Repository\QuizRepository;
 use App\Form\QuizType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ class QuizController extends AbstractController
     public function index(QuizRepository $quizRepository): Response
     {
         return $this->render('quiz/index.html.twig', [
-            'quizzes' => $quizRepository->findAll(),
+            'quizzes' => $quizRepository->quizcert_all(),
         ]);
     }
 
@@ -27,6 +28,8 @@ class QuizController extends AbstractController
     {
         $quiz = new Quiz();
         $form = $this->createForm(QuizType::class, $quiz);
+        $form->add('titre')
+            ->add('description');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,17 +52,28 @@ class QuizController extends AbstractController
         ]);
     }
 
+    #[Route('/Question/{id}', name: 'app_afficher_question', methods: ['GET'])]
+    public function show_Question(QuestionReponseRepository $qr,$id,QuizRepository $quiz_rep): Response
+    {   $quiz=$quiz_rep->findBy(array('id'=>$id),null,null,null);
+        $ques=$qr->findBy(array('idQuiz'=>$quiz),null,null,null);
+        return $this->render('quiz/questions.html.twig', [
+            'ques' => $ques,
+        ]);
+    }
+
 
     #[Route('/{id}/edit', name: 'app_quiz_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Quiz $quiz, QuizRepository $quizRepository): Response
     {
         $form = $this->createForm(QuizType::class, $quiz);
+        $form->add('titre')
+            ->add('description');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $quizRepository->save($quiz, true);
 
-            return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_quiz_index',[], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('quiz/edit.html.twig', [
@@ -77,4 +91,5 @@ class QuizController extends AbstractController
 
         return $this->redirectToRoute('app_quiz_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

@@ -2,30 +2,42 @@
 
 namespace App\Controller;
 
+use App\Entity\Certification;
 use App\Entity\Cours;
+use App\Repository\CertificationRepository;
 use App\Repository\CoursRepository;
 use App\Form\CoursType;
+use App\Repository\QuizRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-
-
-
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/cours')]
 class CoursController extends AbstractController
 {
     #[Route('/', name: 'app_cours_index', methods: ['GET'])]
-    public function index(CoursRepository $coursRepository): Response
+    public function index(CoursRepository $coursRepository,CertificationRepository $cer,QuizRepository $qu): Response
     {
+        $cours=count($coursRepository->findAll());
+        $certif=count($cer->findAll());
+        $quiz=count($qu->findAll());
+
+        $stat=$coursRepository->stat_count_cours();
         return $this->render('cours/index.html.twig', [
             'cours' => $coursRepository->findAll(),
+            'stat'=>$stat,
+            'q'=>$quiz,
+            'co'=>$cours,
+            'ce'=>$certif,
         ]);
     }
+
 
     #[Route('/u', name: 'app_cours_indexU', methods: ['GET'])]
     public function indexU(CoursRepository $coursRepository): Response
@@ -35,23 +47,69 @@ class CoursController extends AbstractController
         ]);
     }
 
+    #[Route('/pdf', name: 'pdf_cours',methods: ['GET'])]
+    public function pdf_cours(CoursRepository $Repository): Response
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        // Instantiate Dompdf with our options
+        $dompdf =new Dompdf($pdfOptions);
 
+        $cours = $Repository->findAll();
 
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('cours/pdf.html.twig', [
+            'cours' => $cours,
+        ]);
+        $dompdf->loadHtml($html);
 
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("njr.pdf", ["Attachment" => true]);
+        exit;
+    }
+
+    #[Route('/contacter',name:'contacter_cours', methods: ['GET', 'POST'])]
+    public function contacter(): Response
+    {
+        return $this->renderForm('cours/contacte.html.twig', []);
+    }
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CoursRepository $coursRepository): Response
+    public function new(Request $request, CoursRepository $coursRepository,SluggerInterface $slugger): Response
     {
         $cour = new Cours();
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null)
+        {
+            $lien = $form->get('chemin')->getData();
+            if ($lien) {
+                $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+                // Move the file to the directory where brochures are stored
+                try {
+                    $lien->move(
+                        $this->getParameter('chem_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $cour->setChemin($newFilename);
+
+            }
+            var_dump($cour);
             $coursRepository->save($cour, true);
-
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('cours/new.html.twig', [
             'cour' => $cour,
             'form' => $form,
@@ -67,12 +125,32 @@ class CoursController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cours_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cours $cour, CoursRepository $coursRepository): Response
+    public function edit(Request $request, Cours $cour, CoursRepository $coursRepository,SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null) {
+
+            $lien = $form->get('chemin')->getData();
+            if ($lien) {
+                $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $lien->move(
+                        $this->getParameter('chem_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+
+                }
+                $cour->setChemin($newFilename);
+
+            }
             $coursRepository->save($cour, true);
 
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
@@ -93,4 +171,9 @@ class CoursController extends AbstractController
 
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
 }
