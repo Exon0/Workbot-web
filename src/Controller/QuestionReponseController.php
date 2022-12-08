@@ -18,6 +18,7 @@ use App\Form\QuestionReponseType;
 use App\Repository\QuizRepository;
 use App\Repository\UtilisateurRepository;
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use Symfony\Component\HttpFoundation\Session\Session;
 use mPDF;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,7 +38,7 @@ class QuestionReponseController extends AbstractController
 
 
     #[Route('/{id}/testQuiz', name: 'app_quiz_test', methods: ['GET', 'POST'])]
-    public function indextest(UtilisateurRepository $utilisateurRepository,Request $rq,SmsTwilioCertification $stc , TexterInterface $texter,MailerInterface $sm,QuizRepository $qr, Request $request, QuestionReponseRepository $qrr, $id, CertificationRepository $cerr, BadgeRepository $br, CertifBadgeRepository $cbr , UtilisateurRepository $ur,FlashyNotifier $flashy): Response
+    public function indextest(Session $s,UtilisateurRepository $utilisateurRepository,Request $rq,SmsTwilioCertification $stc , TexterInterface $texter,MailerInterface $sm,QuizRepository $qr, Request $request, QuestionReponseRepository $qrr, $id, CertificationRepository $cerr, BadgeRepository $br, CertifBadgeRepository $cbr , UtilisateurRepository $ur,FlashyNotifier $flashy): Response
     {
 
         $certification = $cerr->find($id);

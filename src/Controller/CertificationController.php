@@ -60,8 +60,9 @@ class CertificationController extends AbstractController
         }
 
         $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $k=$user->getId();
         return $this->render('certification/indexU.html.twig', [
-            'certif' => $certificationRepository->cert_aff($user->getId()),
+            'certif' => $certificationRepository->cert_aff($k),
         ]);
     }
 

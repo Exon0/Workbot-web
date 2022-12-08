@@ -1,4 +1,4 @@
-{% extends 'utilisateur/client/base.html.twig' %}
+{% extends 'quiz/base.html.twig' %}
 
 
 {% block info %}
@@ -6,7 +6,6 @@
 
 
 {% block body %}
-
     <section class="section">
     <div class="row" style="display: flex;align-items: center;justify-content: center;margin-top: 70px;">
     <div class="col-lg-8">
@@ -73,7 +72,8 @@
             {% endblock choice_widget %}
             <br>
             <center> {{ form_widget(form.Valider,{'attr':{'class':'btn btn-primary'}}) }}</center>
-        </div>
+
+    </div>
         {{ form_end(form) }}<!-- End General Form Elements -->
         <br>
         <audio id="audio" src="{{asset('assets/mp3/monmp3.mp3') }}" ></audio>
@@ -81,22 +81,22 @@
     </div>
     </div>
     </div>
-    </div>
 
     </section>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-
 
     <script>
     $(document).ready(function() {
         var secondes = 30;
+        console.log(secondes);
         var v=0;
         var au=document.getElementById("audio");
         Start();
+        console.log(secondes);
 
         function chrono() {
             secondes -= 1;
-
             if (secondes < 0) {
                  $("#path").html('<meta http-equiv = "refresh" content = "0; url = http://127.0.0.1:8000/certification/u/1" />');
                 secondes = 10;

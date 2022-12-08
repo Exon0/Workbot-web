@@ -21,7 +21,7 @@
                                     <p class="text-white mb-0 small">+{{ f.nombreAds }}</p>
                                 </div>
                             </div>
-                            <img src="{{ asset('upload/ads/' ~ f.photo) }}"
+                            <img src="{{ asset('Upload/ads/' ~ f.photo) }}"
                                  class="card-img-top" alt="Laptop" />
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
@@ -60,7 +60,7 @@
         {% endblock %}
         {% block javascripts %}
 
-                  <script src="{{asset('https://unpkg.com/axios/dist/axios.min.js') }}"></script>
+                  <script src="{{ asset('https://unpkg.com/axios/dist/axios.min.js') }} "></script>
                  <script>
                          function onClickBtnLike(event){
                                 event.preventDefault();
