@@ -1,5 +1,7 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
-{% block pagetitle %}
+
+{% block body %}
+<main id="main" class="main">
     <div class="pagetitle">
         <h1>Certification</h1>
         <nav>
@@ -9,8 +11,7 @@
                 <li class="breadcrumb-item active">Ajouter Certification</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
-{% endblock%}
-{% block body %}
+    </div><!-- End
+ - End Page Title -->
     {{ include('certification/_form.html.twig') }}
 {% endblock %}

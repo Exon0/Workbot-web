@@ -1,6 +1,5 @@
 .flashy {
-    margin-top: 150px;
-    font-family: "Source Sans Pro", "Adobe Devanagari", sans-serif;
+    font-family: Arial, sans-serif;
     padding: 11px 30px;
     border-radius: 4px;
     font-weight: 400;
@@ -12,57 +11,46 @@
 }
 
 .flashy--success {
-    margin-top: 150px;
     background-color: #99c93d;
     color: #fff;
 }
 
 .flashy--warning {
-    margin-top: 150px;
     color: #8a6d3b;
     background-color: #fcf8e3;
     border-color: #faebcc;
 }
 
 .flashy--muted {
-
-    margin-top: 150px;
     background: #eee;
     color: #3a3a3a;
     border: 1px solid #e2e2e2;
 }
 
 .flashy--muted-dark {
-    margin-top: 150px;
     background: #133259;
     color: #e2e1e7;
 }
 
 .flashy--info a,
 .flashy--primary-dark a {
-    margin-top: 150px;
     color: #fff;
 }
 
 .flashy--error {
-
-    margin-top: 150px;
     background: #d14130;
     color: #fff;
 }
 
 .flashy--primary {
-    margin-top: 150px;
     background: #573e81;
 }
 
 .flashy--primary-dark {
-    margin-top: 150px;
     background: linear-gradient(to right, #133259 30%, #0d233e);
 }
 
 .flashy--info {
-    margin-top: 150px;
     background: #00baf3;
 }
 

@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Notifier\TexterInterface;
 use Sasedev\MpdfBundle\Factory\MpdfFactory;
 
@@ -38,7 +37,7 @@ class QuestionReponseController extends AbstractController
 
 
     #[Route('/{id}/testQuiz', name: 'app_quiz_test', methods: ['GET', 'POST'])]
-    public function indextest(Session $s,Request $rq,SmsTwilioCertification $stc , TexterInterface $texter,MailerInterface $sm,QuizRepository $qr, Request $request, QuestionReponseRepository $qrr, $id, CertificationRepository $cerr, BadgeRepository $br, CertifBadgeRepository $cbr , UtilisateurRepository $ur,FlashyNotifier $flashy): Response
+    public function indextest(UtilisateurRepository $utilisateurRepository,Request $rq,SmsTwilioCertification $stc , TexterInterface $texter,MailerInterface $sm,QuizRepository $qr, Request $request, QuestionReponseRepository $qrr, $id, CertificationRepository $cerr, BadgeRepository $br, CertifBadgeRepository $cbr , UtilisateurRepository $ur,FlashyNotifier $flashy): Response
     {
 
         $certification = $cerr->find($id);
@@ -135,14 +134,15 @@ class QuestionReponseController extends AbstractController
             $rq4 = $form['question4']->getData();
             $res = $rq1 + $rq2 + $rq3 + $rq4;
             if ($res > 2) {
-                $session=new Session();
+                $session = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
                 $badge = new Badge();
                 $badge->setNom($certification->getTitrecours());
                 $br->save($badge, true);
                 $allB = $br->findAll();
                 $r = $allB[count($allB) - 1];
                 $cb = new CertifBadge();
-                $u = $ur->find(8);
+                $u = $ur->find($session->getId());
                 $cb->setIdCertif($certification);
                 $cb->setIdBadge($r);
                 $cb->setIdUser($u);
@@ -217,7 +217,7 @@ class QuestionReponseController extends AbstractController
             </div>
 
             <div class="person">
-               '. $session->getName() .'
+               '. $session->getNom() .'
             </div>
 
             <div class="reason">

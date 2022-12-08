@@ -1,5 +1,8 @@
 {% extends 'utilisateur/Dashbord/base.html.twig' %}
-{% block pagetitle %}
+
+{% block body %}
+<main id="main" class="main">
+
     <div class="pagetitle">
         <h1>Certification</h1>
         <nav>
@@ -10,8 +13,6 @@
             </ol>
         </nav>
     </div><!-- End Page Title -->
-{% endblock%}
-{% block body %}
 
     {{ include('certification/_formEdit.html.twig', {'button_label': 'Update'}) }}
 

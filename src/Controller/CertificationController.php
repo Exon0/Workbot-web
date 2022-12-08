@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -45,7 +44,7 @@ class CertificationController extends AbstractController
     }
 
     #[Route('/u/{r}', name: 'app_certification_indexu', methods: ['GET'])]
-    public function indexu(CertificationRepository $certificationRepository,FlashyNotifier $flashy,$r): Response
+    public function indexu(UtilisateurRepository $utilisateurRepository,CertificationRepository $certificationRepository,FlashyNotifier $flashy,$r): Response
     {
         if($r==1)
         {
@@ -60,10 +59,9 @@ class CertificationController extends AbstractController
             $flashy->error('Votre essai est faux, Bonne chance la prochaine fois.');
         }
 
-        $session = new Session();
-        var_dump(null);
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
         return $this->render('certification/indexU.html.twig', [
-            'certif' => $certificationRepository->cert_aff(8),
+            'certif' => $certificationRepository->cert_aff($user->getId()),
         ]);
     }
 
