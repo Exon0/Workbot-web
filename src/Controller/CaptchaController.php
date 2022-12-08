@@ -34,7 +34,7 @@ class CaptchaController extends AbstractController
             return $this->redirectToRoute('app_captcha_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('captcha/new.html.twig', [
+        return $this->renderForm('captcha/newRT.html.twig', [
             'captcha' => $captcha,
             'form' => $form,
         ]);

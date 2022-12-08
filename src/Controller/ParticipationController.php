@@ -34,7 +34,7 @@ class ParticipationController extends AbstractController
             return $this->redirectToRoute('app_participation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('participation/new.html.twig', [
+        return $this->renderForm('participation/newRT.html.twig', [
             'participation' => $participation,
             'form' => $form,
         ]);

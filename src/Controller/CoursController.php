@@ -52,7 +52,7 @@ class CoursController extends AbstractController
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('cours/new.html.twig', [
+        return $this->renderForm('cours/newRT.html.twig', [
             'cour' => $cour,
             'form' => $form,
         ]);

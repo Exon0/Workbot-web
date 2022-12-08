@@ -34,7 +34,7 @@ class CertifBadgeController extends AbstractController
             return $this->redirectToRoute('app_certif_badge_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('certif_badge/new.html.twig', [
+        return $this->renderForm('certif_badge/newRT.html.twig', [
             'certif_badge' => $certifBadge,
             'form' => $form,
         ]);

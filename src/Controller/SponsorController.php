@@ -34,7 +34,7 @@ class SponsorController extends AbstractController
             return $this->redirectToRoute('app_sponsor_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sponsor/new.html.twig', [
+        return $this->renderForm('sponsor/newRT.html.twig', [
             'sponsor' => $sponsor,
             'form' => $form,
         ]);

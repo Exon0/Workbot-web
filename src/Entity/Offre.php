@@ -19,6 +19,7 @@ class Offre
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\OneToMany(targetEntity: 'Reclamation')]
     private int $id;
 
     #[Assert\NotBlank]

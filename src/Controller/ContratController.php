@@ -34,7 +34,7 @@ class ContratController extends AbstractController
             return $this->redirectToRoute('app_contrat_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('contrat/new.html.twig', [
+        return $this->renderForm('contrat/newRT.html.twig', [
             'contrat' => $contrat,
             'form' => $form,
         ]);

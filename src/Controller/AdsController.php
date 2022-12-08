@@ -34,7 +34,7 @@ class AdsController extends AbstractController
             return $this->redirectToRoute('app_ads_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('ads/new.html.twig', [
+        return $this->renderForm('ads/newRT.html.twig', [
             'ad' => $ad,
             'form' => $form,
         ]);

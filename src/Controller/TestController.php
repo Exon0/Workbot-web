@@ -34,7 +34,7 @@ class TestController extends AbstractController
             return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('test/new.html.twig', [
+        return $this->renderForm('test/newRT.html.twig', [
             'test' => $test,
             'form' => $form,
         ]);

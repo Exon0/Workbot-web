@@ -35,7 +35,7 @@ BadgeController extends AbstractController
             return $this->redirectToRoute('app_badge_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('badge/new.html.twig', [
+        return $this->renderForm('badge/newRT.html.twig', [
             'badge' => $badge,
             'form' => $form,
         ]);

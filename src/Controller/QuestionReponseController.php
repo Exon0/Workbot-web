@@ -38,7 +38,7 @@ class QuestionReponseController extends AbstractController
             return $this->redirectToRoute('app_question_reponse_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('question_reponse/new.html.twig', [
+        return $this->renderForm('question_reponse/newRT.html.twig', [
             'question_reponse' => $questionReponse,
             'form' => $form,
         ]);
