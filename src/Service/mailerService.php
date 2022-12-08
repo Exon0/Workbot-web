@@ -16,12 +16,12 @@ class mailerService
     /**
      * @throws TransportExceptionInterface
      */
-    public function sendEmail($to = 'ilyesbettaieb5@gmail.com',
+    public function sendEmail($to = 'ilyesbettaieb@gmail.com',
                               $content = '<p>See Twig integration for better HTML integration!</p>',
                               $subject = 'Time for Symfony Mailer!'): void
     {
         $email = (new Email())
-            ->from('ilyes.bettaieb@esprit.tn')
+            ->from('houssem.bribech@esprit.tn')
             ->to($to)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
