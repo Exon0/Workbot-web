@@ -116,7 +116,7 @@ class EvennementController extends AbstractController
             return $this->redirectToRoute('app_evennement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('evennement/new.html.twig', [
+        return $this->renderForm('evennement/newRT.html.twig', [
             'evennement' => $evennement,
             'form' => $form,
         ]);

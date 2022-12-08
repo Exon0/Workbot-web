@@ -59,7 +59,7 @@ class SponsorController extends AbstractController
             return $this->redirectToRoute('sponsh', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('sponsor/new.html.twig', [
+        return $this->renderForm('sponsor/newRT.html.twig', [
             'sponsor' => $sponsor,
             'evsp' => $event,
             'form' => $form,

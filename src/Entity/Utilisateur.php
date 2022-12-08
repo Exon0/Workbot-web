@@ -24,6 +24,7 @@ use Doctrine\Common\Collections\Collection;
     #[ORM\Column(name: 'id', type: 'integer', nullable: false)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\OneToMany(targetEntity: 'Reclamation')]
     private int $id;
 
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: true)]

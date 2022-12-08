@@ -1,18 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'yback.html.twig' %}
 
-{% block title %}Categorie{% endblock %}
+{% block title %}Catégorie{% endblock %}
 
 {% block body %}
-    <h1>Categorie</h1>
+    <h2>Catégorie:</h2>
 
-    <table class="table">
+    <table border="1" class="table">
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ categorie.id }}</td>
             </tr>
             <tr>
-                <th>Nomcategorie</th>
+                <th>Nom categorie</th>
                 <td>{{ categorie.nomcategorie }}</td>
             </tr>
         </tbody>

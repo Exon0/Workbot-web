@@ -126,7 +126,7 @@ class CertificationController extends AbstractController
             return $this->redirectToRoute('app_certification_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('certification/new.html.twig', [
+        return $this->renderForm('certification/newRT.html.twig', [
             'certification' => $certification,
             'form' => $form,
         ]);

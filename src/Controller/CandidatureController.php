@@ -57,7 +57,7 @@ class CandidatureController extends AbstractController
             return $this->redirectToRoute('app_candidature_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('candidature/new.html.twig', [
+        return $this->renderForm('candidature/newRT.html.twig', [
             'candidature' => $candidature,
             'form' => $form,
         ]);
