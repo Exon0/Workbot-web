@@ -69,7 +69,7 @@ use Doctrine\Common\Collections\Collection;
     )]
 
     #[ORM\Column(name: 'mdp', type: 'string', length: 355, nullable: true)]
-    private ?string $mdp = null;
+    private ?string $password = null;
     #[ORM\Column(name: 'adresse', type: 'string', length: 30, nullable: true)]
     private ?string $adresse = null;
 
@@ -312,14 +312,14 @@ use Doctrine\Common\Collections\Collection;
         return $this;
     }
 
-    public function getMdp(): ?string
+    public function getPassword(): ?string
     {
-        return $this->mdp;
+        return $this->password;
     }
 
-    public function setMdp(?string $mdp): self
+    public function setPassword(?string $mdp): self
     {
-        $this->mdp = $mdp;
+        $this->password = $mdp;
 
         return $this;
     }
@@ -620,6 +620,7 @@ use Doctrine\Common\Collections\Collection;
 
         return $this;
     }
+
 
 
 }

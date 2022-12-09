@@ -26,10 +26,10 @@ class RegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Encode the new users password
-            $user->setMdp(
+            $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('mdp')->getData()
+                    $form->get('password')->getData()
                 )
             );
 

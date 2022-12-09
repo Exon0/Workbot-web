@@ -126,7 +126,7 @@ class SecurityController extends AbstractController
 
         if($request->isMethod('POST')) {
             $utilisateur ->setResetToken(null);
-            $utilisateur->setMdp($userPasswordHasher->hashPassword($utilisateur,$request->request->get('mdp')));
+            $utilisateur->setPassword($userPasswordHasher->hashPassword($utilisateur,$request->request->get('password')));
 
             $entityManger = $doctrine->getManager();
             $entityManger->persist($utilisateur);

@@ -21,7 +21,7 @@ class AdminType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('email',EmailType::class)
-            ->add('mdp',PasswordType::class)
+            ->add('password',PasswordType::class)
             ->add('photo',FileType::class, [
                 'label' => 'adset image (Des fichiers images uniquement)',
                 // unmapped means that this field is not associated to any entity property

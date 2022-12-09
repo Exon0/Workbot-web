@@ -37,10 +37,10 @@ class RegistrationController extends AbstractController
             if(in_array('ROLE_c',$user->getRoles(),true)){
                 $user->setRole('candidat');
             }
-            $user->setMdp(
+            $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('mdp')->getData()
+                    $form->get('password')->getData()
                 )
             );
 //            $update = new Update(

@@ -107,10 +107,10 @@ class UtilisateurController extends AbstractController
             }
             $utilisateur->setRoles($u);
             $utilisateur->setRole($us);
-            $utilisateur->setMdp(
+            $utilisateur->setPassword(
                 $userPasswordHasher->hashPassword(
                     $utilisateur,
-                    $form->get('mdp')->getData()
+                    $form->get('password')->getData()
                 )
             );
             $utilisateurRepository->save($utilisateur, true);
