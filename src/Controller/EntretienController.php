@@ -155,7 +155,7 @@ class EntretienController extends AbstractController
 
             //save Qr-code file
             //il faut changer le chemin avant l'integration avec l'equipe workbot
-            $result->saveToFile('C:/Users/Exon/Desktop/workbot-web2/Workbot-web/public/uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
+            $result->saveToFile(__DIR__.'/../../public/uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
 
             $entretien->setQrCode('uploads/qrcode/qrcode' . $entretien->getIdCandidature()->getId() . '.png');
             $time = (int)$entretien->getHeure() + 1;

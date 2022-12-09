@@ -30,23 +30,23 @@ class CandidatureController extends AbstractController
     }
 //fonction affiche liste condidature client
     #[Route('/', name: 'app_candidature_index', methods: ['GET'])]
-    public function index(CandidatureRepository $candidatureRepository): Response
-    {
+    public function index(UtilisateurRepository $utilisateurRepository,CandidatureRepository $candidatureRepository): Response
+    {        $candidat = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
         return $this->render('candidature/index.html.twig', [
-            'candidatures' => $candidatureRepository->findAll(),
+            'candidatures' => $candidatureRepository->findby(['idcondidat'=>$candidat->getId()]),
         ]);
     }
 //fonction creation nv candidature
     #[Route('/new/{id}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
     public function new(Offre $offre, Request $request, CandidatureRepository $candidatureRepository, UtilisateurRepository $utilisateurRepository): Response
-    {
+    {        $candidat = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
         $candidature = new Candidature();
         $form = $this->createForm(CandidatureType::class, $candidature);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $candidature->setIdOffre($offre);
-            $candidat = $utilisateurRepository->findOneBy(["id" => 12]);
             $candidature->setIdcondidat($candidat);
             $candidature->setStatut("non traité");
             $candidature->setTitre($offre->getTitre());

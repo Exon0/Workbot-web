@@ -457,10 +457,12 @@ class OffreController extends AbstractController
      * @throws JsonException
      */
     #[Route('/offresearch', name: 'search')]
-    public function searchQB(NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
+    public function searchQB(UtilisateurRepository $utilisateurRepository,NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
     {
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
         $requeststring = $request->get('search2');
-        $offres = $repository->findOffresBytitre($requeststring);
+        $offres = $repository->findOffresBytitre($requeststring,$user->getId());
         foreach ($offres as $o) {
             $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
         }
@@ -472,9 +474,9 @@ class OffreController extends AbstractController
     }
 
     #[Route('/offresearch/{type}', name: 'app_offre_typeOffreSearch')]
-    public function typeOffreTri($type, NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
+    public function typeOffreTri(UtilisateurRepository $utilisateurRepository,$type, NormalizerInterface $normalizer, OffreRepository $repository, Request $request)
     {
-        $user = $repository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
 
         // $requeststring=$request->get('search2');
         if ($type === 'All') {
@@ -489,7 +491,7 @@ class OffreController extends AbstractController
         }
 
 
-        $offres = $repository->findBy(['idSoc' => $user->getId(), 'typeoffre' => $type]);
+        $offres = $repository->findBy(['idSoc' =>59, 'typeoffre' => $type]);
         foreach ($offres as $o) {
             $o->setNbCandidature($repository->findByIdAndCountCand($o->getId()));
         }

@@ -88,11 +88,13 @@ class OffreRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findOffresBytitre($titre)
+    public function findOffresBytitre($titre,$id)
     {
         return $this->createQueryBuilder('o')
             ->Where('o.titre LIKE :titre')
+            ->andWhere('o.idSoc = :idSoc')
             ->setParameter('titre','%'.$titre.'%')
+            ->setParameter('idSoc', $id )
             ->getQuery()
             ->getResult()
             ;

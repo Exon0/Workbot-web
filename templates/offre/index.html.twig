@@ -1,6 +1,6 @@
 {% extends 'offre/templateoffre.html.twig' %}
 {% block container %}
-    <br>
+
     Vos offres
 
 {% endblock %}
@@ -95,8 +95,7 @@
 
             </div>
         </div>
-        </div>
-        </div>
+
     </section>
 
 
@@ -104,8 +103,7 @@
 
 {% endblock %}
 {% block javascriptTest %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#search").keyup(function (e) {
@@ -117,6 +115,7 @@
                         'search2': value
                     },
                     success: function (retour) {
+                        console.log(retour)
                         if (retour) {
                             $('div#searchDiv').empty();
                             $.each(JSON.parse(retour), function (i, obj) {
