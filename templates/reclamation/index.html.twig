@@ -3,11 +3,11 @@
 {% block title %}Reclamation index{% endblock %}
 {% block consulter %} Consulter votre liste et l'état de chaque réclamation.{% endblock %}
 {% block youcef %}
-        <div style="padding: 50px">
+        <div style="padding: 75px">
     <h4 class="wow fadeInUp" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">Total des réclamations:{{ reclamation.getTotalItemCount }}</h4>
     <br><br>
     <input style="margin-bottom: 10px" type="text" id="search" placeholder="Search">
-    <table border="1" id="t" class="table" table-hover table-dark>
+    <table border="0" id="t" class="table  table-hover table-secondary table-sm">
         <thead class="thead-dark">
             <tr>
                 <th>Reference</th>
@@ -33,14 +33,14 @@
 
                 <td>{{ reclamation.etat }}</td>
                 <td>
-                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">consulter</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">modifier</a>
+                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}" class="btn btn-outline-primary">consulter</a>
+                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-outline-dark">modifier</a>
                 </td>
 
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">pas de reclamation</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -94,7 +94,7 @@
 
         });
     </script>
-    <a href="{{ path('app_reclamation_newRT') }}">nouvelle reclamation</a>
+    <a href="{{ path('app_reclamation_newRT') }}" class="btn btn-outline-success">nouvelle reclamation</a>
     <div id="pagination" class="d-flex align-items-center justify-content-center">
         {{ knp_pagination_render(reclamation) }}
     </div>

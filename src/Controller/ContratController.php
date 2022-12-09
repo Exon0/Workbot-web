@@ -84,7 +84,7 @@ class ContratController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('contrat/newRT.html.twig', [
+        return $this->renderForm('contrat/new.html.twig', [
             'contrat' => $contrat,
             'form' => $form,
         ]);

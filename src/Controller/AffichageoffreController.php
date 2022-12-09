@@ -13,7 +13,7 @@ class AffichageoffreController extends AbstractController
     public function index(OffreRepository $offreRepository): Response
     {
         return $this->render('affichageoffre/index.html.twig', [
-            'tache' => $offreRepository->findAll(),
+            'offres' => $offreRepository->findAll(),
         ]);
     }
     #[Route('appel/{id}', name: 'entrer', methods: ['GET'])]

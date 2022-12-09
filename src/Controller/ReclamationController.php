@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Entity\Offre;
+use App\Repository\OffreRepository;
 use App\Serializer\Normalizer\ReclamationNormalizer;
 use Container7xKI3AC\getNormalizableInterfaceService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -36,9 +37,10 @@ class ReclamationController extends AbstractController
     }
 
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
-    public function index(Request $request ,ReclamationRepository $reclamationRepository, PaginatorInterface $paginator): Response
+    public function index(UtilisateurRepository $utilisateurRepository,Request $request ,ReclamationRepository $reclamationRepository, PaginatorInterface $paginator): Response
     {
-        $reclamations = $reclamationRepository->findAll();
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $reclamations = $reclamationRepository->findBy(array('idUtilisateur'=>$user));
 
         $reclamations = $paginator->paginate(
             $reclamations, /* query NOT result */
@@ -138,6 +140,46 @@ class ReclamationController extends AbstractController
             $file = $reclamation->getImage();
             if ($file != null) {
                 $fileName = md5(uniqid()) . 'Downloads' . $file->guessExtension();
+
+                try {
+                    $file->move(
+                        $this->getParameter('images_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+
+                $reclamation->setImage($fileName);
+            }
+            $reclamationRepository->save($reclamation, true);
+            return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('reclamation/newRT.html.twig', [
+            'reclamation' => $reclamation,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/newRO/{id}', name: 'app_reclamation_newRO', methods: ['GET', 'POST'])]
+    public function newRO(Request $request, ReclamationRepository $reclamationRepository, UtilisateurRepository $utilisateurRepository, CategorieRepository $CategorieRepository, OffreRepository $offreRepository, $id): Response
+    {
+        $reclamation = new Reclamation();
+        $user = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $reclamation->setIdUtilisateur($user);
+        $offre= $offreRepository->find($id);
+        $reclamation->setIdOffre($offre);
+        $rt = $CategorieRepository->find(2);
+        $reclamation->setIdCategorie($rt);
+        $reclamation->setDateajout(date_create('now'));
+        $form = $this->createForm(ReclamationType::class, $reclamation);
+        $form->add('envoyer', SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $reclamation->getImage();
+            if ($file != null) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
                 try {
                     $file->move(

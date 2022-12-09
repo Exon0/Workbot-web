@@ -302,7 +302,7 @@ class QuestionReponseController extends AbstractController
 
         }
 
-        return $this->renderForm('question_reponse/newRT.html.twig', [
+        return $this->renderForm('question_reponse/new.html.twig', [
             'question_reponse' => $questionReponse,
             'form' => $form,
         ]);

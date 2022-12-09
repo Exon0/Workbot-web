@@ -115,55 +115,47 @@
 </div>
 {% block body %}
 
-    <h1>Liste des candidatures</h1>
+    <h4 style="margin-left: 400px;margin-top: 40px">Liste des candidatures:</h4>
 
-    <table style="margin:20px;" class="table">
-        <thead>
-        <tr>
-            <th>Titre</th>
-            <th>Typecondidature</th>
-            <th>Domaine</th>
-            <th>Statut</th>
-            <th>Diplome</th>
-            <th>Notetest</th>
-            <th>Niveaufrancais</th>
-            <th>Niveauanglais</th>
-            <th>Experience</th>
-            <th>Lettremotivation</th>
-            <th>Cv</th>
-            <th>Dateexpiration</th>
-            <th>Dateajout</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for candidature in candidatures %}
-            <tr>
-                <td>{{ candidature.titre }}</td>
-                <td>{{ candidature.typecondidature }}</td>
-                <td>{{ candidature.domaine }}</td>
-                <td>{{ candidature.statut }}</td>
-                <td>{{ candidature.diplome }}</td>
-                <td>{{ candidature.notetest }}</td>
-                <td>{{ candidature.niveaufrancais }}</td>
-                <td>{{ candidature.niveauanglais }}</td>
-                <td>{{ candidature.experience }}</td>
-                <td>{{ candidature.lettremotivation }}</td>
-                <td>{{ candidature.cv }}</td>
-                <td>{{ candidature.dateexpiration }}</td>
-                <td>{{ candidature.dateajout }}</td>
-                <td>
-                    <a href="{{ path('app_candidature_show', {'id': candidature.id}) }}">show</a>
-                    <a href="{{ path('app_candidature_edit', {'id': candidature.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="15">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
+    <style>body{background:#eee}.ratings i{font-size: 16px;color: red}.strike-text{color: red;text-decoration: line-through}.product-image{width: 100%}.dot{height: 7px;width: 7px;margin-left: 6px;margin-right: 6px;margin-top: 3px;background-color: blue;border-radius: 50%;display: inline-block}.spec-1{color: #938787;font-size: 15px}h5{font-weight: 400}.para{font-size: 16px}</style>
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-center row">
+            {% for candidature in candidatures %}
+                <div class="col-md-10">
+                    <div class="row p-2 bg-white border rounded">
+                        <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="/assets/img/uc.jfif"></div>
+                        <div class="col-md-6 mt-1">
+                            <h5>{{ candidature.titre }} - {{ candidature.typecondidature }}</h5>
+                            <div class="d-flex flex-row">
+                                <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>note test={{ candidature.notetest }}</span>
+                            </div>
+                             <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>Domaine:{{ candidature.domaine }}</span>
+                                <br>
+                                <span class="dot"></span><span>Diplome :{{ candidature.diplome }}</span>
+
+                                <br><span class="dot"></span><span>Experience:{{ candidature.experience }}<br></span>
+                                 <br>
+                             </div>
+                            <div class="mt-1 mb-1 spec-1"><span class="dot"></span><span>Niveaufrancais:{{ candidature.niveaufrancais }}</span>
+                                <br>
+                                <span class="dot"></span><span>Niveauanglais ;{{ candidature.niveauanglais }}</span>
+                                <br>
+                                <span class="dot"></span><span>Lettremotivation:{{ candidature.lettremotivation }}<br></span></div>
+                        </div>
+                        <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                            <div class="d-flex flex-row align-items-center">
+                                <h4 class="mr-1"> {{ candidature.notetest }}</h4>
+                            </div>
+                            <h6 class="text-danger"><td>{{ candidature.statut }}</td></h6>
+                            <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm"  href="{{ path('app_candidature_show', {'id': candidature.id}) }}">Show</button><button class="btn btn-outline-primary btn-sm mt-2" href="{{ path('app_candidature_edit', {'id': candidature.id}) }}" type="button">Edit</button></div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
     <a href="{{ path('app_affichageoffre') }}">back to list offres</a>
 {% endblock  %}
 <footer class="footer">

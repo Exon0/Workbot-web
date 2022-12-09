@@ -185,7 +185,7 @@ class EntretienController extends AbstractController
             return $this->redirectToRoute('app_entretien_cal', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('entretien/newRT.html.twig', [
+        return $this->renderForm('entretien/new.html.twig', [
             'entretien' => $entretien,
             'form' => $form,
         ]);
