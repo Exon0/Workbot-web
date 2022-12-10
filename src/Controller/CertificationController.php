@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use function Symfony\Component\String\u;
+
 
 
 #[Route('/certification')]
@@ -72,8 +74,9 @@ class CertificationController extends AbstractController
     {
         $requestString=$request->get('searchValue');
         $res = $repository->cert_search($requestString);
-        $jsonContent = $Normalizer->normalize($res, 'json',['groups'=>'certifications'],);
+        $jsonContent = $Normalizer->normalize($res, 'json',['groups'=>'certifications']);
         $retour=json_encode($jsonContent);
+        $retour=u($retour)->replace('<<','');
         return new Response($retour);
     }
 
