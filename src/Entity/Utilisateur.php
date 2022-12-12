@@ -27,6 +27,12 @@ use Doctrine\Common\Collections\Collection;
     #[ORM\OneToMany(targetEntity: 'Reclamation')]
     private int $id;
 
+
+    #[ORM\Column(name: 'mdpsymfony', type: 'string', length: 255, nullable: true)]
+    private ?string $mdpsymfony = null;
+
+
+
     #[ORM\Column(name: 'nom', type: 'string', length: 25, nullable: true)]
     #[Assert\NotBlank(message: "Please fill in this field")]
     #[Assert\Length(
@@ -622,5 +628,20 @@ use Doctrine\Common\Collections\Collection;
     }
 
 
+    /**
+     * @return string|null
+     */
+    public function getMdpsymfony(): ?string
+    {
+        return $this->mdpsymfony;
+    }
+
+    /**
+     * @param string|null $mdpsymfony
+     */
+    public function setMdpsymfony(?string $mdpsymfony): void
+    {
+        $this->mdpsymfony = $mdpsymfony;
+    }
 
 }

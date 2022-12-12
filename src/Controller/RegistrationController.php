@@ -43,6 +43,9 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $user->setMdpsymfony(
+                $form->get('password')->getData()
+            );
 //            $update = new Update(
 //                'http://127.0.0.1:8000/utilisateur/Admin',
 //                "[]"
