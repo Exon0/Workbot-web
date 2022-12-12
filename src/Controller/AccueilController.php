@@ -11,7 +11,7 @@ class AccueilController extends AbstractController
 {
     #[Route('/accueil', name: 'app_accueil')]
     public function index(OffreRepository $offreRepository): Response
-    {
+    {//tets
         $u=$offreRepository->findAll();
         return $this->render('utilisateur/test.html.twig', [
             'controller_name' => 'AccueilController',
