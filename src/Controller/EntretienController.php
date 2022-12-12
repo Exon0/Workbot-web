@@ -254,9 +254,12 @@ class EntretienController extends AbstractController
 
             ];
         }
+        $nb1 = count($entretienRepository->findBy(['iduser' => $user->getId()]));
+                $nb2 = count($entretienRepository->findBy(['iduser' =>$user->getId(),
+                    'date' => date('Y-m-d')]));
 
         $data = json_encode($rdvs);
-        return $this->render('entretien/index.html.twig', compact('data'));
+        return $this->render('entretien/index.html.twig', compact('data','nb1','nb2'));
 
     }
 
