@@ -10,6 +10,9 @@ parameters:
     images_directory: '%kernel.project_dir%/public/Upload/images'
     ads_directory: '%kernel.project_dir%/public/upload/ads'
     Admin_directory: '%kernel.project_dir%/public/upload/ads'
+    chem_directory: '%kernel.project_dir%/public/upload/chem'
+    cert_directory: '%kernel.project_dir%/public/upload/cert'
+
 
 services:
     # default configuration for services in *this* file
