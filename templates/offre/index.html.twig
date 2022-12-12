@@ -115,10 +115,9 @@
                         'search2': value
                     },
                     success: function (retour) {
-                        console.log(retour)
                         if (retour) {
                             $('div#searchDiv').empty();
-                            $.each(JSON.parse(retour), function (i, obj) {
+                            $.each(JSON.parse(retour.replace('<<','')), function (i, obj) {
                                 $('div#all').hide();
                                 $('div#searchDiv').append(' {% if 1 %}<div class="col-lg-6 col-12"> <div class="single-job"> <div class="job-image">' +
                                     '<img src="{{ asset('assets/img/card.jpg') }}" height="70" width="70" alt="#"> </div> <div class="job-content"><form><h5><a style="font-size: 30px">' + obj.titre + '</a></h5>' +
@@ -143,7 +142,6 @@
         $(document).ready(function () {
             $("#typeoffre3").change(function (e) {
                 const value = $(this).val();
-                console.log(value);
                 var url = "{{ path('app_offre_typeOffreSearch',{'type':'value1'}) }}";
                 url = url.replace("value1", value);
                 $.ajax({
@@ -155,7 +153,7 @@
                     success: function (retour) {
                         if (retour) {
                             $('div#searchDiv').empty();
-                            $.each(JSON.parse(retour), function (i, obj) {
+                            $.each(JSON.parse(retour.replace('<<','')), function (i, obj) {
                                 $('div#all').hide();
                                 $('div#searchDiv').append(' {% if 1 %}<div class="col-lg-6 col-12"> <div class="single-job"> <div class="job-image">' +
                                     '<img src="{{ asset('assets/img/card.jpg') }}" height="70" width="70" alt="#"> </div> <div class="job-content"><form><h5><a style="font-size: 30px">' + obj.titre + '</a></h5>' +

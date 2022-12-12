@@ -133,7 +133,8 @@
                     {% else %}
                         <a href="{{ path('app_quiz_afficher', {'id': certification.id}) }}">Affecter</a>
 
-                        </td><td><a style="color: #8c1227"  class="bi bi-x-circle"></a></td>
+                        </td>
+                        <td><a style="color: #8c1227"  class="bi bi-x-circle"></a></td>
                     {% endif %}
             </tr>
         {% else %}
@@ -151,6 +152,11 @@
         </div>
     </div>
 
+            <script
+                    src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+            </script>
+
+
             <script>
                 $( document ).ready(function() {
                     $("#search").keyup(function(e){
@@ -165,7 +171,7 @@
                                 if(retour)
                                 {
                                     $('#myTable tbody#searchtab').empty();
-                                    $.each(JSON.parse(retour), function(i,obj) {
+                                    $.each(JSON.parse(retour.replace('<<','')), function(i,obj) {
                                         $('#search').css({backgroundColor:"#E0F8E9"})
                                         $('#myTable tbody#all').hide();
                                         if (obj.id_quiz|length>0) {
@@ -264,4 +270,3 @@
 </section>
 
 {% endblock %}
-

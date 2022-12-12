@@ -105,7 +105,6 @@ class CertificationRepository extends ServiceEntityRepository
         */
 
         $conn = $this->getEntityManager()->getConnection();
-        $q=$requestString;
         $sql = "SELECT * FROM `certification` where (titreCours like :q ) ";
         $stmt = $conn->prepare($sql);
         $resultSet = $stmt->executeQuery(['q'=>'%'.$requestString.'%']);

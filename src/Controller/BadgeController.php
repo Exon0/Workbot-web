@@ -8,6 +8,7 @@ use App\Repository\BadgeRepository;
 use App\Form\BadgeType;
 use App\Repository\CertifBadgeRepository;
 use App\Repository\OffreRepository;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +19,13 @@ class
 BadgeController extends AbstractController
 {
     #[Route('/', name: 'app_badge_index', methods: ['GET'])]
-    public function index(BadgeRepository $badgeRepository,OffreRepository $ofr): Response
+    public function index(UtilisateurRepository $utilisateurRepository,BadgeRepository $badgeRepository,OffreRepository $ofr): Response
     {
+        $session = $utilisateurRepository->findOneBy(['email' => $this->getUser()->getUserIdentifier()]);
+
         $nombre=count($ofr->findAll());
         return $this->render('badge/index.html.twig', [
-            'badges' => $badgeRepository->Afficher_certif_badge(8),
+            'badges' => $badgeRepository->Afficher_certif_badge($session->getId()),
             'nb'=>$nombre,
         ]);
     }

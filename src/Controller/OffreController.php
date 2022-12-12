@@ -470,7 +470,6 @@ class OffreController extends AbstractController
         $jsoncontent = $normalizer->normalize($offres, 'json', ['offres' => 'offres']);
         $retour = json_encode($jsoncontent, JSON_THROW_ON_ERROR);
         return new Response($retour);
-
     }
 
     #[Route('/offresearch/{type}', name: 'app_offre_typeOffreSearch')]
