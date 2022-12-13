@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccueilController extends AbstractController
 {
-    #[Route('/accueil', name: 'app_accueil')]
+    #[Route('/', name: 'app_accueil')]
     public function index(OffreRepository $offreRepository): Response
     {//tets
         $u=$offreRepository->findAll();
