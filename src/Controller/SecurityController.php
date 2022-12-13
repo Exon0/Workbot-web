@@ -110,7 +110,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_accueil');
     }
 
     #[Route(path: '/resetpassword/{token}', name: 'app_reset_password')]
