@@ -42,6 +42,11 @@ class Cours
     #[ORM\Column(name: 'chemin', type: 'string', length: 200, nullable: false)]
     private string $chemin;
 
+    #[Assert\Text]
+    #[ORM\Column(name: 'logo', type: 'string', length: 200, nullable: false)]
+    private string $logo;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,5 +112,16 @@ class Cours
         return $this;
     }
 
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
 
 }

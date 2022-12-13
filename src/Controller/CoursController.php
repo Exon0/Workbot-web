@@ -80,19 +80,25 @@ class CoursController extends AbstractController
     }
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CoursRepository $coursRepository,SluggerInterface $slugger): Response
+    public function new(Request $request, CoursRepository $coursRepository,SluggerInterface $slugger,SluggerInterface $slugger1): Response
     {
         $cour = new Cours();
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null)
-        {
+        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null && $form->get('logo')->getData()!=null) {
+
             $lien = $form->get('chemin')->getData();
+            $lien1 = $form->get('logo')->getData();
             if ($lien) {
                 $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
+
+                $originalFilename1 = pathinfo($lien1->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename1 = $slugger1->slug($originalFilename1);
+                $newFilename1 = $safeFilename1 . '-' . uniqid() . '.' . $lien1->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -103,7 +109,16 @@ class CoursController extends AbstractController
                 } catch (FileException $e) {
 
                 }
+                try {
+                    $lien1->move(
+                        $this->getParameter('chem_directory'),
+                        $newFilename1
+                    );
+                } catch (FileException $e1) {
+
+                }
                 $cour->setChemin($newFilename);
+                $cour->setLogo($newFilename1);
 
             }
             var_dump($cour);
@@ -125,19 +140,25 @@ class CoursController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cours_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cours $cour, CoursRepository $coursRepository,SluggerInterface $slugger): Response
+    public function edit(Request $request, Cours $cour, CoursRepository $coursRepository,SluggerInterface $slugger,SluggerInterface $slugger1): Response
     {
         $form = $this->createForm(CoursType::class, $cour);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null) {
+        if ($form->isSubmitted() && $form->isValid() && $form->get('chemin')->getData()!=null && $form->get('logo')->getData()!=null) {
 
             $lien = $form->get('chemin')->getData();
+            $lien1 = $form->get('logo')->getData();
             if ($lien) {
                 $originalFilename = pathinfo($lien->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $lien->guessExtension();
+
+                $originalFilename1 = pathinfo($lien1->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename1 = $slugger1->slug($originalFilename1);
+                $newFilename1 = $safeFilename1 . '-' . uniqid() . '.' . $lien1->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -148,7 +169,16 @@ class CoursController extends AbstractController
                 } catch (FileException $e) {
 
                 }
+                try {
+                    $lien1->move(
+                        $this->getParameter('chem_directory'),
+                        $newFilename1
+                    );
+                } catch (FileException $e1) {
+
+                }
                 $cour->setChemin($newFilename);
+                $cour->setLogo($newFilename1);
 
             }
             $coursRepository->save($cour, true);
