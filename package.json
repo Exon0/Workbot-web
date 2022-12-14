@@ -3,7 +3,8 @@
     "axios": "^1.2.0",
     "datatables.net": "^1.13.1",
     "datatables.net-dt": "^1.13.1",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "leaflet": "^1.9.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",
