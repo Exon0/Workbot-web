@@ -57,7 +57,7 @@ class LoginSecurityAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($this->urlGenerator->generate('app_offre_index'));
         }
         else if(in_array('ROLE_c',$user->getRoles(),true)){
-            return new RedirectResponse($this->urlGenerator->generate('app_candidature_index'));
+            return new RedirectResponse($this->urlGenerator->generate('app_affichageoffre'));
         }
         // For example:
          return new RedirectResponse($this->urlGenerator->generate('app_utilisateur_appadmin'));
