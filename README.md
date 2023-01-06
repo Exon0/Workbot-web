@@ -9,3 +9,10 @@
 ### Outils utilisés 
 - IDE : PhpStorm 2022.2.2
 - XAMPP 
+
+## Commandes à exécuter après avoir cloné ce projet.
+ - comoser require
+ - npm install
+ - npm install @symfony/webpack-encore --save-dev
+ - npr run watch
+ - npm run build 
