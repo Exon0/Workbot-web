@@ -11,7 +11,7 @@
 - XAMPP 
 
 ## Commandes à exécuter après avoir cloné ce projet.
- - comoser require
+ - composer require
  - npm install
  - npm install @symfony/webpack-encore --save-dev
  - npr run watch
